@@ -7,11 +7,6 @@ import java.net.Socket;
 public class ServerHandshake {
 
     private ServerSocket serverSocket = null;
-    private Socket client = null;
-    private InputStream inputStream = null;
-    private ObjectInputStream objectInputStream = null;
-    private OutputStream outputStream = null;
-    private ObjectOutputStream objectOutputStream = null;
 
     public ServerHandshake() {
         try {
@@ -24,20 +19,28 @@ public class ServerHandshake {
 
     public void createConnection() {
         try {
-            client = serverSocket.accept();
-
-            System.out.println("SERVER: connected");
-
-            inputStream = client.getInputStream();
-            objectInputStream = new ObjectInputStream(inputStream);
-
-            outputStream = client.getOutputStream();
-            objectOutputStream = new ObjectOutputStream(outputStream);
-
+            Socket client = serverSocket.accept();
+            ThreadPlayer host = new ThreadHost(client);
+            host.start();
+            //get the number of other clients from the host
         } catch (IOException e) {
             System.out.println("Accept failed: 4444");
             System.exit(-1);
         }
+
+        //accept [number given by the host] new clients and put them into an array
+        for (int i = 0; i < 2; i++) {
+            try {
+                Socket client = serverSocket.accept();
+                ThreadPlayer player = new ThreadPlayer(client);
+                player.start();
+            } catch (IOException e) {
+                System.out.println("Accept failed: 4444");
+                System.exit(-1);
+            }
+        }
+
+        //pass the server socket and the array of clients to the Server class
     }
 
     public static void main(String[] args) {

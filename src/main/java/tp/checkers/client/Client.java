@@ -27,17 +27,6 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Error");
         }
-
-        /* frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                try {
-                    close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }); */
     }
 
     private void close() {
