@@ -1,5 +1,7 @@
 package tp.checkers.client;
 
+import tp.checkers.message.MessageInit;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -26,6 +28,13 @@ public class Client {
             System.out.println("CLIENT: connected");
         } catch (IOException e) {
             System.out.println("Error");
+        }
+
+        try {
+            objectInputStream.readObject();
+            objectOutputStream.writeObject(new MessageInit(4));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

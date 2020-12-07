@@ -18,22 +18,28 @@ public class ServerHandshake {
     }
 
     public void createConnection() {
+        int clientsNumber = 1;
+        ThreadPlayer[] players = null;
+
         try {
             Socket client = serverSocket.accept();
-            ThreadPlayer host = new ThreadHost(client);
+            ThreadHost host = new ThreadHost(client);
             host.start();
-            //get the number of other clients from the host
+            clientsNumber = host.init();
+
+            players = new ThreadPlayer[clientsNumber];
+            players[0] = host;
         } catch (IOException e) {
             System.out.println("Accept failed: 4444");
             System.exit(-1);
         }
 
-        //accept [number given by the host] new clients and put them into an array
-        for (int i = 0; i < 2; i++) {
+        for (int i = 1; i < clientsNumber; i++) {
             try {
                 Socket client = serverSocket.accept();
                 ThreadPlayer player = new ThreadPlayer(client);
                 player.start();
+                players[i] = player;
             } catch (IOException e) {
                 System.out.println("Accept failed: 4444");
                 System.exit(-1);

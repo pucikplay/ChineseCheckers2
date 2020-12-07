@@ -1,5 +1,9 @@
 package tp.checkers.server;
 
+import tp.checkers.message.MessageInit;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class ThreadHost extends ThreadPlayer {
@@ -7,11 +11,20 @@ public class ThreadHost extends ThreadPlayer {
         super(clientSocket);
     }
 
-    @Override
-    protected void init() {
+    public int init() {
         System.out.println("SERVER: host got connected");
-        //send a message to client that it should enable the choosing menu
-        //get data from client with the number of other clients to accept
-        //pass the number to ServerHandshake
+
+        int clientsNumber = 1;
+
+        //to improve Messages; to improve reading the Message in Client (it should read a message from both Host and Player)
+        try {
+            objectOutputStream.writeObject(new MessageInit(2));
+            MessageInit init = (MessageInit) objectInputStream.readObject();
+            clientsNumber = init.num;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return clientsNumber;
     }
 }

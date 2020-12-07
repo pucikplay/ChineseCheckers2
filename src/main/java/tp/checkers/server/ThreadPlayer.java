@@ -5,10 +5,10 @@ import java.net.Socket;
 
 public class ThreadPlayer extends Thread {
     protected Socket socket;
-    private InputStream inputStream = null;
-    private ObjectInputStream objectInputStream = null;
-    private OutputStream outputStream = null;
-    private ObjectOutputStream objectOutputStream = null;
+    protected InputStream inputStream = null;
+    protected ObjectInputStream objectInputStream = null;
+    protected OutputStream outputStream = null;
+    protected ObjectOutputStream objectOutputStream = null;
 
     public ThreadPlayer(Socket clientSocket) {
         this.socket = clientSocket;
@@ -24,10 +24,7 @@ public class ThreadPlayer extends Thread {
     }
 
     public void run() {
-        init();
-    }
-
-    protected void init() {
         System.out.println("SERVER: player got connected");
+
     }
 }
