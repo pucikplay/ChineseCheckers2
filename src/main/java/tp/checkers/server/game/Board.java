@@ -1,11 +1,11 @@
 package tp.checkers.server.game;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Board {
 
-    private Pieces[][] fields = null;
-    private Pieces[][] bases = null;
+    private Field[][] fields = null;
     private static int baseSide;
     private static int playerNumber;
     private static int end;
@@ -19,29 +19,43 @@ public class Board {
         placePlayers();
     }
 
-    public Pieces[][] getPieces(){
+    public Field[][] getFields(){
         return this.fields;
     }
 
-    private void createBoard() {
-        fields = new Pieces[end + 1][end + 1];
-        bases = new Pieces[end + 1][end + 1];
+    public void updateBoard() {
+        for(int i = 1; i < end; i++) {
+            for(int j = 1; j < end; j++) {
+                if(fields[i][j] != null) {
+                    fields[i][j].setNeighbors(new Field[]{
+                            fields[i + 1][j], fields[i + 1][j - 1], fields[i][j - 1], fields[i - 1][j], fields[i - 1][j + 1], fields[i][j + 1]
+                    });
+                }
+            }
+        }
+    }
 
+    private void createBoard() {
+        fields = new Field[end + 1][end + 1];
 
         for(int i = baseSide + 1; i < end - baseSide; i++) {
             for(int j = baseSide + 1; j < end - baseSide; j++) {
-                fields[i][j] = Pieces.EMPTY;
+                fields[i][j] = new Field();
+                fields[i][j].setPiece(Color.EMPTY);
             }
         }
 
         for(int i = end - baseSide; i < end; i++) {
             for(int j = baseSide + 1; j <= 2*baseSide; j++) {
                 if(i + j < baseSide + 1 + end){
-                    fields[i][j] = Pieces.EMPTY;
-                    fields[j][i] = Pieces.EMPTY;
+                    fields[i][j] = new Field();
+                    fields[j][i] = new Field();
 
-                    bases[i][j] = Pieces.GREEN;
-                    fields[j][i] = Pieces.BLACK;
+                    fields[i][j].setPiece(Color.EMPTY);
+                    fields[j][i].setPiece(Color.EMPTY);
+
+                    fields[i][j].setBase(Color.GREEN);
+                    fields[j][i].setBase(Color.BLACK);
                 }
             }
         }
@@ -49,11 +63,14 @@ public class Board {
         for(int i = end - 2*baseSide; i < end - baseSide; i++) {
             for(int j = 1; j <= baseSide; j++) {
                 if(i + j >= end - baseSide){
-                    fields[i][j] = Pieces.EMPTY;
-                    fields[j][i] = Pieces.EMPTY;
+                    fields[i][j] = new Field();
+                    fields[j][i] = new Field();
 
-                    bases[i][j] = Pieces.BLUE;
-                    bases[j][i] = Pieces.RED;
+                    fields[i][j].setPiece(Color.EMPTY);
+                    fields[j][i].setPiece(Color.EMPTY);
+
+                    fields[i][j].setBase(Color.BLUE);
+                    fields[j][i].setBase(Color.RED);
                 }
             }
         }
@@ -61,8 +78,10 @@ public class Board {
         for(int i = baseSide + 1; i <= 2*baseSide; i++) {
             for(int j = baseSide + 1; j <= 2*baseSide; j++) {
                 if(i + j < 3*baseSide + 2){
-                    fields[i][j] = Pieces.EMPTY;
-                    bases[i][j] = Pieces.YELLOW;
+                    fields[i][j] = new Field();
+
+                    fields[i][j].setPiece(Color.EMPTY);
+                    fields[i][j].setBase(Color.YELLOW);
                 }
             }
         }
@@ -70,15 +89,38 @@ public class Board {
         for(int i = end - 2*baseSide; i < end - baseSide; i++) {
             for(int j = end - 2*baseSide; j < end - baseSide; j++) {
                 if(i + j >= 2*end - 3*baseSide - 1){
-                    fields[i][j] = Pieces.EMPTY;
-                    bases[i][j] = Pieces.WHITE;
+                    fields[i][j] = new Field();
+
+                    fields[i][j].setPiece(Color.EMPTY);
+                    fields[i][j].setBase(Color.WHITE);
                 }
             }
         }
     }
 
     private void placePlayers() {
+        if(playerNumber == 2) {
+            placePlayers(new Color[]{Color.GREEN, Color.RED});
+        }
+        else if(playerNumber == 3) {
+            placePlayers(new Color[]{Color.GREEN, Color.YELLOW, Color.BLACK});
+        }
+        else if(playerNumber == 4) {
+            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.RED, Color.BLACK});
+        }
+        else if(playerNumber == 6) {
+            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.YELLOW,Color.RED, Color.BLACK, Color.WHITE});
+        }
+    }
 
+    private void placePlayers(Color[] colors) {
+        for(int i = 1; i < end; i++) {
+            for(int j = 1; j < end; j++) {
+                if(fields[i][j] != null && Arrays.asList(colors).contains(fields[i][j].getBase())) {
+                    fields[i][j].setPiece(fields[i][j].getBase());
+                }
+            }
+        }
     }
 
 }
