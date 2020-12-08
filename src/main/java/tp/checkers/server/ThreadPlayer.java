@@ -26,5 +26,12 @@ public class ThreadPlayer extends Thread {
     public void run() {
         System.out.println("SERVER: player got connected");
 
+        try {
+            objectOutputStream.writeBoolean(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
 }

@@ -4,11 +4,11 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerHandshake {
+public class Server {
 
     private ServerSocket serverSocket = null;
 
-    public ServerHandshake() {
+    public Server() {
         try {
             serverSocket = new ServerSocket(4444);
         } catch (IOException e) {
@@ -25,8 +25,7 @@ public class ServerHandshake {
             Socket client = serverSocket.accept();
             ThreadHost host = new ThreadHost(client);
             host.start();
-            clientsNumber = host.init();
-
+            clientsNumber = host.getClientsNumber();
             players = new ThreadPlayer[clientsNumber];
             players[0] = host;
         } catch (IOException e) {
@@ -50,7 +49,7 @@ public class ServerHandshake {
     }
 
     public static void main(String[] args) {
-        ServerHandshake handshake = new ServerHandshake();
+        Server handshake = new Server();
         handshake.createConnection();
     }
 }

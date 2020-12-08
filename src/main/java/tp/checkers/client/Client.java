@@ -1,5 +1,6 @@
 package tp.checkers.client;
 
+import tp.checkers.message.MessageIfHost;
 import tp.checkers.message.MessageInit;
 
 import java.awt.event.WindowAdapter;
@@ -14,8 +15,10 @@ public class Client {
     private OutputStream outputStream = null;
     private ObjectInputStream objectInputStream = null;
     private ObjectOutputStream objectOutputStream = null;
+    private boolean host = false;
 
     Client() {
+        System.out.println("CLIENT: started");
         try {
             socket = new Socket("localhost", 4444);
 
@@ -31,8 +34,11 @@ public class Client {
         }
 
         try {
-            objectInputStream.readObject();
-            objectOutputStream.writeObject(new MessageInit(4));
+            MessageIfHost ifHost = (MessageIfHost) objectInputStream.readObject();
+            host = ifHost.host;
+            if(host) {
+                objectOutputStream.writeObject(new MessageInit(4));
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
