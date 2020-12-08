@@ -1,6 +1,8 @@
 package tp.checkers.server.game;
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements Serializable {
     private Color piece;
     private Color base;
     private Field[] neighbors;

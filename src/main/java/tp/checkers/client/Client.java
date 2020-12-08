@@ -1,22 +1,21 @@
 package tp.checkers.client;
 
+import tp.checkers.message.MessageFields;
 import tp.checkers.message.MessageIfHost;
-import tp.checkers.message.MessageInit;
+import tp.checkers.server.game.Field;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 
 public class Client {
 
-    private Window window = null;
+    private Window window;
     private Socket socket = null;
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
     private ObjectInputStream objectInputStream = null;
     private ObjectOutputStream objectOutputStream = null;
-    private boolean host = false;
+    private Field[][] fields = null;
 
     Client() {
         this.window = new Window(this);
@@ -37,14 +36,27 @@ public class Client {
         }
 
         try {
-            MessageIfHost ifHost = (MessageIfHost) objectInputStream.readObject();
-            host = ifHost.host;
+            MessageIfHost msg = (MessageIfHost) objectInputStream.readObject();
+            boolean host = msg.host;
             if(host) {
                 objectOutputStream.writeObject(window.initGameData());
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        initBoard();
+    }
+
+    private void initBoard() {
+        try {
+            MessageFields msg = (MessageFields) objectInputStream.readObject();
+            fields = msg.fields;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        window.initBoard(fields);
     }
 
     private void close() {

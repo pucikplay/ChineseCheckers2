@@ -1,6 +1,7 @@
 package tp.checkers.client;
 
 import tp.checkers.message.MessageInit;
+import tp.checkers.server.game.Field;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,12 @@ public class Window extends JFrame {
     private Client client;
     private int width = 1000;
     private int height = 1000;
+    private Field[][] fields;
 
     public Window(Client client) {
         this.client = client;
 
         initUI();
-        addComponents();
 
         this.setVisible(true);
     }
@@ -28,16 +29,20 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void addComponents() {
-        System.out.println("Adding components");
-    }
-
     public MessageInit initGameData() {
         DialogInitGame dialog = new DialogInitGame(this);
         int num;
-        while (dialog.playersNumber == 0) {
-            num = dialog.playersNumber;
-        }
+        while (dialog.playersNumber == 0);
         return new MessageInit(dialog.playersNumber);
+    }
+
+    public void initBoard(Field[][] fields) {
+        //jeden JPanel na całe okno
+
+
+        System.out.println("I'm here, wanting to initialise the board!");
+        if (fields != null) {
+            System.out.println("Gonna do it soon!");
+        }
     }
 }
