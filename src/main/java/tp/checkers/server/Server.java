@@ -1,5 +1,7 @@
 package tp.checkers.server;
 
+import tp.checkers.server.game.Game;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,6 +9,7 @@ import java.net.Socket;
 public class Server {
 
     private ServerSocket serverSocket = null;
+    ThreadPlayer[] players = null;
 
     public Server() {
         try {
@@ -19,7 +22,6 @@ public class Server {
 
     public void createConnection() {
         int clientsNumber = 1;
-        ThreadPlayer[] players = null;
 
         try {
             Socket client = serverSocket.accept();
@@ -46,6 +48,20 @@ public class Server {
         }
 
         //pass the server socket and the array of clients to the Server class
+
+        startGame(clientsNumber);
+
+    }
+
+    private void startGame(int playerNumber) {
+
+        Game game = new Game(4, playerNumber);
+
+        for(int i = 0; i < playerNumber; i++) {
+            players[i].sendFields(game.getFields());
+        }
+        while(true);
+        
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,9 @@
 package tp.checkers.server;
 
+import tp.checkers.message.MessageFields;
+import tp.checkers.message.MessageIfHost;
+import tp.checkers.server.game.Field;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -27,7 +31,17 @@ public class ThreadPlayer extends Thread {
         System.out.println("SERVER: player got connected");
 
         try {
-            objectOutputStream.writeBoolean(false);
+            objectOutputStream.writeObject(new MessageIfHost(false));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sendFields(Field[][] fields) {
+
+        try {
+            objectOutputStream.writeObject(new MessageFields(fields));
         } catch (IOException e) {
             e.printStackTrace();
         }
