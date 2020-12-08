@@ -14,6 +14,7 @@ public class Server {
     public Server() {
         try {
             serverSocket = new ServerSocket(4444);
+            System.out.println("Server is working");
         } catch (IOException e) {
             System.out.println("Could not listen on port 4444");
             System.exit(-1);

@@ -18,8 +18,6 @@ public class Client {
     private Field[][] fields = null;
 
     Client() {
-        this.window = new Window(this);
-
         System.out.println("CLIENT: started");
         try {
             socket = new Socket("localhost", 4444);
@@ -32,8 +30,13 @@ public class Client {
 
             System.out.println("CLIENT: connected");
         } catch (IOException e) {
-            System.out.println("Error");
+            System.out.println("Error: can't connect to the server.");
+            System.out.println("Make sure the server is working and it's not full");
+            return;
         }
+
+        this.window = new Window(this);
+        window.setVisible(true);
 
         try {
             MessageIfHost msg = (MessageIfHost) objectInputStream.readObject();
