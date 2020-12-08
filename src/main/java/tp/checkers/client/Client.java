@@ -10,6 +10,7 @@ import java.net.Socket;
 
 public class Client {
 
+    private Window window = null;
     private Socket socket = null;
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
@@ -18,6 +19,8 @@ public class Client {
     private boolean host = false;
 
     Client() {
+        this.window = new Window(this);
+
         System.out.println("CLIENT: started");
         try {
             socket = new Socket("localhost", 4444);
@@ -37,7 +40,7 @@ public class Client {
             MessageIfHost ifHost = (MessageIfHost) objectInputStream.readObject();
             host = ifHost.host;
             if(host) {
-                objectOutputStream.writeObject(new MessageInit(4));
+                objectOutputStream.writeObject(window.initGameData());
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
