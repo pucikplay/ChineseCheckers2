@@ -35,10 +35,8 @@ public class Window extends JFrame {
     }
 
     public void initBoard(Field[][] fields) {
-        panel = new Panel(fields, width, height);
+        panel = new Panel(fields, width, height, client.objectOutputStream);
         add(panel, BorderLayout.CENTER);
         this.setVisible(true);
-
-        System.out.println("I'm here, wanting to initialise the board!");
     }
 }

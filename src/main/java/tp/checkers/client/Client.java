@@ -14,7 +14,7 @@ public class Client {
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
     private ObjectInputStream objectInputStream = null;
-    private ObjectOutputStream objectOutputStream = null;
+    public ObjectOutputStream objectOutputStream = null;
     private Field[][] fields = null;
 
     Client() {
