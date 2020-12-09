@@ -1,5 +1,6 @@
 package tp.checkers.client;
 
+import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.game.Field;
 
@@ -21,7 +22,8 @@ public class Panel extends JPanel {
     private int arraySide = baseSide * 4 + 3;
     private MouseHandler handler = null;
     private ObjectOutputStream objectOutputStream;
-    private int[] activeFields = new int[4];
+    private int[] moveFields = new int[4];
+    private MovePossibilities[] movePossibilities;
 
     public Panel(Field[][] fields, int width, int height, ObjectOutputStream objectOutputStream) {
         this.fields = fields;
@@ -58,13 +60,17 @@ public class Panel extends JPanel {
         buttonCommit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Sending commit message");
+                MessageMove msg = new MessageMove(false);
+                msg.addMoveFields(moveFields);
+
                 try {
-                    System.out.println("Sending the message");
-                    objectOutputStream.writeObject(new MessageMove(activeFields));
-                    clearActiveFields();
+                    objectOutputStream.writeObject(msg);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+
+                clearActiveFields();
             }
         });
 
@@ -75,15 +81,25 @@ public class Panel extends JPanel {
         buttonReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Sending reset message");
+                MessageMove msg = new MessageMove(true);
+
+                try {
+                    objectOutputStream.writeObject(msg);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
                 clearActiveFields();
             }
         });
     }
 
     private void clearActiveFields() {
-        for (int i = 0; i < activeFields.length; i++) {
-            activeFields[i] = 0;
+        for (int i = 0; i < moveFields.length; i++) {
+            moveFields[i] = 0;
         }
+        movePossibilities = null;
         repaint();
     }
 
@@ -110,7 +126,18 @@ public class Panel extends JPanel {
 
                     g2d.draw(new Rectangle(x, i * rectSide, rectSide, rectSide));
 
-                    if ((activeFields[0] == i && activeFields[1] == j) || (activeFields[2] == i && activeFields[3] == j)) {
+                    if (movePossibilities != null) {
+                        for (int k = 0; k < movePossibilities.length; k++) {
+                            if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
+                                g2d.setColor(new Color(92, 82, 92));
+                                g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+                                break;
+                            }
+                        }
+                    }
+
+                    if ((moveFields[0] == i && moveFields[1] == j) || (moveFields[2] == i && moveFields[3] == j)) {
+                        g2d.setColor(new Color(255, 0, 250));
                         g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
                     }
 
@@ -123,7 +150,7 @@ public class Panel extends JPanel {
     private class MouseHandler implements MouseListener {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (activeFields[2] == 0 && activeFields[3] == 0) {
+            if (moveFields[2] == 0 && moveFields[3] == 0) {
                 double x = e.getX();
                 double y = e.getY();
 
@@ -151,12 +178,25 @@ public class Panel extends JPanel {
         }
 
         private void markActive(int i, int j) {
-            if (activeFields[0] == 0 && activeFields[1] == 0) {
-                activeFields[0] = i;
-                activeFields[1] = j; //also check if counter there
+            if (moveFields[0] == 0 && moveFields[1] == 0) {
+                moveFields[0] = i;
+                moveFields[1] = j;
+
+                MessageClickedField msg = new MessageClickedField(i, j);
+
+                try {
+                    objectOutputStream.writeObject(msg);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             } else {
-                activeFields[2] = i;
-                activeFields[3] = j; //also check if no counter there
+                for (int k = 0; k < movePossibilities.length; k++) {
+                    if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
+                        moveFields[2] = i;
+                        moveFields[3] = j;
+                        break;
+                    }
+                }
             }
 
             repaint();

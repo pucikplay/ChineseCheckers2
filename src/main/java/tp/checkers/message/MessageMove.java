@@ -3,9 +3,14 @@ package tp.checkers.message;
 import java.io.Serializable;
 
 public class MessageMove implements Serializable {
-    public int[] activeFields;
+    public boolean isReset;
+    public int[] moveFields;
 
-    public MessageMove(int[] activeFields) {
-        this.activeFields = activeFields;
+    public MessageMove(boolean isReset) {
+        this.isReset = isReset;
+    }
+
+    public void addMoveFields(int[] moveFields) {
+        this.moveFields = moveFields;
     }
 }
