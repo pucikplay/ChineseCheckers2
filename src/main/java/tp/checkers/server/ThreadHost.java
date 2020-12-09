@@ -14,7 +14,6 @@ public class ThreadHost extends ThreadPlayer {
         System.out.println("SERVER: host got connected");
 
         try {
-            System.out.println("You are host");
             objectOutputStream.writeObject(new MessageIfHost(true));
         } catch (IOException e) {
             e.printStackTrace();

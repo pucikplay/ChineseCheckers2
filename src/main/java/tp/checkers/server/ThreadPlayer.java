@@ -1,10 +1,10 @@
 package tp.checkers.server;
 
-import tp.checkers.message.MessageFields;
-import tp.checkers.message.MessageIfHost;
-import tp.checkers.message.MessageMove;
+import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
+import tp.checkers.server.game.MovePossibility;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -32,17 +32,20 @@ public class ThreadPlayer extends Thread {
         System.out.println("SERVER: player got connected");
 
         try {
+            System.out.println("You are not a host");
             objectOutputStream.writeObject(new MessageIfHost(false));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+/*
         try {
             MessageMove msg = (MessageMove) objectInputStream.readObject();
             // System.out.println(msg.x + " " + msg.y);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+ */
 
     }
 
@@ -55,4 +58,39 @@ public class ThreadPlayer extends Thread {
 
     }
 
+    public void sendColor(Color color) {
+        try {
+            objectOutputStream.writeObject(new MessageColor(color));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MessageClickedField pieceSelect() {
+        try {
+            MessageClickedField msg = (MessageClickedField) objectInputStream.readObject();
+            return msg;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void sendPossibilities(MovePossibility[] possibilities) {
+        try {
+            objectOutputStream.writeObject(new MessagePossibilities(possibilities));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MessageMove pieceMove() {
+        try {
+            MessageMove msg = (MessageMove) objectInputStream.readObject();
+            return msg;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -35,7 +35,7 @@ public class Window extends JFrame {
     }
 
     public void initBoard(Field[][] fields) {
-        panel = new Panel(fields, width, height, client.objectOutputStream);
+        panel = new Panel(fields, width, height, client.objectOutputStream, client.objectInputStream);
         add(panel, BorderLayout.CENTER);
         this.setVisible(true);
     }

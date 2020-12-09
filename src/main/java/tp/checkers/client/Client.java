@@ -1,9 +1,11 @@
 package tp.checkers.client;
 
+import tp.checkers.message.MessageColor;
 import tp.checkers.message.MessageFields;
 import tp.checkers.message.MessageIfHost;
 import tp.checkers.server.game.Field;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -13,9 +15,10 @@ public class Client {
     private Socket socket = null;
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
-    private ObjectInputStream objectInputStream = null;
+    public ObjectInputStream objectInputStream = null;
     public ObjectOutputStream objectOutputStream = null;
     private Field[][] fields = null;
+    private Color color = null;
 
     Client() {
         System.out.println("CLIENT: started");
@@ -55,6 +58,8 @@ public class Client {
         try {
             MessageFields msg = (MessageFields) objectInputStream.readObject();
             fields = msg.fields;
+            MessageColor msgc = (MessageColor) objectInputStream.readObject();
+            color = msgc.color;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

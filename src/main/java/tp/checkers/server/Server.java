@@ -50,19 +50,16 @@ public class Server {
 
         //pass the server socket and the array of clients to the Server class
 
-        startGame(clientsNumber);
+        startGame(clientsNumber, players);
 
     }
 
-    private void startGame(int playerNumber) {
+    private void startGame(int playerNumber, ThreadPlayer[] threads) {
 
-        Game game = new Game(4, playerNumber);
+        Game game = new Game(4, playerNumber, threads);
 
-        for(int i = 0; i < playerNumber; i++) {
-            players[i].sendFields(game.getFields());
-        }
-        while(true);
-        
+        game.play();
+
     }
 
     public static void main(String[] args) {

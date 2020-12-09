@@ -2,7 +2,9 @@ package tp.checkers.client;
 
 import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
+import tp.checkers.message.MessagePossibilities;
 import tp.checkers.server.game.Field;
+import tp.checkers.server.game.MovePossibility;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Panel extends JPanel {
@@ -22,14 +25,16 @@ public class Panel extends JPanel {
     private int arraySide = baseSide * 4 + 3;
     private MouseHandler handler = null;
     private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
     private int[] moveFields = new int[4];
-    private MovePossibilities[] movePossibilities;
+    private MovePossibility[] movePossibilities;
 
-    public Panel(Field[][] fields, int width, int height, ObjectOutputStream objectOutputStream) {
+    public Panel(Field[][] fields, int width, int height, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         this.fields = fields;
         this.width = width;
         this.height = height;
         this.objectOutputStream = objectOutputStream;
+        this.objectInputStream = objectInputStream;
         setBackground(new Color(194, 187, 169));
         setLayout(null);
 
@@ -186,7 +191,10 @@ public class Panel extends JPanel {
 
                 try {
                     objectOutputStream.writeObject(msg);
-                } catch (IOException ioException) {
+                    MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
+                    movePossibilities = msgp.possibilities;
+
+                } catch (IOException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }
             } else {
@@ -194,6 +202,7 @@ public class Panel extends JPanel {
                     if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
                         moveFields[2] = i;
                         moveFields[3] = j;
+                        movePossibilities = null;
                         break;
                     }
                 }
