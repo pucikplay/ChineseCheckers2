@@ -104,6 +104,7 @@ public class Panel extends JPanel {
         for (int i = 0; i < moveFields.length; i++) {
             moveFields[i] = 0;
         }
+
         movePossibilities = null;
         repaint();
     }
@@ -119,37 +120,50 @@ public class Panel extends JPanel {
     }
 
     private void paintBoard(Graphics2D g2d) {
-        int rectSide = width/arraySide;
-
         for (int i = 1; i < arraySide; i++) {
             int cnt = 0;
             for (int j = 1; j < arraySide; j++) {
                 if (fields[i][j] != null) {
-                    g2d.setColor(new Color(11, 23, 11));
-
-                    int x = rectSide * arraySide / 2 - count[i] * rectSide / 2 + cnt * rectSide;
-
-                    g2d.draw(new Rectangle(x, i * rectSide, rectSide, rectSide));
-
-                    if (movePossibilities != null) {
-                        for (int k = 0; k < movePossibilities.length; k++) {
-                            if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
-                                g2d.setColor(new Color(92, 82, 92));
-                                g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
-                                break;
-                            }
-                        }
-                    }
-
-                    if ((moveFields[0] == i && moveFields[1] == j) || (moveFields[2] == i && moveFields[3] == j)) {
-                        g2d.setColor(new Color(255, 0, 250));
-                        g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
-                    }
+                    paintField(g2d, i, j, cnt);
 
                     cnt++;
                 }
             }
         }
+    }
+
+    private void paintField(Graphics2D g2d, int i, int j, int cnt) {
+        int rectSide = width/arraySide;
+        int x = rectSide * arraySide / 2 - count[i] * rectSide / 2 + cnt * rectSide;
+
+        if (fields[i][j].getBase() != null) {
+            g2d.setColor(fields[i][j].getBase());
+            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+        }
+
+        if (fields[i][j].getPiece() != null) {
+            g2d.setColor(fields[i][j].getPiece());
+            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+        }
+
+        g2d.setColor(new Color(11, 23, 11));
+
+        if (movePossibilities != null) {
+            for (int k = 0; k < movePossibilities.length; k++) {
+                if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
+                    g2d.setColor(new Color(92, 82, 92));
+                    g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+                    break;
+                }
+            }
+        }
+
+        if ((moveFields[0] == i && moveFields[1] == j) || (moveFields[2] == i && moveFields[3] == j)) {
+            g2d.setColor(new Color(255, 0, 250));
+            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+        }
+
+        g2d.draw(new Rectangle(x, i * rectSide, rectSide, rectSide));
     }
 
     private class MouseHandler implements MouseListener {

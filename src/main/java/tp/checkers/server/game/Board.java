@@ -52,7 +52,7 @@ public class Board {
                     fields[j][i] = new Field();
 
                     fields[i][j].setBase(Color.GREEN);
-                    fields[j][i].setBase(Color.ORANGE);
+                    fields[j][i].setBase(Color.MAGENTA);
                 }
             }
         }
@@ -95,13 +95,13 @@ public class Board {
             placePlayers(new Color[]{Color.GREEN, Color.RED});
         }
         else if (playerNumber == 3) {
-            placePlayers(new Color[]{Color.GREEN, Color.YELLOW, Color.ORANGE});
+            placePlayers(new Color[]{Color.GREEN, Color.YELLOW, Color.MAGENTA});
         }
         else if (playerNumber == 4) {
-            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.RED, Color.ORANGE});
+            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.RED, Color.MAGENTA});
         }
         else if (playerNumber == 6) {
-            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.YELLOW,Color.RED, Color.ORANGE, Color.GRAY});
+            placePlayers(new Color[]{Color.GREEN, Color.BLUE, Color.YELLOW,Color.RED, Color.MAGENTA, Color.GRAY});
         }
     }
 
@@ -114,5 +114,6 @@ public class Board {
             }
         }
     }
+
 
 }
