@@ -2,7 +2,7 @@ package tp.checkers.server;
 
 import tp.checkers.message.MessageFields;
 import tp.checkers.message.MessageIfHost;
-import tp.checkers.message.MessagePair;
+import tp.checkers.message.MessageMove;
 import tp.checkers.server.game.Field;
 
 import java.io.*;
@@ -38,8 +38,8 @@ public class ThreadPlayer extends Thread {
         }
 
         try {
-            MessagePair msg = (MessagePair) objectInputStream.readObject();
-            System.out.println(msg.x + " " + msg.y);
+            MessageMove msg = (MessageMove) objectInputStream.readObject();
+            // System.out.println(msg.x + " " + msg.y);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
