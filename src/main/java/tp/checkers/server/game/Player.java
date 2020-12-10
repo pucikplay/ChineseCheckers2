@@ -26,11 +26,15 @@ public class Player {
         return thread.pieceSelect();
     }
 
-    public void sendPossibilities(MovePossibility[] possibilities) {
+    public void sendPossibilities(Coordinates[] possibilities) {
         thread.sendPossibilities(possibilities);
     }
 
     public MessageMove pieceMove() {
         return thread.pieceMove();
+    }
+
+    public void updateBoard(MessageClickedField messageClickedField, MessageMove messageMove) {
+        thread.updateBoard(messageClickedField, messageMove);
     }
 }

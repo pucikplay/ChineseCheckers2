@@ -1,6 +1,7 @@
 package tp.checkers.server.game;
 
 import tp.checkers.message.MessageClickedField;
+import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
 
 import java.awt.*;
@@ -34,19 +35,27 @@ public class Game {
     public void play() {
 
         setup();
+        MessageClickedField messageClickedField;
+        MessageMove messageMove = null;
+        Coordinates[] possibilities = null;
+        boolean reset;
 
         while (players.length > 1) {
 
-            players[currPlayer].pieceSelect();
-            MovePossibility[] possibilities = new MovePossibility[2];
-            possibilities[0] = new MovePossibility();
-            possibilities[1] = new MovePossibility();
-            possibilities[0].i = 9;
-            possibilities[0].j = 9;
-            possibilities[1].i = 10;
-            possibilities[1].j = 10;
+            messageClickedField = players[currPlayer].pieceSelect();
+
+            possibilities = Possibilities.getMoves(board, messageClickedField.i, messageClickedField.j);
             players[currPlayer].sendPossibilities(possibilities);
-            players[currPlayer].pieceMove();
+
+            do {
+                messageMove = players[currPlayer].pieceMove();
+                reset = messageMove.isReset;
+            } while (reset);
+            reset = true;
+
+            for (Player player : players) {
+                player.updateBoard(messageClickedField, messageMove);
+            }
             nextPlayer();
         }
 
@@ -84,7 +93,7 @@ public class Game {
     }
 
     private void nextPlayer() {
-        currPlayer = (currPlayer + 1) % playerNumber;
+        currPlayer = (currPlayer + 1) % players.length;
     }
 
 }

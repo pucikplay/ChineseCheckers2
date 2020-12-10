@@ -2,7 +2,7 @@ package tp.checkers.client;
 
 import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
-import tp.checkers.server.game.MovePossibility;
+import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
 import java.io.*;
@@ -79,8 +79,8 @@ public class Client {
 
     //Methods of client-server communication:
 
-    public MovePossibility[] receiveMovePossibilities(MessageClickedField msg) {
-        MovePossibility[] movePossibilities = null;
+    public Coordinates[] receiveMovePossibilities(MessageClickedField msg) {
+        Coordinates[] movePossibilities = null;
 
         try {
             objectOutputStream.writeObject(msg);

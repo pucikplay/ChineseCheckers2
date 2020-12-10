@@ -1,13 +1,13 @@
 package tp.checkers.message;
 
-import tp.checkers.server.game.MovePossibility;
+import tp.checkers.server.game.Coordinates;
 
 import java.io.Serializable;
 
 public class MessagePossibilities implements Serializable {
-    public MovePossibility[] possibilities;
+    public Coordinates[] possibilities;
 
-    public MessagePossibilities(MovePossibility[] possibilities) {
+    public MessagePossibilities(Coordinates[] possibilities) {
         this.possibilities = possibilities;
     }
 }

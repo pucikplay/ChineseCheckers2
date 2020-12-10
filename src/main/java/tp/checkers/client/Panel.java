@@ -2,7 +2,7 @@ package tp.checkers.client;
 
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.game.Field;
-import tp.checkers.server.game.MovePossibility;
+import tp.checkers.server.game.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class Panel extends JPanel {
     private int arraySide = baseSide * 4 + 3;
     private MouseHandler handler = null;
     private int[] moveFields = new int[4];
-    private MovePossibility[] movePossibilities;
+    private Coordinates[] movePossibilities;
     private Client client;
     private boolean isMyTurn = true;
 
@@ -113,7 +113,7 @@ public class Panel extends JPanel {
         g2d.setColor(new Color(11, 23, 11));
 
         if (movePossibilities != null) {
-            for (MovePossibility movePossibility : movePossibilities) {
+            for (Coordinates movePossibility : movePossibilities) {
                 if (movePossibility.i == i && movePossibility.j == j) {
                     g2d.setColor(new Color(92, 82, 92));
                     g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
@@ -131,7 +131,7 @@ public class Panel extends JPanel {
     }
 
 
-    public void setMovePossibilities(MovePossibility[] movePossibilities) {
+    public void setMovePossibilities(Coordinates[] movePossibilities) {
         this.movePossibilities = movePossibilities;
     }
 

@@ -2,7 +2,7 @@ package tp.checkers.server;
 
 import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
-import tp.checkers.server.game.MovePossibility;
+import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
 import java.io.*;
@@ -77,7 +77,7 @@ public class ThreadPlayer extends Thread {
         return null;
     }
 
-    public void sendPossibilities(MovePossibility[] possibilities) {
+    public void sendPossibilities(Coordinates[] possibilities) {
         try {
             objectOutputStream.writeObject(new MessagePossibilities(possibilities));
         } catch (IOException e) {
@@ -93,4 +93,13 @@ public class ThreadPlayer extends Thread {
         }
         return null;
     }
+
+    public void updateBoard(MessageClickedField messageClickedField, MessageMove messageMove) {
+        try {
+            objectOutputStream.writeObject(new MessageUpdate(messageClickedField.i, messageClickedField.j, messageMove.moveFields[0], messageMove.moveFields[1]));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

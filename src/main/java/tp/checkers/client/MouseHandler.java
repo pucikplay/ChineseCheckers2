@@ -2,7 +2,7 @@ package tp.checkers.client;
 
 import tp.checkers.message.MessageClickedField;
 import tp.checkers.server.game.Field;
-import tp.checkers.server.game.MovePossibility;
+import tp.checkers.server.game.Coordinates;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,7 +16,7 @@ public class MouseHandler implements MouseListener {
     private final int baseSide = 4; //to be passed from server!
     private final Client client;
     private final Panel panel;
-    private MovePossibility[] movePossibilities;
+    private Coordinates[] movePossibilities;
 
     public MouseHandler(Client client, Panel panel, int width, int height, Field[][] fields, int[] count, int[] moveFields) {
         this.client = client;
@@ -63,8 +63,10 @@ public class MouseHandler implements MouseListener {
             moveFields[1] = j;
 
             movePossibilities = client.receiveMovePossibilities(new MessageClickedField(i, j));
+            //receives boolean if piece can be selected
+
         } else {
-            for (MovePossibility movePossibility : movePossibilities) {
+            for (Coordinates movePossibility : movePossibilities) {
                 if (movePossibility.i == i && movePossibility.j == j) {
                     moveFields[2] = i;
                     moveFields[3] = j;
