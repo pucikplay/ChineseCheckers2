@@ -1,20 +1,12 @@
 package tp.checkers.client;
 
-import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
-import tp.checkers.message.MessagePossibilities;
 import tp.checkers.server.game.Field;
 import tp.checkers.server.game.MovePossibility;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 public class Panel extends JPanel {
     private Field[][] fields;
@@ -24,24 +16,24 @@ public class Panel extends JPanel {
     private int baseSide = 4; //to be passed from server!
     private int arraySide = baseSide * 4 + 3;
     private MouseHandler handler = null;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
     private int[] moveFields = new int[4];
     private MovePossibility[] movePossibilities;
+    private Client client;
+    private boolean isMyTurn = true;
 
-    public Panel(Field[][] fields, int width, int height, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
-        this.fields = fields;
+    public Panel(Client client, int width, int height) {
+        this.client = client;
         this.width = width;
         this.height = height;
-        this.objectOutputStream = objectOutputStream;
-        this.objectInputStream = objectInputStream;
         setBackground(new Color(194, 187, 169));
         setLayout(null);
+    }
 
+    public void addFields(Field[][] fields) {
+        this.fields = fields;
         countBoard();
-        initButtons();
 
-        handler = new MouseHandler();
+        this.handler = new MouseHandler(client, this, width, height, fields, count, moveFields);
         addMouseListener(handler);
     }
 
@@ -57,53 +49,24 @@ public class Panel extends JPanel {
         }
     }
 
-    private void initButtons() {
-        JButton buttonCommit = new JButton("Commit your move");
-        buttonCommit.setBounds(655, 850, 150, 60);
-        add(buttonCommit);
+    public void commit() {
+        if (isMyTurn) {
+            System.out.println("Sending commit message");
+            client.sendMove(new MessageMove(moveFields));
+            clearActiveFields();
+        }
+    }
 
-        buttonCommit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Sending commit message");
-                MessageMove msg = new MessageMove(false);
-                msg.addMoveFields(moveFields);
-
-                try {
-                    objectOutputStream.writeObject(msg);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-                clearActiveFields();
-            }
-        });
-
-        JButton buttonReset = new JButton("Reset your move");
-        buttonReset.setBounds(815, 850, 150, 60);
-        add(buttonReset);
-
-        buttonReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Sending reset message");
-                MessageMove msg = new MessageMove(true);
-
-                try {
-                    objectOutputStream.writeObject(msg);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-                clearActiveFields();
-            }
-        });
+    public void reset() {
+        if (isMyTurn) {
+            System.out.println("Sending reset message");
+            client.sendMove(new MessageMove(true));
+            clearActiveFields();
+        }
     }
 
     private void clearActiveFields() {
-        for (int i = 0; i < moveFields.length; i++) {
-            moveFields[i] = 0;
-        }
+        Arrays.fill(moveFields, 0);
 
         movePossibilities = null;
         repaint();
@@ -122,6 +85,7 @@ public class Panel extends JPanel {
     private void paintBoard(Graphics2D g2d) {
         for (int i = 1; i < arraySide; i++) {
             int cnt = 0;
+
             for (int j = 1; j < arraySide; j++) {
                 if (fields[i][j] != null) {
                     paintField(g2d, i, j, cnt);
@@ -149,8 +113,8 @@ public class Panel extends JPanel {
         g2d.setColor(new Color(11, 23, 11));
 
         if (movePossibilities != null) {
-            for (int k = 0; k < movePossibilities.length; k++) {
-                if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
+            for (MovePossibility movePossibility : movePossibilities) {
+                if (movePossibility.i == i && movePossibility.j == j) {
                     g2d.setColor(new Color(92, 82, 92));
                     g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
                     break;
@@ -166,78 +130,13 @@ public class Panel extends JPanel {
         g2d.draw(new Rectangle(x, i * rectSide, rectSide, rectSide));
     }
 
-    private class MouseHandler implements MouseListener {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (moveFields[2] == 0 && moveFields[3] == 0) {
-                double x = e.getX();
-                double y = e.getY();
 
-                int rectSide = width/arraySide;
+    public void setMovePossibilities(MovePossibility[] movePossibilities) {
+        this.movePossibilities = movePossibilities;
+    }
 
-                for (int i = 1; i < arraySide; i++) {
-                    int cnt = 0;
-
-                    for (int j = 1; j < arraySide; j++) {
-                        if (fields[i][j] != null) {
-                            int locationMinX = rectSide * arraySide / 2 - count[i] * rectSide / 2 + cnt * rectSide;
-                            int locationMaxX = locationMinX + rectSide;
-                            int locationMinY = i * rectSide;
-                            int locationMaxY = locationMinY + rectSide;
-
-                            if (x > locationMinX && x < locationMaxX && y > locationMinY && y < locationMaxY) {
-                                markActive(i, j);
-                            }
-
-                            cnt++;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void markActive(int i, int j) {
-            if (moveFields[0] == 0 && moveFields[1] == 0) {
-                moveFields[0] = i;
-                moveFields[1] = j;
-
-                MessageClickedField msg = new MessageClickedField(i, j);
-
-                try {
-                    objectOutputStream.writeObject(msg);
-                    MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
-                    movePossibilities = msgp.possibilities;
-
-                } catch (IOException | ClassNotFoundException ioException) {
-                    ioException.printStackTrace();
-                }
-            } else {
-                for (int k = 0; k < movePossibilities.length; k++) {
-                    if (movePossibilities[k].i == i && movePossibilities[k].j == j) {
-                        moveFields[2] = i;
-                        moveFields[3] = j;
-                        movePossibilities = null;
-                        break;
-                    }
-                }
-            }
-
-            repaint();
-
-            System.out.println("Clicked at element of array: fields[" + i + "][" + j + "]");
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {}
-
-        @Override
-        public void mouseEntered(MouseEvent e) {}
-
-        @Override
-        public void mouseExited(MouseEvent e) {}
+    public boolean getIsMyTurn() {
+        return isMyTurn;
     }
 
 }

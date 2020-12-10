@@ -33,7 +33,9 @@ public class ThreadPlayer extends Thread {
 
         try {
             System.out.println("You are not a host");
+            objectOutputStream.flush();
             objectOutputStream.writeObject(new MessageIfHost(false));
+            objectOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,8 +70,7 @@ public class ThreadPlayer extends Thread {
 
     public MessageClickedField pieceSelect() {
         try {
-            MessageClickedField msg = (MessageClickedField) objectInputStream.readObject();
-            return msg;
+            return (MessageClickedField) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -86,8 +87,7 @@ public class ThreadPlayer extends Thread {
 
     public MessageMove pieceMove() {
         try {
-            MessageMove msg = (MessageMove) objectInputStream.readObject();
-            return msg;
+            return (MessageMove) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

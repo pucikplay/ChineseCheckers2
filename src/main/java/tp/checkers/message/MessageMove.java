@@ -10,7 +10,8 @@ public class MessageMove implements Serializable {
         this.isReset = isReset;
     }
 
-    public void addMoveFields(int[] moveFields) {
+    public MessageMove(int[] moveFields) {
+        this.isReset = false;
         this.moveFields = moveFields;
     }
 }

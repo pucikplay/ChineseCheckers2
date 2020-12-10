@@ -1,9 +1,8 @@
 package tp.checkers.client;
 
-import tp.checkers.message.MessageColor;
-import tp.checkers.message.MessageFields;
-import tp.checkers.message.MessageIfHost;
+import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
+import tp.checkers.server.game.MovePossibility;
 
 import java.awt.*;
 import java.io.*;
@@ -11,16 +10,28 @@ import java.net.Socket;
 
 public class Client {
 
-    private Window window;
+    private final Window window;
     private Socket socket = null;
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
-    public ObjectInputStream objectInputStream = null;
-    public ObjectOutputStream objectOutputStream = null;
+    private ObjectInputStream objectInputStream = null;
+    private ObjectOutputStream objectOutputStream = null;
     private Field[][] fields = null;
     private Color color = null;
 
     Client() {
+        connect();
+
+        this.window = new Window(this);
+        window.setVisible(true);
+
+        initGame();
+    }
+
+
+    //Initial methods:
+
+    private void connect() {
         System.out.println("CLIENT: started");
         try {
             socket = new Socket("localhost", 4444);
@@ -35,12 +46,10 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Error: can't connect to the server.");
             System.out.println("Make sure the server is working and it's not full");
-            return;
         }
+    }
 
-        this.window = new Window(this);
-        window.setVisible(true);
-
+    private void initGame() {
         try {
             MessageIfHost msg = (MessageIfHost) objectInputStream.readObject();
             boolean host = msg.host;
@@ -56,16 +65,44 @@ public class Client {
 
     private void initBoard() {
         try {
-            MessageFields msg = (MessageFields) objectInputStream.readObject();
-            fields = msg.fields;
-            MessageColor msgc = (MessageColor) objectInputStream.readObject();
-            color = msgc.color;
+            MessageFields msgFields = (MessageFields) objectInputStream.readObject();
+            fields = msgFields.fields;
+            MessageColor msgColor = (MessageColor) objectInputStream.readObject();
+            color = msgColor.color;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        window.initBoard(fields);
+        window.initBoard(fields, color);
     }
+
+
+    //Methods of client-server communication:
+
+    public MovePossibility[] receiveMovePossibilities(MessageClickedField msg) {
+        MovePossibility[] movePossibilities = null;
+
+        try {
+            objectOutputStream.writeObject(msg);
+            MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
+            movePossibilities = msgp.possibilities;
+        } catch (IOException | ClassNotFoundException ioException) {
+            ioException.printStackTrace();
+        }
+
+        return movePossibilities;
+    }
+
+    public void sendMove(MessageMove msg) {
+        try {
+            objectOutputStream.writeObject(msg);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+
+    //Closing method:
 
     private void close() {
         try {
