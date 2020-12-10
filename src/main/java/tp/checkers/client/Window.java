@@ -11,11 +11,12 @@ import java.awt.*;
 public class Window extends JFrame {
     private final int width = 1000;
     private final int height = 1000;
-    private final Panel panel;
+    private final Client client;
+    private Panel panel;
     private Color color;
 
     public Window(Client client) {
-        this.panel = new Panel(client, width, height);
+        this.client = client;
 
         initUI();
     }
@@ -56,7 +57,7 @@ public class Window extends JFrame {
     }
 
     public void initBoard(Field[][] fields, Color color) {
-        this.panel.addFields(fields);
+        this.panel = new Panel(client, width, height, fields, color);
         this.color = color;
         this.add(panel);
 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class MessageUpdate implements Serializable {
     public Coordinates origin, destination;
+    public boolean currPlayer = false;
 
     public MessageUpdate(int origin_i, int origin_j, int destination_i, int destination_j) {
         this.origin.i = origin_i;

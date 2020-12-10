@@ -1,40 +1,38 @@
 package tp.checkers.client;
 
 import tp.checkers.message.MessageMove;
+import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class Panel extends JPanel {
-    private Field[][] fields;
-    private int width;
-    private int height;
+    private final Field[][] fields;
+    private final int width;
     private int[] count;
-    private int baseSide = 4; //to be passed from server!
-    private int arraySide = baseSide * 4 + 3;
-    private MouseHandler handler = null;
-    private int[] moveFields = new int[4];
-    private Coordinates[] movePossibilities;
-    private Client client;
-    private boolean isMyTurn = true;
+    private final int baseSide = 4; //to be passed from server!
+    private final int arraySide = baseSide * 4 + 3;
+    private final Coordinates[] chosenFields = {new Coordinates(), new Coordinates()};
+    private Coordinates[] possibilities;
+    private final Client client;
+    private boolean isMyTurn = false;
 
-    public Panel(Client client, int width, int height) {
+    public Panel(Client client, int width, int height, Field[][] fields, Color color) {
         this.client = client;
         this.width = width;
-        this.height = height;
+        this.fields = fields;
+
         setBackground(new Color(194, 187, 169));
         setLayout(null);
-    }
 
-    public void addFields(Field[][] fields) {
-        this.fields = fields;
         countBoard();
 
-        this.handler = new MouseHandler(client, this, width, height, fields, count, moveFields);
+        MouseHandler handler = new MouseHandler(client, this, width, fields, count, chosenFields, color);
         addMouseListener(handler);
+
+        //client.receiveUpdates(this);
     }
 
     private void countBoard() {
@@ -52,8 +50,10 @@ public class Panel extends JPanel {
     public void commit() {
         if (isMyTurn) {
             System.out.println("Sending commit message");
-            client.sendMove(new MessageMove(moveFields));
+            client.sendMove(new MessageMove(chosenFields));
             clearActiveFields();
+            isMyTurn = false;
+            client.receiveUpdates(this);
         }
     }
 
@@ -66,11 +66,27 @@ public class Panel extends JPanel {
     }
 
     private void clearActiveFields() {
-        Arrays.fill(moveFields, 0);
+        for (Coordinates c : chosenFields) {
+            c.i = 0;
+            c.j = 0;
+        }
 
-        movePossibilities = null;
+        possibilities = null;
         repaint();
     }
+
+    public void updateFields(MessageUpdate msg) {
+        isMyTurn = msg.currPlayer;
+
+        Color color = fields[msg.origin.i][msg.origin.j].getPiece();
+        fields[msg.origin.i][msg.origin.j].setPiece(null);
+        fields[msg.destination.i][msg.destination.j].setPiece(color);
+
+        repaint();
+    }
+
+
+    //Painting methods:
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -97,42 +113,39 @@ public class Panel extends JPanel {
     }
 
     private void paintField(Graphics2D g2d, int i, int j, int cnt) {
-        int rectSide = width/arraySide;
-        int x = rectSide * arraySide / 2 - count[i] * rectSide / 2 + cnt * rectSide;
+        int rectSide = width / arraySide;
+        int x = width / 2 - count[i] * rectSide / 2 + cnt * rectSide;
 
-        if (fields[i][j].getBase() != null) {
-            g2d.setColor(fields[i][j].getBase());
-            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
-        }
+        g2d.setColor(Color.WHITE);
 
         if (fields[i][j].getPiece() != null) {
             g2d.setColor(fields[i][j].getPiece());
-            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
+        } else if (fields[i][j].getBase() != null) {
+            g2d.setColor(fields[i][j].getBase());
         }
 
-        g2d.setColor(new Color(11, 23, 11));
-
-        if (movePossibilities != null) {
-            for (Coordinates movePossibility : movePossibilities) {
-                if (movePossibility.i == i && movePossibility.j == j) {
+        if ((chosenFields[0].i == i && chosenFields[0].j == j) || (chosenFields[1].i == i && chosenFields[1].j == j)) {
+            g2d.setColor(new Color(134, 64, 0));
+        } else if (possibilities != null) {
+            for (Coordinates c : possibilities) {
+                if (c.i == i && c.j == j) {
                     g2d.setColor(new Color(92, 82, 92));
-                    g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
                     break;
                 }
             }
         }
 
-        if ((moveFields[0] == i && moveFields[1] == j) || (moveFields[2] == i && moveFields[3] == j)) {
-            g2d.setColor(new Color(255, 0, 250));
-            g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
-        }
+        g2d.fill(new Rectangle(x, i * rectSide, rectSide, rectSide));
 
+        g2d.setColor(new Color(11, 23, 11));
         g2d.draw(new Rectangle(x, i * rectSide, rectSide, rectSide));
     }
 
 
+    //Setters and getters:
+
     public void setMovePossibilities(Coordinates[] movePossibilities) {
-        this.movePossibilities = movePossibilities;
+        this.possibilities = movePossibilities;
     }
 
     public boolean getIsMyTurn() {

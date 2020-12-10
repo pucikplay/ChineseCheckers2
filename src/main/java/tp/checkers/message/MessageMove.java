@@ -1,17 +1,19 @@
 package tp.checkers.message;
 
+import tp.checkers.server.game.Coordinates;
+
 import java.io.Serializable;
 
 public class MessageMove implements Serializable {
     public boolean isReset;
-    public int[] moveFields;
+    public Coordinates[] chosenFields;
 
     public MessageMove(boolean isReset) {
         this.isReset = isReset;
     }
 
-    public MessageMove(int[] moveFields) {
+    public MessageMove(Coordinates[] chosenFields) {
         this.isReset = false;
-        this.moveFields = moveFields;
+        this.chosenFields = chosenFields;
     }
 }

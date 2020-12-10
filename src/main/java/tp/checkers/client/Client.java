@@ -101,6 +101,21 @@ public class Client {
         }
     }
 
+    public void receiveUpdates(Panel panel) {
+        MessageUpdate msg = null;
+
+        try {
+            msg = (MessageUpdate) objectInputStream.readObject();
+            while (! msg.currPlayer) {
+                msg = (MessageUpdate) objectInputStream.readObject();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        panel.updateFields(msg);
+    }
+
 
     //Closing method:
 

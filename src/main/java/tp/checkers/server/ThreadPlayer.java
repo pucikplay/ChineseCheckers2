@@ -96,7 +96,7 @@ public class ThreadPlayer extends Thread {
 
     public void updateBoard(MessageClickedField messageClickedField, MessageMove messageMove) {
         try {
-            objectOutputStream.writeObject(new MessageUpdate(messageClickedField.i, messageClickedField.j, messageMove.moveFields[0], messageMove.moveFields[1]));
+            objectOutputStream.writeObject(new MessageUpdate(messageClickedField.i, messageClickedField.j, messageMove.chosenFields[0].i, messageMove.chosenFields[0].j));
         } catch (IOException e) {
             e.printStackTrace();
         }

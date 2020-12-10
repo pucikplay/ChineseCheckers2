@@ -4,28 +4,29 @@ import tp.checkers.message.MessageClickedField;
 import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
-    private int width;
-    private int height;
+    private final int width;
     private final Field[][] fields;
     private final int[] count;
-    private final int[] moveFields;
+    private final Coordinates[] chosenFields;
     private final int baseSide = 4; //to be passed from server!
     private final Client client;
     private final Panel panel;
     private Coordinates[] movePossibilities;
+    private Color color;
 
-    public MouseHandler(Client client, Panel panel, int width, int height, Field[][] fields, int[] count, int[] moveFields) {
+    public MouseHandler(Client client, Panel panel, int width, Field[][] fields, int[] count, Coordinates[] chosenFields, Color color) {
         this.client = client;
         this.panel = panel;
         this.width = width;
-        this.height = height;
         this.fields = fields;
         this.count = count;
-        this.moveFields = moveFields;
+        this.chosenFields = chosenFields;
+        this.color = color;
     }
 
     @Override
@@ -58,18 +59,19 @@ public class MouseHandler implements MouseListener {
     }
 
     private void markActive(int i, int j) {
-        if (moveFields[0] == 0 && moveFields[1] == 0) {
-            moveFields[0] = i;
-            moveFields[1] = j;
+        if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
+            if (fields[i][j].getPiece().equals(this.color.darker())) {
 
-            movePossibilities = client.receiveMovePossibilities(new MessageClickedField(i, j));
-            //receives boolean if piece can be selected
+                chosenFields[0].i = i;
+                chosenFields[0].j = j;
 
+                movePossibilities = client.receiveMovePossibilities(new MessageClickedField(i, j));
+            }
         } else {
             for (Coordinates movePossibility : movePossibilities) {
                 if (movePossibility.i == i && movePossibility.j == j) {
-                    moveFields[2] = i;
-                    moveFields[3] = j;
+                    chosenFields[1].i = i;
+                    chosenFields[1].j = j;
                     break;
                 }
             }
