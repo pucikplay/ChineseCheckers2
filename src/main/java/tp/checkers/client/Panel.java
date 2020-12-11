@@ -14,7 +14,7 @@ public class Panel extends JPanel {
     private int[] count;
     private final int baseSide = 4; //to be passed from server!
     private final int arraySide = baseSide * 4 + 3;
-    private final Coordinates[] chosenFields = {new Coordinates(), new Coordinates()};
+    private final Coordinates[] chosenFields = {new Coordinates(0,0), new Coordinates(0,0)};
     private Coordinates[] possibilities;
     private final Client client;
     private boolean isMyTurn = false;
@@ -32,7 +32,7 @@ public class Panel extends JPanel {
         MouseHandler handler = new MouseHandler(client, this, width, fields, count, chosenFields, color);
         addMouseListener(handler);
 
-        //client.receiveUpdates(this);
+        client.receiveUpdates(this);
     }
 
     private void countBoard() {
@@ -78,11 +78,14 @@ public class Panel extends JPanel {
     public void updateFields(MessageUpdate msg) {
         isMyTurn = msg.currPlayer;
 
-        Color color = fields[msg.origin.i][msg.origin.j].getPiece();
-        fields[msg.origin.i][msg.origin.j].setPiece(null);
-        fields[msg.destination.i][msg.destination.j].setPiece(color);
+        if (msg.origin.i != msg.destination.i && msg.origin.j != msg.destination.j) {
+            Color color = fields[msg.origin.i][msg.origin.j].getPiece();
+            fields[msg.origin.i][msg.origin.j].setPiece(null);
+            fields[msg.destination.i][msg.destination.j].setPiece(color);
 
-        repaint();
+            repaint();
+        }
+
     }
 
 

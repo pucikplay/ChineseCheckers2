@@ -34,7 +34,7 @@ public class Player {
         return thread.pieceMove();
     }
 
-    public void updateBoard(MessageClickedField messageClickedField, MessageMove messageMove) {
-        thread.updateBoard(messageClickedField, messageMove);
+    public void updateBoard(MessageMove messageMove, boolean b) {
+        thread.updateBoard(messageMove, b);
     }
 }

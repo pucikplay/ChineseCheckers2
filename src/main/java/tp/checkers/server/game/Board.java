@@ -1,5 +1,8 @@
 package tp.checkers.server.game;
 
+import tp.checkers.message.MessageClickedField;
+import tp.checkers.message.MessageMove;
+
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -29,11 +32,23 @@ public class Board {
             for (int j = 1; j < end; j++) {
                 if (fields[i][j] != null) {
                     fields[i][j].setNeighbors(new Field[]{
-                            fields[i + 1][j], fields[i + 1][j - 1], fields[i][j - 1], fields[i - 1][j], fields[i - 1][j + 1], fields[i][j + 1]
+                            fields[i + 1][j],
+                            fields[i + 1][j - 1],
+                            fields[i][j - 1],
+                            fields[i - 1][j],
+                            fields[i - 1][j + 1],
+                            fields[i][j + 1]
                     });
                 }
             }
         }
+    }
+
+
+    public void updateFields(MessageMove messageMove) {
+        Color color = fields[messageMove.chosenFields[0].i][messageMove.chosenFields[0].j].getPiece();
+        fields[messageMove.chosenFields[0].i][messageMove.chosenFields[0].j].setPiece(null);
+        fields[messageMove.chosenFields[1].i][messageMove.chosenFields[1].j].setPiece(color);
     }
 
     private void createBoard() {
@@ -85,6 +100,13 @@ public class Board {
                     fields[i][j] = new Field();
 
                     fields[i][j].setBase(Color.GRAY);
+                }
+            }
+        }
+        for (int i = 1; i < end; i++) {
+            for (int j = 1; j < end; j++) {
+                if (fields[i][j] != null) {
+                    fields[i][j].setCoordinates(new Coordinates(i, j));
                 }
             }
         }

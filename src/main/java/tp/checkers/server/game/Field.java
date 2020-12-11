@@ -7,6 +7,7 @@ public class Field implements Serializable {
     private Color piece = null;
     private Color base = null;
     private Field[] neighbors;
+    private Coordinates coordinates;
 
     public Field() {
         neighbors = new Field[6];
@@ -32,4 +33,15 @@ public class Field implements Serializable {
         this.neighbors = neighbors;
     }
 
+    public Field[] getNeighbors() {
+        return neighbors;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
 }

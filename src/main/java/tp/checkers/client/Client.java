@@ -106,9 +106,9 @@ public class Client {
 
         try {
             msg = (MessageUpdate) objectInputStream.readObject();
-            while (! msg.currPlayer) {
-                msg = (MessageUpdate) objectInputStream.readObject();
-            }
+            //while (! msg.currPlayer) {
+            //    msg = (MessageUpdate) objectInputStream.readObject();
+            //}
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

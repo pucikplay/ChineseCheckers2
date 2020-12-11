@@ -53,10 +53,12 @@ public class Game {
             } while (reset);
             reset = true;
 
-            for (Player player : players) {
-                player.updateBoard(messageClickedField, messageMove);
-            }
             nextPlayer();
+            for (int i = 0; i < players.length; i++) {
+                players[i].updateBoard(messageMove, currPlayer == i);
+            }
+            board.updateFields(messageMove);
+            board.updateBoard();
         }
 
     }
@@ -89,6 +91,7 @@ public class Game {
         for (int i = 0; i < playerNumber; i++) {
             players[i].getThread().sendFields(board.getFields());
             players[i].getThread().sendColor(players[i].getColor());
+            players[i].updateBoard(new MessageMove(new Coordinates[]{new Coordinates(0, 0), new Coordinates(0, 0)}), currPlayer == i);
         }
     }
 

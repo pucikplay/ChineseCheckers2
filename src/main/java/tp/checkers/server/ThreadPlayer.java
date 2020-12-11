@@ -32,7 +32,6 @@ public class ThreadPlayer extends Thread {
         System.out.println("SERVER: player got connected");
 
         try {
-            System.out.println("You are not a host");
             objectOutputStream.flush();
             objectOutputStream.writeObject(new MessageIfHost(false));
             objectOutputStream.flush();
@@ -94,9 +93,13 @@ public class ThreadPlayer extends Thread {
         return null;
     }
 
-    public void updateBoard(MessageClickedField messageClickedField, MessageMove messageMove) {
+    public void updateBoard(MessageMove messageMove, boolean b) {
         try {
-            objectOutputStream.writeObject(new MessageUpdate(messageClickedField.i, messageClickedField.j, messageMove.chosenFields[0].i, messageMove.chosenFields[0].j));
+            objectOutputStream.writeObject(new MessageUpdate(messageMove.chosenFields[0].i,
+                    messageMove.chosenFields[0].j,
+                    messageMove.chosenFields[1].i,
+                    messageMove.chosenFields[1].j,
+                    b));
         } catch (IOException e) {
             e.printStackTrace();
         }
