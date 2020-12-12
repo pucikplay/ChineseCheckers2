@@ -21,6 +21,7 @@ public class Board {
 
         createBoard();
         placePlayers();
+        updateBoard();
     }
 
     public Field[][] getFields(){

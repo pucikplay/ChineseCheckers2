@@ -6,39 +6,30 @@ import java.util.List;
 public class Possibilities {
 
     public static Coordinates[] getMoves(Board board, int i, int j) {
-        List<Coordinates> possibilitiesList = new ArrayList<>();
-        Coordinates[] possibilities = null;
+        ArrayList<Coordinates> possibilitiesList = new ArrayList<>();
+
         possibilitiesList.addAll(simpleMove(board, i, j));
         possibilitiesList.addAll(jumpMove(board, i, j));
-
-        //TO REMOVE; TESTING
-        for (Coordinates coordinates : possibilitiesList) {
-            System.out.println(coordinates.i + " " + coordinates.j);
-        }
-        //
 
         return possibilitiesList.toArray(new Coordinates[0]);
     }
 
-    private static List<Coordinates> simpleMove(Board board, int i, int j) {
-        List<Coordinates> list = new ArrayList<>();
+    private static ArrayList<Coordinates> simpleMove(Board board, int i, int j) {
+        ArrayList<Coordinates> list = new ArrayList<>();
+
         for (Field field : board.getFields()[i][j].getNeighbors()) {
             if(field != null && field.getPiece() == null) {
-                list.add(new Coordinates(i, j));
+                list.add(new Coordinates(field.getCoordinates().i, field.getCoordinates().j));
             }
         }
-
-        // TO REMOVE; TESTING
-        for (Coordinates coordinates : list) {
-            System.out.println("simple move:" + coordinates.i + " " + coordinates.j);
-        }
-        //
 
         return list;
     }
 
-    private static List<Coordinates> jumpMove(Board board, int i, int j) {
-        List<Coordinates> list = new ArrayList<>();
+    private static ArrayList<Coordinates> jumpMove(Board board, int i, int j) {
+        ArrayList<Coordinates> list = new ArrayList<>();
+        list.add(new Coordinates(i,j));
+
         for (int a = 0; a < 6; a++) {
             if (board.getFields()[i][j].getNeighbors()[a] != null
                     && board.getFields()[i][j].getNeighbors()[a].getPiece() != null

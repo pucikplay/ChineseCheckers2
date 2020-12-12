@@ -87,7 +87,6 @@ public class Client {
             objectOutputStream.writeObject(msg);
             MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
             movePossibilities = msgp.possibilities;
-            if (movePossibilities.length > 0) System.out.println(movePossibilities[0].i + " " + movePossibilities[0].j);
         } catch (IOException | ClassNotFoundException ioException) {
             ioException.printStackTrace();
         }

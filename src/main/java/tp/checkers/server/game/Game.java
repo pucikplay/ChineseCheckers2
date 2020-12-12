@@ -41,13 +41,12 @@ public class Game {
         boolean reset;
 
         while (players.length > 1) {
-
-            messageClickedField = players[currPlayer].pieceSelect();
-
-            possibilities = Possibilities.getMoves(board, messageClickedField.i, messageClickedField.j);
-            players[currPlayer].sendPossibilities(possibilities);
-
             do {
+                messageClickedField = players[currPlayer].pieceSelect();
+
+                possibilities = Possibilities.getMoves(board, messageClickedField.i, messageClickedField.j);
+                players[currPlayer].sendPossibilities(possibilities);
+
                 messageMove = players[currPlayer].pieceMove();
                 reset = messageMove.isReset;
             } while (reset);

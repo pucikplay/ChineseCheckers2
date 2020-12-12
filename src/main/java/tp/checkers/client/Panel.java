@@ -111,8 +111,9 @@ public class Panel extends JPanel {
 
         if (msg.origin.i != msg.destination.i && msg.origin.j != msg.destination.j) {
             Color color = fields[msg.origin.i][msg.origin.j].getPiece();
-            fields[msg.origin.i][msg.origin.j].setPiece(null);
+            System.out.println(color);
             fields[msg.destination.i][msg.destination.j].setPiece(color);
+            fields[msg.origin.i][msg.origin.j].setPiece(null);
 
             repaint();
         }
@@ -172,7 +173,6 @@ public class Panel extends JPanel {
             g2d.setColor(new Color(134, 64, 0));
         } else if (possibilities != null) {
             for (Coordinates possibility : possibilities) {
-                System.out.println(possibility.i + " " + possibility.j);
                 if (possibility.i == i && possibility.j == j) {
                     g2d.setColor(new Color(92, 82, 92));
                     break;
