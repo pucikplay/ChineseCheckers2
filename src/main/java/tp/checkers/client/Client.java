@@ -1,5 +1,7 @@
 package tp.checkers.client;
 
+import tp.checkers.client.gui.BoardUpdater;
+import tp.checkers.client.gui.Window;
 import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
@@ -7,11 +9,10 @@ import tp.checkers.server.game.Coordinates;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
 
 public class Client {
 
-    private final Window window;
+    private final tp.checkers.client.gui.Window window;
     private Socket socket = null;
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
@@ -19,6 +20,7 @@ public class Client {
     private ObjectOutputStream objectOutputStream = null;
     private Field[][] fields = null;
     private Color color = null;
+    private GameService gameService;
 
     Client() {
         connect();
@@ -33,7 +35,6 @@ public class Client {
     //Initial methods:
 
     private void connect() {
-        System.out.println("CLIENT: started");
         try {
             socket = new Socket("localhost", 4444);
 
@@ -43,10 +44,10 @@ public class Client {
             inputStream = socket.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
 
-            System.out.println("CLIENT: connected");
+            System.out.println("Client has connected to the server.");
         } catch (IOException e) {
             System.out.println("Error: can't connect to the server.");
-            System.out.println("Make sure the server is working and it's not full");
+            System.out.println("Make sure the server is working and it's not full.");
         }
     }
 
@@ -74,7 +75,7 @@ public class Client {
             e.printStackTrace();
         }
 
-        window.initBoard(fields, color);
+        gameService = new GameService(this, window, fields, color);
     }
 
 
@@ -103,10 +104,10 @@ public class Client {
 
     }
 
-    public void receiveUpdates(Panel panel) {
+    public void receiveUpdates(BoardUpdater updater) {
         try {
-            System.out.println("receiving updates");
-            panel.updateFields((MessageUpdate) objectInputStream.readObject());
+            System.out.println("Receiving board updates from server.");
+            updater.updateFields((MessageUpdate) objectInputStream.readObject());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

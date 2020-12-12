@@ -70,20 +70,20 @@ public class Game {
         else if (playerNumber == 3) {
             players[0].setColor(Color.GREEN);
             players[1].setColor(Color.YELLOW);
-            players[2].setColor(Color.ORANGE);
+            players[2].setColor(Color.MAGENTA);
         }
         else if (playerNumber == 4) {
             players[0].setColor(Color.GREEN);
             players[1].setColor(Color.BLUE);
             players[2].setColor(Color.RED);
-            players[3].setColor(Color.ORANGE);
+            players[3].setColor(Color.MAGENTA);
         }
         else if (playerNumber == 6) {
             players[0].setColor(Color.GREEN);
             players[1].setColor(Color.BLUE);
             players[2].setColor(Color.YELLOW);
             players[3].setColor(Color.RED);
-            players[4].setColor(Color.ORANGE);
+            players[4].setColor(Color.MAGENTA);
             players[5].setColor(Color.GRAY);
         }
 

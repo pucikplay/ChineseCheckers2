@@ -1,4 +1,4 @@
-package tp.checkers.client;
+package tp.checkers.client.gui;
 
 import javax.swing.*;
 import java.awt.*;

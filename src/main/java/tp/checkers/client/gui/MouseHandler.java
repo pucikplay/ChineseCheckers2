@@ -1,7 +1,8 @@
-package tp.checkers.client;
+package tp.checkers.client.gui;
 
+import tp.checkers.client.Client;
+import tp.checkers.client.GameService;
 import tp.checkers.message.MessageClickedField;
-import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
@@ -9,29 +10,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
-    private final int width;
-    private final Field[][] fields;
-    private final int[] count;
-    private final Coordinates[] chosenFields;
-    private final int baseSide = 4; //to be passed from server!
     private final Client client;
+    private final GameService gameService;
     private final Panel panel;
-    private Coordinates[] movePossibilities;
-    private Color color;
+    private final int width;
+    private final int baseSide = 4; //to be passed from server!
+    private final Color color;
 
-    public MouseHandler(Client client, Panel panel, int width, Field[][] fields, int[] count, Coordinates[] chosenFields, Color color) {
+    public MouseHandler(Client client, GameService gameService, Panel panel, int width, Color color) {
         this.client = client;
+        this.gameService = gameService;
         this.panel = panel;
         this.width = width;
-        this.fields = fields;
-        this.count = count;
-        this.chosenFields = chosenFields;
         this.color = color;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (panel.getIsMyTurn()) {
+        if (gameService.getIsMyTurn()) {
             double x = e.getX();
             double y = e.getY();
             int arraySide = baseSide * 4 + 3;
@@ -41,8 +37,8 @@ public class MouseHandler implements MouseListener {
                 int cnt = 0;
 
                 for (int j = 1; j < arraySide; j++) {
-                    if (fields[i][j] != null) {
-                        int locationMinX = rectSide * arraySide / 2 - count[i] * rectSide / 2 + cnt * rectSide;
+                    if (gameService.getField(i, j) != null) {
+                        int locationMinX = rectSide * arraySide / 2 - gameService.getFieldsNumber(i) * rectSide / 2 + cnt * rectSide;
                         int locationMaxX = locationMinX + rectSide;
                         int locationMinY = i * rectSide;
                         int locationMaxY = locationMinY + rectSide;
@@ -59,25 +55,20 @@ public class MouseHandler implements MouseListener {
     }
 
     private void markActive(int i, int j) {
-        if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
-            if (fields[i][j].getPiece().equals(this.color.darker())) {
-
-                chosenFields[0].i = i;
-                chosenFields[0].j = j;
-
-                movePossibilities = client.receiveMovePossibilities(new MessageClickedField(i, j));
+        if (gameService.getChosenField(0).i == 0 && gameService.getChosenField(0).j == 0) {
+            if (gameService.getPieceColor(i, j) != null && gameService.getPieceColor(i, j).getRGB() == this.color.darker().getRGB()) {
+                gameService.setChosenField(0, i, j);
+                gameService.setPossibilities(client.receiveMovePossibilities(new MessageClickedField(i, j)));
             }
         } else {
-            for (Coordinates movePossibility : movePossibilities) {
+            for (Coordinates movePossibility : gameService.getPossibilities()) {
                 if (movePossibility.i == i && movePossibility.j == j) {
-                    chosenFields[1].i = i;
-                    chosenFields[1].j = j;
+                    gameService.setChosenField(1, i, j);
                     break;
                 }
             }
         }
 
-        panel.setMovePossibilities(movePossibilities);
         panel.repaint();
 
         System.out.println("Clicked at element of array: fields[" + i + "][" + j + "]");

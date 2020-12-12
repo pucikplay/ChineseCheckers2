@@ -9,7 +9,7 @@ public class Possibilities {
         ArrayList<Coordinates> possibilitiesList = new ArrayList<>();
 
         possibilitiesList.addAll(simpleMove(board, i, j));
-        possibilitiesList.addAll(jumpMove(board, i, j));
+        //possibilitiesList.addAll(jumpMove(board, i, j));
 
         return possibilitiesList.toArray(new Coordinates[0]);
     }
