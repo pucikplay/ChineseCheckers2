@@ -7,6 +7,7 @@ import tp.checkers.server.game.Coordinates;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Client {
 
@@ -86,6 +87,7 @@ public class Client {
             objectOutputStream.writeObject(msg);
             MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
             movePossibilities = msgp.possibilities;
+            if (movePossibilities.length > 0) System.out.println(movePossibilities[0].i + " " + movePossibilities[0].j);
         } catch (IOException | ClassNotFoundException ioException) {
             ioException.printStackTrace();
         }
@@ -99,21 +101,16 @@ public class Client {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+
     }
 
     public void receiveUpdates(Panel panel) {
-        MessageUpdate msg = null;
-
         try {
-            msg = (MessageUpdate) objectInputStream.readObject();
-            //while (! msg.currPlayer) {
-            //    msg = (MessageUpdate) objectInputStream.readObject();
-            //}
+            System.out.println("receiving updates");
+            panel.updateFields((MessageUpdate) objectInputStream.readObject());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        panel.updateFields(msg);
     }
 
 

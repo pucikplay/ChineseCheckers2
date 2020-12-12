@@ -7,6 +7,7 @@ import tp.checkers.server.game.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class Panel extends JPanel {
     private final Field[][] fields;
@@ -18,11 +19,14 @@ public class Panel extends JPanel {
     private Coordinates[] possibilities;
     private final Client client;
     private boolean isMyTurn = false;
+    private final JLabel labelMove;
+    private SwingWorker<Void, Void> swingWorker;
 
-    public Panel(Client client, int width, int height, Field[][] fields, Color color) {
+    public Panel(Client client, int width, int height, Field[][] fields, Color color, JLabel labelMove) {
         this.client = client;
         this.width = width;
         this.fields = fields;
+        this.labelMove = labelMove;
 
         setBackground(new Color(194, 187, 169));
         setLayout(null);
@@ -32,7 +36,27 @@ public class Panel extends JPanel {
         MouseHandler handler = new MouseHandler(client, this, width, fields, count, chosenFields, color);
         addMouseListener(handler);
 
-        client.receiveUpdates(this);
+        initSwingWorker();
+
+        //swingWorker.execute();
+    }
+
+    private void initSwingWorker() {
+        this.swingWorker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                System.out.println("I'm in swing workah!");
+                client.receiveUpdates(Panel.this);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                System.out.println("Leaving swing workah");
+            }
+        };
+
+        swingWorker.execute();
     }
 
     private void countBoard() {
@@ -49,11 +73,18 @@ public class Panel extends JPanel {
 
     public void commit() {
         if (isMyTurn) {
+            if (chosenFields[1].i == 0) {
+                chosenFields[1].i = chosenFields[0].i;
+                chosenFields[1].j = chosenFields[0].j;
+            }
+
             System.out.println("Sending commit message");
             client.sendMove(new MessageMove(chosenFields));
             clearActiveFields();
             isMyTurn = false;
-            client.receiveUpdates(this);
+            System.out.println("Sent commit message");
+            //swingWorker.execute();
+            initSwingWorker();
         }
     }
 
@@ -76,7 +107,7 @@ public class Panel extends JPanel {
     }
 
     public void updateFields(MessageUpdate msg) {
-        isMyTurn = msg.currPlayer;
+        System.out.println("Updating fields");
 
         if (msg.origin.i != msg.destination.i && msg.origin.j != msg.destination.j) {
             Color color = fields[msg.origin.i][msg.origin.j].getPiece();
@@ -86,6 +117,16 @@ public class Panel extends JPanel {
             repaint();
         }
 
+        isMyTurn = msg.currPlayer;
+        System.out.println(isMyTurn);
+        if (! isMyTurn) {
+            labelMove.setText("Not your move");
+            System.out.println("Calling receive updates");
+            //swingWorker.execute();
+            initSwingWorker();
+        } else {
+            labelMove.setText("Your move.");
+        }
     }
 
 
@@ -130,8 +171,9 @@ public class Panel extends JPanel {
         if ((chosenFields[0].i == i && chosenFields[0].j == j) || (chosenFields[1].i == i && chosenFields[1].j == j)) {
             g2d.setColor(new Color(134, 64, 0));
         } else if (possibilities != null) {
-            for (Coordinates c : possibilities) {
-                if (c.i == i && c.j == j) {
+            for (Coordinates possibility : possibilities) {
+                System.out.println(possibility.i + " " + possibility.j);
+                if (possibility.i == i && possibility.j == j) {
                     g2d.setColor(new Color(92, 82, 92));
                     break;
                 }

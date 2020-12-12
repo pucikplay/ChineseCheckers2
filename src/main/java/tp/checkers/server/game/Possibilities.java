@@ -11,6 +11,12 @@ public class Possibilities {
         possibilitiesList.addAll(simpleMove(board, i, j));
         possibilitiesList.addAll(jumpMove(board, i, j));
 
+        //TO REMOVE; TESTING
+        for (Coordinates coordinates : possibilitiesList) {
+            System.out.println(coordinates.i + " " + coordinates.j);
+        }
+        //
+
         return possibilitiesList.toArray(new Coordinates[0]);
     }
 
@@ -21,6 +27,13 @@ public class Possibilities {
                 list.add(new Coordinates(i, j));
             }
         }
+
+        // TO REMOVE; TESTING
+        for (Coordinates coordinates : list) {
+            System.out.println("simple move:" + coordinates.i + " " + coordinates.j);
+        }
+        //
+
         return list;
     }
 
