@@ -32,9 +32,7 @@ public class ThreadPlayer extends Thread {
         System.out.println("SERVER: player got connected");
 
         try {
-            objectOutputStream.flush();
             objectOutputStream.writeObject(new MessageIfHost(false));
-            objectOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

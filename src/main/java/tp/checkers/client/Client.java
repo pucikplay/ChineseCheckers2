@@ -97,11 +97,11 @@ public class Client {
 
     public void sendMove(MessageMove msg) {
         try {
+            objectOutputStream.reset();
             objectOutputStream.writeObject(msg);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-
     }
 
     public void receiveUpdates(BoardUpdater updater) {

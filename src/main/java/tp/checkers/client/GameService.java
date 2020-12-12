@@ -14,7 +14,7 @@ public class GameService {
     private final Client client;
     private final Window window;
     private Panel panel;
-    private final Field[][] fields;
+    private Field[][] fields;
     private final int baseSide = 4; //to be passed from server!
     private final int arraySide = baseSide * 4 + 3;
     private int[] count;
