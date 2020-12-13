@@ -1,6 +1,6 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.Client;
+import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.message.MessageClickedField;
 import tp.checkers.server.game.Coordinates;
@@ -10,19 +10,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
-    private final Client client;
+    private final ClientConnector client;
     private final GameService gameService;
     private final Panel panel;
-    private final int width;
-    private final int baseSide = 4; //to be passed from server!
+    private final int windowSide;
+    private final int arraySide;
     private final Color color;
 
-    public MouseHandler(Client client, GameService gameService, Panel panel, int width, Color color) {
+    public MouseHandler(ClientConnector client, GameService gameService, Panel panel, int windowSide, int arraySide, Color color) {
         this.client = client;
         this.gameService = gameService;
         this.panel = panel;
-        this.width = width;
+        this.windowSide = windowSide;
         this.color = color;
+        this.arraySide = arraySide;
     }
 
     @Override
@@ -30,8 +31,7 @@ public class MouseHandler implements MouseListener {
         if (gameService.getIsMyTurn()) {
             double x = e.getX();
             double y = e.getY();
-            int arraySide = baseSide * 4 + 3;
-            int rectSide = width / arraySide;
+            int rectSide = windowSide / arraySide;
 
             for (int i = 1; i < arraySide; i++) {
                 int cnt = 0;
@@ -70,7 +70,6 @@ public class MouseHandler implements MouseListener {
         }
 
         panel.repaint();
-
         System.out.println("Clicked at element of array: fields[" + i + "][" + j + "]");
     }
 

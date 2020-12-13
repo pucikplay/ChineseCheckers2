@@ -1,15 +1,17 @@
-package tp.checkers.client.gui;
+package tp.checkers.client.gui.dialog;
+
+import tp.checkers.client.gui.Window;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DialogInitGame extends JDialog {
+public class DialogFinish extends JDialog {
     private JComboBox<Integer> comboBox = null;
     public int playersNumber;
 
-    DialogInitGame(Window window) {
+    DialogFinish(Window window) {
         super(window, "Choose the parameters of the game");
 
         initDialogBox();
@@ -29,7 +31,7 @@ public class DialogInitGame extends JDialog {
     }
 
     private void initLabel() {
-        JLabel label = new JLabel("You are the host. Choose the number of players:");
+        JLabel label = new JLabel("U won");
         label.setBounds(70, 20, 300, 50);
         label.setFont(new Font(label.getName(), Font.BOLD, 12));
         this.add(label);
@@ -50,7 +52,6 @@ public class DialogInitGame extends JDialog {
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                playersNumber = (int) comboBox.getSelectedItem();
                 dispose();
             }
         });

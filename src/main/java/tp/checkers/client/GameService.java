@@ -11,24 +11,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameService {
-    private final Client client;
+    private final ClientConnector client;
     private final Window window;
     private Panel panel;
-    private Field[][] fields;
-    private final int baseSide = 4; //to be passed from server!
-    private final int arraySide = baseSide * 4 + 3;
+    private final Field[][] fields;
+    private final int arraySide;
     private int[] count;
     private final Coordinates[] chosenFields = {new Coordinates(0,0), new Coordinates(0,0)};
     private Coordinates[] possibilities;
     private boolean isMyTurn = false;
 
-    public GameService(Client client, Window window, Field[][] fields, Color color) {
+    public GameService(ClientConnector client, Window window, Field[][] fields, Color color, int baseSide) {
         this.client = client;
         this.window = window;
         this.fields = fields;
+        this.arraySide = baseSide * 4 + 3;
 
         countBoard();
-        window.initBoard(this, fields, color);
+        window.initBoard(this, color, arraySide);
     }
 
     public void startGame(Panel panel) {
@@ -51,7 +51,11 @@ public class GameService {
 
     public void commit() {
         if (isMyTurn) {
-            if (chosenFields[1].i == 0) {
+            if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
+                //send a message with nothing to change
+            }
+
+            if (chosenFields[1].i == 0 && chosenFields[1].j == 0) {
                 chosenFields[1].i = chosenFields[0].i;
                 chosenFields[1].j = chosenFields[0].j;
             }

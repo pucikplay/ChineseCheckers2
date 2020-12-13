@@ -1,26 +1,25 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.Client;
+import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.client.gui.button.ButtonCommit;
 import tp.checkers.client.gui.button.ButtonReset;
+import tp.checkers.client.gui.dialog.DialogInit;
 import tp.checkers.message.MessageInit;
-import tp.checkers.server.game.Field;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Window extends JFrame {
-    private final Client client;
+    private final ClientConnector client;
     private GameService gameService;
     private Panel panel;
-    private final int width = 1000;
-    private final int height = 1000;
+    private final int windowSide = 1000;
     private Color color;
     private JLabel labelMove;
     private JLabel labelColor;
 
-    public Window(Client client) {
+    public Window(ClientConnector client) {
         this.client = client;
 
         initUI();
@@ -28,10 +27,28 @@ public class Window extends JFrame {
 
     private void initUI() {
         setTitle("Chinese checkers client");
-        setSize(new Dimension(width, height));
+        setSize(new Dimension(windowSide, windowSide));
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+
+    public void initBoard(GameService gameService, Color color, int arraySide) {
+        this.gameService = gameService;
+        this.color = color;
+
+        initLabels();
+
+        this.panel = new Panel(client, gameService, windowSide, arraySide, color);
+        panel.add(labelColor);
+        panel.add(labelMove);
+        this.add(panel);
+
+        initButtons();
+
+        this.setVisible(true);
+
+        gameService.startGame(panel);
     }
 
     private void initButtons() {
@@ -55,25 +72,9 @@ public class Window extends JFrame {
     }
 
     public MessageInit initGameData() {
-        DialogInitGame dialog = new DialogInitGame(this);
+        DialogInit dialog = new DialogInit(this);
         while (dialog.playersNumber == 0);
         return new MessageInit(dialog.playersNumber);
-    }
-
-    public void initBoard(GameService gameService, Field[][] fields, Color color) {
-        this.gameService = gameService;
-        this.color = color;
-        initLabels();
-        this.panel = new Panel(client, gameService, width, color);
-        panel.add(labelColor);
-        panel.add(labelMove);
-        this.add(panel);
-
-        initButtons();
-
-        this.setVisible(true);
-
-        gameService.startGame(panel);
     }
 
     public void setLabelMoveText(String text) {

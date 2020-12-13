@@ -1,6 +1,6 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.Client;
+import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.message.MessageUpdate;
 
@@ -8,12 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoardUpdater extends SwingWorker<Void, Void>  {
-    private final Client client;
+    private final ClientConnector client;
     private final GameService gameService;
     private final Window window;
     private final Panel panel;
 
-    public BoardUpdater(Client client, GameService gameService, Window window, Panel panel) {
+    public BoardUpdater(ClientConnector client, GameService gameService, Window window, Panel panel) {
         this.client = client;
         this.gameService = gameService;
         this.window = window;

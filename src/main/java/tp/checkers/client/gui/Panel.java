@@ -1,6 +1,6 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.Client;
+import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.server.game.Coordinates;
 
@@ -9,18 +9,18 @@ import java.awt.*;
 
 public class Panel extends JPanel {
     private final GameService gameService;
-    private final int width;
-    private final int baseSide = 4; //to be passed from server!
-    private final int arraySide = baseSide * 4 + 3;
+    private final int windowSide;
+    private final int arraySide;
 
-    public Panel(Client client, GameService gameService, int width, Color color) {
+    public Panel(ClientConnector client, GameService gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;
-        this.width = width;
+        this.windowSide = windowSide;
+        this.arraySide = arraySide;
 
         this.setBackground(new Color(194, 187, 169));
         this.setLayout(null);
 
-        MouseHandler handler = new MouseHandler(client, gameService, this, width, color);
+        MouseHandler handler = new MouseHandler(client, gameService, this, windowSide, arraySide, color);
         this.addMouseListener(handler);
     }
 
@@ -49,8 +49,8 @@ public class Panel extends JPanel {
     }
 
     private void paintField(Graphics2D g2d, int i, int j, int cnt) {
-        int rectSide = width / arraySide;
-        int x = width / 2 - gameService.getFieldsNumber(i) * rectSide / 2 + cnt * rectSide;
+        int rectSide = windowSide / arraySide;
+        int x = windowSide / 2 - gameService.getFieldsNumber(i) * rectSide / 2 + cnt * rectSide;
 
         g2d.setColor(Color.WHITE);
 
