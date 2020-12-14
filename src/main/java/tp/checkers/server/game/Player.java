@@ -9,6 +9,9 @@ import java.awt.*;
 public class Player {
     private ThreadPlayer thread;
     private Color color;
+    private Color enemyColor;
+    private boolean active;
+    private int leftToWin;
 
     public void setThread(ThreadPlayer thread) {
         this.thread = thread;
@@ -21,6 +24,21 @@ public class Player {
     }
     public Color getColor() {
         return color;
+    }
+    public void setEnemyColor(Color enemyColor) {
+        this.enemyColor = enemyColor;
+    }
+    public Color getEnemyColor() {
+        return enemyColor;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean state){
+        this.active = state;
+    }
+    public void setLeftToWin(int number) {
+        this.leftToWin = number;
     }
     public MessageClickedField pieceSelect() {
         return thread.pieceSelect();
@@ -36,5 +54,13 @@ public class Player {
 
     public void updateBoard(MessageMove messageMove, boolean b) {
         thread.updateBoard(messageMove, b);
+    }
+
+    public boolean checkIfWon() {
+        leftToWin--;
+        if(leftToWin == 0) {
+            return true;
+        }
+        else return false;
     }
 }

@@ -18,7 +18,7 @@ public class BoardTest {
                 else if(fields[i][j].getBase() == Color.BLUE) out += "B";
                 else if(fields[i][j].getBase() == Color.YELLOW) out += "Y";
                 else if(fields[i][j].getBase() == Color.RED) out += "R";
-                else if(fields[i][j].getBase() == Color.ORANGE) out += "O";
+                else if(fields[i][j].getBase() == Color.MAGENTA) out += "M";
                 else if(fields[i][j].getBase() == Color.GRAY) out += "W";
                 else out += "E";
             }
