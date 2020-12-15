@@ -22,17 +22,16 @@ public class ThreadHost extends ThreadPlayer {
         }
     }
 
-    public int getClientsNumber() {
-        int clientsNumber = 1;
+    public MessageInit getInitialData() {
+        MessageInit msg = null;
 
         //to improve Messages; to improve reading the Message in Client (it should read a message from both Host and Player)
         try {
-            MessageInit init = (MessageInit) objectInputStream.readObject();
-            clientsNumber = init.num;
+            msg = (MessageInit) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        return clientsNumber;
+        return msg;
     }
 }

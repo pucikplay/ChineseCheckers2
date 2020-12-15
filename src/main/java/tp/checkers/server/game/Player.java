@@ -1,6 +1,5 @@
 package tp.checkers.server.game;
 
-import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
 
@@ -40,7 +39,7 @@ public class Player {
     public void setLeftToWin(int number) {
         this.leftToWin = number;
     }
-    public MessageClickedField pieceSelect() {
+    public Coordinates pieceSelect() {
         return thread.pieceSelect();
     }
 

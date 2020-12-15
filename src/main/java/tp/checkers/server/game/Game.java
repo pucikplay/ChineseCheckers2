@@ -1,11 +1,9 @@
 package tp.checkers.server.game;
 
-import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Game {
 
@@ -13,7 +11,7 @@ public class Game {
     private Player[] players;
     private int playerNumber;
     private int currPlayer;
-    private MessageClickedField messageClickedField;
+    private Coordinates clickedField;
     private MessageMove messageMove = null;
     private Coordinates[] possibilities = null;
     private boolean reset;
@@ -37,9 +35,9 @@ public class Game {
 
         while (players.length > 1) {
             do {
-                messageClickedField = players[currPlayer].pieceSelect();
+                clickedField = players[currPlayer].pieceSelect();
 
-                possibilities = Possibilities.getMoves(board, messageClickedField.i, messageClickedField.j);
+                possibilities = Possibilities.getMoves(board, clickedField.i, clickedField.j);
                 players[currPlayer].sendPossibilities(possibilities);
 
                 messageMove = players[currPlayer].pieceMove();
@@ -110,8 +108,7 @@ public class Game {
         }
 
         for (int i = 0; i < playerNumber; i++) {
-            players[i].getThread().sendFields(board.getFields());
-            players[i].getThread().sendColor(players[i].getColor());
+            players[i].getThread().sendBoard(board.getBaseSide(), board.getFields(), players[i].getColor());
             players[i].updateBoard(new MessageMove(new Coordinates[]{new Coordinates(0, 0), new Coordinates(0, 0)}), currPlayer == i);
         }
     }

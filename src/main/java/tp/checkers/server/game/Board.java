@@ -1,10 +1,8 @@
 package tp.checkers.server.game;
 
-import tp.checkers.message.MessageClickedField;
 import tp.checkers.message.MessageMove;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Board {
@@ -17,7 +15,7 @@ public class Board {
     public Board(int baseSide, int playerNumber) {
         this.baseSide = baseSide;
         this.playerNumber = playerNumber;
-        this.end = 4*baseSide + 2;
+        this.end = 4 * baseSide + 2;
 
         createBoard();
         placePlayers();
@@ -26,6 +24,10 @@ public class Board {
 
     public Field[][] getFields(){
         return this.fields;
+    }
+
+    public int getBaseSide() {
+        return baseSide;
     }
 
     public void updateBoard() {

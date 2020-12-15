@@ -48,26 +48,18 @@ public class ThreadPlayer extends Thread {
 
     }
 
-    public void sendFields(Field[][] fields) {
+    public void sendBoard(int baseSide, Field[][] fields, Color color) {
         try {
-            objectOutputStream.writeObject(new MessageFields(fields));
+            objectOutputStream.writeObject(new MessageBoard(baseSide, fields, color));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void sendColor(Color color) {
+    public Coordinates pieceSelect() {
         try {
-            objectOutputStream.writeObject(new MessageColor(color));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public MessageClickedField pieceSelect() {
-        try {
-            return (MessageClickedField) objectInputStream.readObject();
+            return (Coordinates) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -76,7 +68,7 @@ public class ThreadPlayer extends Thread {
 
     public void sendPossibilities(Coordinates[] possibilities) {
         try {
-            objectOutputStream.writeObject(new MessagePossibilities(possibilities));
+            objectOutputStream.writeObject(possibilities);
         } catch (IOException e) {
             e.printStackTrace();
         }

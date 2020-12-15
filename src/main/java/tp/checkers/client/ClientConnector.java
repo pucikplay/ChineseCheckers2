@@ -7,22 +7,23 @@ import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 
 public class ClientConnector {
 
-    private final tp.checkers.client.gui.Window window;
+    private final Window window;
     private Socket socket = null;
     private ObjectInputStream objectInputStream = null;
     private ObjectOutputStream objectOutputStream = null;
-    private Field[][] fields = null;
-    private Color color = null;
 
     public ClientConnector() {
         connect();
 
         this.window = new Window(this);
+        addWindowListener();
         window.setVisible(true);
 
         initGame();
@@ -48,12 +49,23 @@ public class ClientConnector {
         }
     }
 
+    private void addWindowListener() {
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                //objectOutputStream.writeObject(new MessageUpdate());
+                System.out.println("I'm closing. I should inform the server about it.");
+                close();
+            }
+        });
+    }
+
     private void initGame() {
         try {
-            MessageIfHost msg = (MessageIfHost) objectInputStream.readObject();
-            boolean host = msg.host;
-            if(host) {
-                objectOutputStream.writeObject(window.initGameData());
+            MessageIfHost msgHost = (MessageIfHost) objectInputStream.readObject();
+            if (msgHost.host) {
+                MessageInit msgInit = window.initGameData();
+                objectOutputStream.writeObject(msgInit);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -63,16 +75,18 @@ public class ClientConnector {
     }
 
     private void initBoard() {
+        int baseSide = 4;
+        Color color = null;
+        Field[][] fields = null;
+
         try {
-            MessageFields msgFields = (MessageFields) objectInputStream.readObject();
-            fields = msgFields.fields;
-            MessageColor msgColor = (MessageColor) objectInputStream.readObject();
-            color = msgColor.color;
+            MessageBoard msg = (MessageBoard) objectInputStream.readObject();
+            baseSide = msg.getBaseSide();
+            fields = msg.getFields();
+            color = msg.getColor();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        int baseSide = 4;
 
         GameService gameService = new GameService(this, window, fields, color, baseSide);
     }
@@ -80,13 +94,12 @@ public class ClientConnector {
 
     //Methods of client-server communication:
 
-    public Coordinates[] receiveMovePossibilities(MessageClickedField msg) {
+    public Coordinates[] receiveMovePossibilities(Coordinates clickedField) {
         Coordinates[] movePossibilities = null;
 
         try {
-            objectOutputStream.writeObject(msg);
-            MessagePossibilities msgp = (MessagePossibilities) objectInputStream.readObject();
-            movePossibilities = msgp.possibilities;
+            objectOutputStream.writeObject(clickedField);
+            movePossibilities = (Coordinates[]) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException ioException) {
             ioException.printStackTrace();
         }

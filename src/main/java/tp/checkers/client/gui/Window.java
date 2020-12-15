@@ -74,7 +74,7 @@ public class Window extends JFrame {
     public MessageInit initGameData() {
         DialogInit dialog = new DialogInit(this);
         while (dialog.playersNumber == 0);
-        return new MessageInit(dialog.playersNumber);
+        return new MessageInit(dialog.playersNumber, dialog.baseSide);
     }
 
     public void setLabelMoveText(String text) {

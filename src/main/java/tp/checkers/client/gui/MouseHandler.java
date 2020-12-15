@@ -2,7 +2,6 @@ package tp.checkers.client.gui;
 
 import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
-import tp.checkers.message.MessageClickedField;
 import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
@@ -58,7 +57,7 @@ public class MouseHandler implements MouseListener {
         if (gameService.getChosenField(0).i == 0 && gameService.getChosenField(0).j == 0) {
             if (gameService.getPieceColor(i, j) != null && gameService.getPieceColor(i, j).getRGB() == this.color.darker().getRGB()) {
                 gameService.setChosenField(0, i, j);
-                gameService.setPossibilities(client.receiveMovePossibilities(new MessageClickedField(i, j)));
+                gameService.setPossibilities(client.receiveMovePossibilities(new Coordinates(i, j)));
             }
         } else {
             for (Coordinates movePossibility : gameService.getPossibilities()) {

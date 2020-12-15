@@ -1,5 +1,6 @@
 package tp.checkers.server;
 
+import tp.checkers.message.MessageInit;
 import tp.checkers.server.game.Game;
 
 import java.io.*;
@@ -23,12 +24,15 @@ public class Server {
 
     public void createConnection() {
         int clientsNumber = 1;
+        int baseSide = 4;
 
         try {
             Socket client = serverSocket.accept();
             ThreadHost host = new ThreadHost(client);
             host.start();
-            clientsNumber = host.getClientsNumber();
+            MessageInit msg = host.getInitialData();
+            clientsNumber = msg.getPlayersNumber();
+            baseSide = msg.getBaseSide();
             players = new ThreadPlayer[clientsNumber];
             players[0] = host;
         } catch (IOException e) {
@@ -50,13 +54,13 @@ public class Server {
 
         //pass the server socket and the array of clients to the Server class
 
-        startGame(clientsNumber, players);
+        startGame(baseSide, clientsNumber, players);
 
     }
 
-    private void startGame(int playerNumber, ThreadPlayer[] threads) {
+    private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads) {
 
-        Game game = new Game(4, playerNumber, threads);
+        Game game = new Game(baseSide, playerNumber, threads);
 
         game.play();
 

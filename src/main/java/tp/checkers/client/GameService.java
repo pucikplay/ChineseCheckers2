@@ -52,7 +52,7 @@ public class GameService {
     public void commit() {
         if (isMyTurn) {
             if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
-                //send a message with nothing to change
+                client.receiveMovePossibilities(new Coordinates(0, 0));
             }
 
             if (chosenFields[1].i == 0 && chosenFields[1].j == 0) {
@@ -71,6 +71,10 @@ public class GameService {
 
     public void reset() {
         if (isMyTurn) {
+            if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
+                client.receiveMovePossibilities(new Coordinates(0, 0));
+            }
+
             System.out.println("Sending reset message to server.");
             client.sendMove(new MessageMove(true));
             clearActiveFields();
