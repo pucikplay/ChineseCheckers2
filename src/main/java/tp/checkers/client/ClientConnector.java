@@ -13,13 +13,34 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Client's class responsible for connecting to server
+ * and communication between other client's classes and server.
+ */
 public class ClientConnector {
-
+    /**
+     * Reference to client's window.
+     */
     private final Window window;
+
+    /**
+     * Client's socket.
+     */
     private Socket socket = null;
+
+    /**
+     * Input stream through which we send messages/objects to server.
+     */
     private ObjectInputStream objectInputStream = null;
+
+    /**
+     * Output stream through which we get messages/objects from server.
+     */
     private ObjectOutputStream objectOutputStream = null;
 
+    /**
+     * Default constructor of the class.
+     */
     public ClientConnector() {
         connect();
 
@@ -30,9 +51,9 @@ public class ClientConnector {
         initGame();
     }
 
-
-    //Initial methods:
-
+    /**
+     * Method responsble for establishing connection with the server.
+     */
     private void connect() {
         try {
             socket = new Socket("localhost", 4444);
@@ -50,6 +71,10 @@ public class ClientConnector {
         }
     }
 
+    /**
+     * Method responsible for adding a window listener
+     * to handle clicking the window's "X" button.
+     */
     private void addWindowListener() {
         window.addWindowListener(new WindowAdapter() {
             @Override
@@ -61,6 +86,11 @@ public class ClientConnector {
         });
     }
 
+    /**
+     * Method responsible for receiving information whether the player is host.
+     * If so, it calls a Window's method for receiving game data
+     * and sends that data to server.
+     */
     private void initGame() {
         try {
             boolean host = objectInputStream.readBoolean();
@@ -75,6 +105,10 @@ public class ClientConnector {
         initBoard();
     }
 
+    /**
+     * Method responsible for receiving game data from server
+     * and creating a game service.
+     */
     private void initBoard() {
         int baseSide = 4;
         Color color = null;
@@ -92,9 +126,13 @@ public class ClientConnector {
         GameService gameService = new GameService(this, window, fields, color, baseSide);
     }
 
-
-    //Methods of client-server communication:
-
+    /**
+     * Method responsible for receiving move possibilities
+     * for clicked field from server.
+     *
+     * @param clickedField coordinates of a clicked field
+     * @return move possibilities
+     */
     public Coordinates[] receiveMovePossibilities(Coordinates clickedField) {
         Coordinates[] movePossibilities = null;
 
@@ -108,6 +146,11 @@ public class ClientConnector {
         return movePossibilities;
     }
 
+    /**
+     * Method responsible for sending move data to server.
+     *
+     * @param msg message with move data
+     */
     public void sendMove(MessageMove msg) {
         try {
             objectOutputStream.reset();
@@ -117,6 +160,13 @@ public class ClientConnector {
         }
     }
 
+    /**
+     * Method responsible for receiving update data from server
+     * and calling the board updater to change the fields.
+     * If the message contains data about end of the game, it calls closing method.
+     *
+     * @param updater board updater of the client
+     */
     public void receiveUpdates(BoardUpdater updater) {
         try {
             System.out.println("Receiving board updates from server.");
@@ -134,9 +184,9 @@ public class ClientConnector {
         }
     }
 
-
-    //Closing method:
-
+    /**
+     * Method responsible for closing connection.
+     */
     private void close() {
         try {
             objectInputStream.close();

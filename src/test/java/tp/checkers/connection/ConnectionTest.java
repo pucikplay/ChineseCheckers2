@@ -6,7 +6,7 @@ import tp.checkers.client.ClientConnector;
 public class ConnectionTest {
 
     @Test(expected=NullPointerException.class)
-    public void NoServerTest() {
+    public void noServerTest() {
         ClientConnector client = new ClientConnector();
     }
 }

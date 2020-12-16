@@ -7,11 +7,34 @@ import tp.checkers.server.game.Coordinates;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class of tne client's panel.
+ */
 public class Panel extends JPanel {
+    /**
+     * Reference to game service of the client.
+     */
     private final GameService gameService;
+
+    /**
+     * Size of the window's side.
+     */
     private final int windowSide;
+
+    /**
+     * Length of the Fields array's side.
+     */
     private final int arraySide;
 
+    /**
+     * Default constructor of the class.
+     *
+     * @param client reference to the client connector
+     * @param gameService reference to game service of the client
+     * @param windowSide size of the window's side
+     * @param arraySide length of the Fields array's side
+     * @param color color of the player
+     */
     public Panel(ClientConnector client, GameService gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;
         this.windowSide = windowSide;
@@ -24,6 +47,12 @@ public class Panel extends JPanel {
         this.addMouseListener(handler);
     }
 
+    /**
+     * The main method responsible for painting,
+     * calls the specific one for painting the board.
+     *
+     * @param g graphics
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -34,6 +63,12 @@ public class Panel extends JPanel {
         paintBoard(g2d);
     }
 
+    /**
+     * Method responsible for iterating through the Fields array
+     * and calling the paintField method for every field.
+     *
+     * @param g2d graphics
+     */
     private void paintBoard(Graphics2D g2d) {
         for (int i = 1; i < arraySide; i++) {
             int cnt = 0;
@@ -48,6 +83,18 @@ public class Panel extends JPanel {
         }
     }
 
+    /**
+     * A method responsible for painting fields on the screen.
+     * It counts the position of the field on the screen
+     * and checks what filling color it should have.
+     * Then it paints the field.
+     *
+     * @param g2d graphics
+     * @param i i-coordinate in Fields array
+     * @param j j-coordinate in Fields array
+     * @param cnt counter of how many fields at this level
+     *            have already been painted.
+     */
     private void paintField(Graphics2D g2d, int i, int j, int cnt) {
         int rectSide = windowSide / arraySide;
         int x = windowSide / 2 - gameService.getFieldsNumber(i) * rectSide / 2 + cnt * rectSide;

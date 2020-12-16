@@ -7,23 +7,50 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class of dialog box displayed by the host of the game,
+ * responsible for setting the game's parameters.
+ */
 public class DialogInit extends JDialog {
+    /**
+     * Combo box with the possible numbers of players.
+     */
     private JComboBox<Integer> comboBoxPlayers = null;
+
+    /**
+     * Combo box with the possible lengths of base sides.
+     */
     private JComboBox<Integer> comboBoxSide = null;
+
+    /**
+     * Number of players that is chosen by the host.
+     */
     public int playersNumber;
+
+    /**
+     * Number of pieces in one side of the base.
+     */
     public int baseSide = 4;
 
+    /**
+     * Default constructor of the class.
+     *
+     * @param window reference to the client's window
+     */
     public DialogInit(Window window) {
         super(window, "Choose the parameters of the game");
 
         initDialogBox();
-        initLabel();
+        initLabels();
         initOptions();
         initButton();
 
         this.setVisible(true);
     }
 
+    /**
+     * Method responsible for initialisation of the dialog box.
+     */
     private void initDialogBox() {
         this.setSize(400, 350);
         this.setLocationRelativeTo(null);
@@ -32,7 +59,11 @@ public class DialogInit extends JDialog {
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-    private void initLabel() {
+    /**
+     * Method responsible for initialisation of the labels
+     * showing the needed information about things to choose.
+     */
+    private void initLabels() {
         JLabel labelHost = new JLabel("You are the host");
         labelHost.setBounds(130, 30, 200, 20);
         labelHost.setFont(new Font(labelHost.getName(), Font.BOLD, 14));
@@ -55,6 +86,9 @@ public class DialogInit extends JDialog {
 
     }
 
+    /**
+     * Method responsible for initialisation of combo boxes.
+     */
     private void initOptions() {
         Integer[] playersNumbers = {2, 3, 4, 6};
         Integer[] baseSides = {4, 2, 3, 5};
@@ -68,6 +102,11 @@ public class DialogInit extends JDialog {
         this.add(comboBoxSide);
     }
 
+    /**
+     * Method responsible for initialisation of the "OK" button
+     * and setting the players number and base side as the ones
+     * chosen by the user.
+     */
     private void initButton() {
         JButton button = new JButton("OK");
         button.setBounds(150, 250, 100, 40);
