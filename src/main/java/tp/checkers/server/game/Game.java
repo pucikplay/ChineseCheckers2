@@ -16,7 +16,7 @@ public class Game {
         this.board = new Board(baseSide, playerNumber);
         this.players = new Player[playerNumber];
         this.playerNumber = playerNumber;
-        this.currPlayer = 0;
+        this.currPlayer = (int) (Math.random() * playerNumber);
 
         for (int i = 0; i < playerNumber; i++) {
             players[i] = new Player(threads[i], baseSide * (baseSide + 1)/2);
@@ -34,15 +34,16 @@ public class Game {
             boolean pass = false;
             boolean reset;
             MessageMove messageMove;
+
             do {
                 Coordinates clickedField = players[currPlayer].pieceSelect();
 
                 //player passed
                 if(clickedField.i == 0) {
                     pass = true;
-                    players[currPlayer].sendPossibilities(new Coordinates[]{new Coordinates(0,0), new Coordinates(0,0)});
+                    players[currPlayer].sendPossibilities(Coordinates.newSimpleCoords(0));
                     players[currPlayer].pieceMove();
-                    chosenFields = Coordinates.newSimpleCoords(board.getBaseSide()/2);
+                    chosenFields = Coordinates.newSimpleCoords((4 * board.getBaseSide() + 3 )/2);
                     messageMove = new MessageMove(chosenFields);
                     break;
                 }
@@ -53,6 +54,7 @@ public class Game {
                 messageMove = players[currPlayer].pieceMove();
                 reset = messageMove.isReset();
                 chosenFields = messageMove.getChosenFields();
+
             } while (reset);
 
             //check if piece moved into enemy base

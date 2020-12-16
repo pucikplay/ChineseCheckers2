@@ -18,8 +18,8 @@ public class Possibilities {
         ArrayList<Coordinates> list = new ArrayList<>();
 
         for (Field neighbor : field.getNeighbors()) {
-            if(neighbor != null && neighbor.getPiece() == null) {
-                if(!(field.getBase() == enemyColor && neighbor.getBase() != enemyColor)){
+            if (neighbor != null && neighbor.getPiece() == null) {
+                if (!(field.getBase() == enemyColor && neighbor.getBase() != enemyColor)){
                     list.add(neighbor.getCoordinates());
                 }
             }
@@ -31,13 +31,13 @@ public class Possibilities {
     private static ArrayList<Coordinates> jumpMove(Field field, ArrayList<Coordinates> checked, Color enemyColor) {
         ArrayList<Coordinates> list = new ArrayList<>();
         boolean beenThere = false;
-        for(Coordinates coordinates : checked) {
-            if(coordinates.compare(field.getCoordinates())) {
+        for (Coordinates coordinates : checked) {
+            if (coordinates.compare(field.getCoordinates())) {
                 beenThere = true;
                 break;
             }
         }
-        if(!beenThere) {
+        if (!beenThere) {
             list.add(field.getCoordinates());
             checked.add(field.getCoordinates());
 
@@ -46,7 +46,7 @@ public class Possibilities {
                         && field.getNeighborsPiece(a) != null
                         && field.getSecondNeighbor(a) != null
                         && field.getSecondNeighborsPiece(a) == null) {
-                    if(!(field.getBase() == enemyColor && field.getSecondNeighborsBase(a) != enemyColor)){
+                    if (!(field.getBase() == enemyColor && field.getSecondNeighborsBase(a) != enemyColor)){
                         list.addAll(jumpMove(field.getSecondNeighbor(a), checked, enemyColor));
                     }
                 }

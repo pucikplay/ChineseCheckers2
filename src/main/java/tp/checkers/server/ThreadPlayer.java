@@ -85,11 +85,7 @@ public class ThreadPlayer extends Thread {
 
     public void updateBoard(Coordinates[] chosenFields, boolean yourMove) {
         try {
-            objectOutputStream.writeObject(new MessageUpdate(chosenFields[0].i,
-                    chosenFields[0].j,
-                    chosenFields[1].i,
-                    chosenFields[1].j,
-                    yourMove));
+            objectOutputStream.writeObject(new MessageUpdate(chosenFields[0], chosenFields[1], yourMove));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,12 +93,7 @@ public class ThreadPlayer extends Thread {
 
     public void updateBoard(Coordinates[] chosenFields, boolean endGame, boolean youWon) {
         try {
-            objectOutputStream.writeObject(new MessageUpdate(chosenFields[0].i,
-                    chosenFields[0].j,
-                    chosenFields[1].i,
-                    chosenFields[1].j,
-                    endGame,
-                    youWon));
+            objectOutputStream.writeObject(new MessageUpdate(chosenFields[0], chosenFields[1], endGame, youWon));
         } catch (IOException e) {
             e.printStackTrace();
         }

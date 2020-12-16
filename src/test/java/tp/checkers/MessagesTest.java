@@ -17,6 +17,7 @@ public class MessagesTest
     public void messageInitTest() {
         Window window = new Window(clientConnector);
         MessageInit msg = window.initGameData();
+
         assertEquals(msg.getPlayersNumber(), 2);
         assertEquals(msg.getBaseSide(), 4);
     }

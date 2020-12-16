@@ -21,21 +21,27 @@ public class Player {
     public ThreadPlayer getThread() {
         return thread;
     }
+
     public void setColor(Color color) {
         this.color = color;
     }
+
     public Color getColor() {
         return color;
     }
+
     public void setEnemyColor(Color enemyColor) {
         this.enemyColor = enemyColor;
     }
+
     public Color getEnemyColor() {
         return enemyColor;
     }
+
     public boolean isActive() {
         return active;
     }
+
     public Coordinates pieceSelect() {
         return thread.pieceSelect();
     }
