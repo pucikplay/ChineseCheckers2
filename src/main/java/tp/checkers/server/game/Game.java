@@ -17,26 +17,37 @@ public class Game {
         this.players = new Player[playerNumber];
         this.playerNumber = playerNumber;
         this.currPlayer = 0;
+
         for (int i = 0; i < playerNumber; i++) {
-            players[i] = new Player();
-            players[i].setThread(threads[i]);
-            players[i].setActive(true);
-            players[i].setLeftToWin(baseSide * (baseSide + 1)/2);
+            players[i] = new Player(threads[i], baseSide * (baseSide + 1)/2);
         }
+
     }
+
 
     public void play() {
 
         setup();
+        Coordinates[] chosenFields = null;
 
         while (players.length > 1) {
+            boolean pass = false;
             boolean reset;
-            Coordinates[] chosenFields;
             MessageMove messageMove;
             do {
                 Coordinates clickedField = players[currPlayer].pieceSelect();
 
-                Coordinates[] possibilities = Possibilities.getMoves(board, clickedField.i, clickedField.j);
+                //player passed
+                if(clickedField.i == 0) {
+                    pass = true;
+                    players[currPlayer].sendPossibilities(new Coordinates[]{new Coordinates(0,0), new Coordinates(0,0)});
+                    players[currPlayer].pieceMove();
+                    chosenFields = Coordinates.newSimpleCoords(board.getBaseSide()/2);
+                    messageMove = new MessageMove(chosenFields);
+                    break;
+                }
+
+                Coordinates[] possibilities = Possibilities.getMoves(board.getField(clickedField), players[currPlayer].getEnemyColor());
                 players[currPlayer].sendPossibilities(possibilities);
 
                 messageMove = players[currPlayer].pieceMove();
@@ -44,10 +55,16 @@ public class Game {
                 chosenFields = messageMove.getChosenFields();
             } while (reset);
 
-            if (board.getFields()[chosenFields[0].i][chosenFields[0].j].getBase() != players[currPlayer].getEnemyColor() &&
-            board.getFields()[chosenFields[1].i][chosenFields[1].j].getBase() == players[currPlayer].getEnemyColor()) {
-                players[currPlayer].setActive(!players[currPlayer].checkIfWon());
-                //can send a message of winning
+            //check if piece moved into enemy base
+            if (!pass && board.getField(chosenFields[0]).getBase() != players[currPlayer].getEnemyColor() &&
+            board.getField(chosenFields[1]).getBase() == players[currPlayer].getEnemyColor()) {
+
+                //check if all the pieces are in enemy base
+                if(players[currPlayer].checkIfWon()){
+                    players[currPlayer].setActive(false);
+                    break;
+                    //currently game ends if one player wins
+                }
             }
 
             nextPlayer();
@@ -58,12 +75,19 @@ public class Game {
             board.updateFields(messageMove);
             board.updateBoard();
         }
-        for (int i = 0; i < players.length; i++) {
-            //players[i].updateBoard();
-            //notify all of the end
-        }
-        System.out.println("Game ended");
 
+        //game ended
+        for (int i = 0; i < players.length; i++) {
+            players[i].updateBoard(chosenFields, true, currPlayer == i);
+        }
+
+    }
+
+    private void nextPlayer() {
+        currPlayer = (currPlayer + 1) % players.length;
+        if(!players[currPlayer].isActive()) {
+            nextPlayer();
+        }
     }
 
     private void setup() {
@@ -108,14 +132,7 @@ public class Game {
 
         for (int i = 0; i < playerNumber; i++) {
             players[i].getThread().sendBoard(board.getBaseSide(), board.getFields(), players[i].getColor());
-            players[i].updateBoard(new Coordinates[]{new Coordinates(0, 0), new Coordinates(0, 0)}, currPlayer == i);
-        }
-    }
-
-    private void nextPlayer() {
-        currPlayer = (currPlayer + 1) % players.length;
-        if(!players[currPlayer].isActive()) {
-            nextPlayer();
+            players[i].updateBoard(Coordinates.newSimpleCoords(0), currPlayer == i);
         }
     }
 

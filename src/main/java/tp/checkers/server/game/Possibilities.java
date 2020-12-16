@@ -1,51 +1,54 @@
 package tp.checkers.server.game;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Possibilities {
 
-    public static Coordinates[] getMoves(Board board, int i, int j) {
-        ArrayList<Coordinates> possibilitiesList = new ArrayList<>(Arrays.asList(new Coordinates(i,j)));
+    public static Coordinates[] getMoves(Field field, Color enemyColor) {
+        ArrayList<Coordinates> possibilitiesList = new ArrayList<>();
 
-        possibilitiesList.addAll(simpleMove(board, i, j));
-        possibilitiesList.addAll(jumpMove(board, i, j, new ArrayList<Coordinates>()));
+        possibilitiesList.addAll(simpleMove(field, enemyColor));
+        possibilitiesList.addAll(jumpMove(field, new ArrayList<Coordinates>(), enemyColor));
 
         return possibilitiesList.toArray(new Coordinates[0]);
     }
 
-    private static ArrayList<Coordinates> simpleMove(Board board, int i, int j) {
+    private static ArrayList<Coordinates> simpleMove(Field field, Color enemyColor) {
         ArrayList<Coordinates> list = new ArrayList<>();
 
-        for (Field field : board.getFields()[i][j].getNeighbors()) {
-            if(field != null && field.getPiece() == null) {
-                list.add(new Coordinates(field.getCoordinates().i, field.getCoordinates().j));
+        for (Field neighbor : field.getNeighbors()) {
+            if(neighbor != null && neighbor.getPiece() == null) {
+                if(!(field.getBase() == enemyColor && neighbor.getBase() != enemyColor)){
+                    list.add(neighbor.getCoordinates());
+                }
             }
         }
 
         return list;
     }
 
-    private static ArrayList<Coordinates> jumpMove(Board board, int i, int j, ArrayList<Coordinates> checked) {
+    private static ArrayList<Coordinates> jumpMove(Field field, ArrayList<Coordinates> checked, Color enemyColor) {
         ArrayList<Coordinates> list = new ArrayList<>();
         boolean beenThere = false;
         for(Coordinates coordinates : checked) {
-            if(coordinates.i == i && coordinates.j == j) {
+            if(coordinates.compare(field.getCoordinates())) {
                 beenThere = true;
                 break;
             }
         }
         if(!beenThere) {
-            list.add(new Coordinates(i, j));
-            checked.add(new Coordinates(i, j));
+            list.add(field.getCoordinates());
+            checked.add(field.getCoordinates());
 
             for (int a = 0; a < 6; a++) {
-                if (board.getFields()[i][j].getNeighbors()[a] != null
-                        && board.getFields()[i][j].getNeighbors()[a].getPiece() != null
-                        && board.getFields()[i][j].getNeighbors()[a].getNeighbors()[a] != null
-                        && board.getFields()[i][j].getNeighbors()[a].getNeighbors()[a].getPiece() == null) {
-
-                    list.addAll(jumpMove(board, board.getFields()[i][j].getNeighbors()[a].getNeighbors()[a].getCoordinates().i, board.getFields()[i][j].getNeighbors()[a].getNeighbors()[a].getCoordinates().j, checked));
+                if (field.getNeighbor(a) != null
+                        && field.getNeighborsPiece(a) != null
+                        && field.getSecondNeighbor(a) != null
+                        && field.getSecondNeighborsPiece(a) == null) {
+                    if(!(field.getBase() == enemyColor && field.getSecondNeighborsBase(a) != enemyColor)){
+                        list.addAll(jumpMove(field.getSecondNeighbor(a), checked, enemyColor));
+                    }
                 }
             }
         }

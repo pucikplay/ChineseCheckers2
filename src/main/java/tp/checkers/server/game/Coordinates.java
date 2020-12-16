@@ -10,4 +10,12 @@ public class Coordinates implements Serializable {
         this.i = i;
         this.j = j;
     }
+
+    public static Coordinates[] newSimpleCoords(int i) {
+        return new Coordinates[]{new Coordinates(i,i), new Coordinates(i,i)};
+    }
+
+    public boolean compare(Coordinates coordinates) {
+        return (this.i == coordinates.i && this.j == coordinates.j);
+    }
 }

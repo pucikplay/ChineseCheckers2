@@ -37,6 +37,18 @@ public class Field implements Serializable {
         return neighbors;
     }
 
+    public Field getNeighbor(int i) { return neighbors[i]; }
+
+    public Color getNeighborsPiece(int i) { return neighbors[i].getPiece(); }
+
+    public Field getSecondNeighbor(int i) {
+        return neighbors[i].getNeighbor(i);
+    }
+
+    public Color getSecondNeighborsPiece(int i) { return getSecondNeighbor(i).getPiece(); }
+
+    public Color getSecondNeighborsBase(int i) { return getSecondNeighbor(i).getBase(); }
+
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
@@ -44,4 +56,5 @@ public class Field implements Serializable {
     public Coordinates getCoordinates() {
         return coordinates;
     }
+
 }

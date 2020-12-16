@@ -26,6 +26,10 @@ public class Board {
         return this.fields;
     }
 
+    public Field getField(Coordinates coordinates) {
+        return fields[coordinates.i][coordinates.j];
+    }
+
     public int getBaseSide() {
         return baseSide;
     }

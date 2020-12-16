@@ -12,9 +12,12 @@ public class Player {
     private boolean active;
     private int leftToWin;
 
-    public void setThread(ThreadPlayer thread) {
+    public Player(ThreadPlayer thread, int leftToWin) {
         this.thread = thread;
+        this.active = true;
+        this.leftToWin = leftToWin;
     }
+
     public ThreadPlayer getThread() {
         return thread;
     }
@@ -33,12 +36,6 @@ public class Player {
     public boolean isActive() {
         return active;
     }
-    public void setActive(boolean state){
-        this.active = state;
-    }
-    public void setLeftToWin(int number) {
-        this.leftToWin = number;
-    }
     public Coordinates pieceSelect() {
         return thread.pieceSelect();
     }
@@ -51,12 +48,22 @@ public class Player {
         return thread.pieceMove();
     }
 
-    public void updateBoard(Coordinates[] chosenFields, boolean b) {
-        thread.updateBoard(chosenFields, b);
+    public void updateBoard(Coordinates[] chosenFields, boolean yourMove) {
+        thread.updateBoard(chosenFields, yourMove);
     }
-
+    public void updateBoard(Coordinates[] chosenFields, boolean endGame, boolean youWon) {
+        thread.updateBoard(chosenFields, endGame, youWon);
+    }
     public boolean checkIfWon() {
         leftToWin--;
         return leftToWin == 0;
+    }
+
+    public int getLeftToWin() {
+        return leftToWin;
+    }
+
+    public void setActive(boolean state) {
+        this.active = state;
     }
 }
