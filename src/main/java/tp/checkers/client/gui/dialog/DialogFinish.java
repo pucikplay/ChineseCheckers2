@@ -8,16 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DialogFinish extends JDialog {
-    private JComboBox<Integer> comboBox = null;
-    public int playersNumber;
 
-    DialogFinish(Window window) {
+    public DialogFinish(Window window) {
         super(window, "Choose the parameters of the game");
 
         initDialogBox();
-        initLabel();
-        initOptions();
-        initButton();
 
         this.setVisible(true);
     }
@@ -31,23 +26,15 @@ public class DialogFinish extends JDialog {
     }
 
     private void initLabel() {
-        JLabel label = new JLabel("U won");
-        label.setBounds(70, 20, 300, 50);
-        label.setFont(new Font(label.getName(), Font.BOLD, 12));
-        this.add(label);
-    }
-
-    private void initOptions() {
-        Integer[] playersNumbers = {2, 3, 4, 6};
-
-        comboBox = new JComboBox<>(playersNumbers);
-        comboBox.setBounds(150, 100, 100, 40);
-        this.add(comboBox);
+        JLabel labelEndGame = new JLabel("End of the game!");
+        labelEndGame.setBounds(130, 30, 200, 20);
+        labelEndGame.setFont(new Font(labelEndGame.getName(), Font.BOLD, 14));
+        this.add(labelEndGame);
     }
 
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(150, 150, 100, 40);
+        button.setBounds(150, 250, 100, 40);
         this.add(button);
 
         button.addActionListener(new ActionListener() {

@@ -3,8 +3,8 @@ package tp.checkers.message;
 import java.io.Serializable;
 
 public class MessageInit implements Serializable {
-    private int playersNumber;
-    private int baseSide;
+    private final int playersNumber;
+    private final int baseSide;
 
     public MessageInit(int playersNumber, int baseSide) {
         this.playersNumber = playersNumber;

@@ -6,9 +6,9 @@ import java.awt.*;
 import java.io.Serializable;
 
 public class MessageBoard implements Serializable {
-    private int baseSide;
-    private Field[][] fields;
-    private Color color;
+    private final int baseSide;
+    private final Field[][] fields;
+    private final Color color;
 
     public MessageBoard(int baseSide, Field[][] fields, Color color) {
         this.baseSide = baseSide;

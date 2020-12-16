@@ -32,7 +32,8 @@ public class ThreadPlayer extends Thread {
         System.out.println("SERVER: player got connected");
 
         try {
-            objectOutputStream.writeObject(new MessageIfHost(false));
+            objectOutputStream.writeBoolean(false);
+            objectOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +44,6 @@ public class ThreadPlayer extends Thread {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
  */
 
     }
@@ -83,12 +83,12 @@ public class ThreadPlayer extends Thread {
         return null;
     }
 
-    public void updateBoard(MessageMove messageMove, boolean b) {
+    public void updateBoard(Coordinates[] chosenFields, boolean b) {
         try {
-            objectOutputStream.writeObject(new MessageUpdate(messageMove.chosenFields[0].i,
-                    messageMove.chosenFields[0].j,
-                    messageMove.chosenFields[1].i,
-                    messageMove.chosenFields[1].j,
+            objectOutputStream.writeObject(new MessageUpdate(chosenFields[0].i,
+                    chosenFields[0].j,
+                    chosenFields[1].i,
+                    chosenFields[1].j,
                     b));
         } catch (IOException e) {
             e.printStackTrace();

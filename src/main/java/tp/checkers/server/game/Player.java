@@ -51,15 +51,12 @@ public class Player {
         return thread.pieceMove();
     }
 
-    public void updateBoard(MessageMove messageMove, boolean b) {
-        thread.updateBoard(messageMove, b);
+    public void updateBoard(Coordinates[] chosenFields, boolean b) {
+        thread.updateBoard(chosenFields, b);
     }
 
     public boolean checkIfWon() {
         leftToWin--;
-        if(leftToWin == 0) {
-            return true;
-        }
-        else return false;
+        return leftToWin == 0;
     }
 }

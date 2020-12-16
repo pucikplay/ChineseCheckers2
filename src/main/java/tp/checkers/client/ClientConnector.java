@@ -2,6 +2,7 @@ package tp.checkers.client;
 
 import tp.checkers.client.gui.BoardUpdater;
 import tp.checkers.client.gui.Window;
+import tp.checkers.client.gui.dialog.DialogFinish;
 import tp.checkers.message.*;
 import tp.checkers.server.game.Field;
 import tp.checkers.server.game.Coordinates;
@@ -62,12 +63,12 @@ public class ClientConnector {
 
     private void initGame() {
         try {
-            MessageIfHost msgHost = (MessageIfHost) objectInputStream.readObject();
-            if (msgHost.host) {
+            boolean host = objectInputStream.readBoolean();
+            if (host) {
                 MessageInit msgInit = window.initGameData();
                 objectOutputStream.writeObject(msgInit);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -119,7 +120,15 @@ public class ClientConnector {
     public void receiveUpdates(BoardUpdater updater) {
         try {
             System.out.println("Receiving board updates from server.");
-            updater.updateFields((MessageUpdate) objectInputStream.readObject());
+            MessageUpdate msg = (MessageUpdate) objectInputStream.readObject();
+
+            if (msg.isEndGame()) {
+                DialogFinish dialogFinish = new DialogFinish(window);
+                close();
+                return;
+            }
+
+            updater.updateFields(msg);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

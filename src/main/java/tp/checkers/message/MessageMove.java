@@ -5,15 +5,22 @@ import tp.checkers.server.game.Coordinates;
 import java.io.Serializable;
 
 public class MessageMove implements Serializable {
-    public boolean isReset;
-    public Coordinates[] chosenFields;
+    private boolean reset = false;
+    private Coordinates[] chosenFields;
 
-    public MessageMove(boolean isReset) {
-        this.isReset = isReset;
+    public MessageMove(boolean reset) {
+        this.reset = reset;
     }
 
     public MessageMove(Coordinates[] chosenFields) {
-        this.isReset = false;
         this.chosenFields = chosenFields;
+    }
+
+    public boolean isReset() {
+        return reset;
+    }
+
+    public Coordinates[] getChosenFields() {
+        return chosenFields;
     }
 }

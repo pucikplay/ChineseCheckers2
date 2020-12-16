@@ -37,7 +37,7 @@ public class Window extends JFrame {
         this.gameService = gameService;
         this.color = color;
 
-        initLabels();
+        initPanelLabels();
 
         this.panel = new Panel(client, gameService, windowSide, arraySide, color);
         panel.add(labelColor);
@@ -59,16 +59,15 @@ public class Window extends JFrame {
         panel.add(buttonReset);
     }
 
-    private void initLabels() {
+    private void initPanelLabels() {
         labelColor = new JLabel("This is your color.");
         labelColor.setBounds(70, 20, 300, 40);
         labelColor.setFont(new Font(labelColor.getName(), Font.BOLD, 22));
         labelColor.setForeground(color.darker());
 
-        labelMove = new JLabel("Wait for your move.");
+        labelMove = new JLabel("Wait for your turn.");
         labelMove.setBounds(70, 70, 300, 40);
         labelMove.setFont(new Font(labelColor.getName(), Font.BOLD, 22));
-
     }
 
     public MessageInit initGameData() {

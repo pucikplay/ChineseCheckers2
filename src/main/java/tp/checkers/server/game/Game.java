@@ -7,14 +7,10 @@ import java.awt.*;
 
 public class Game {
 
-    private Board board;
-    private Player[] players;
-    private int playerNumber;
+    private final Board board;
+    private final Player[] players;
+    private final int playerNumber;
     private int currPlayer;
-    private Coordinates clickedField;
-    private MessageMove messageMove = null;
-    private Coordinates[] possibilities = null;
-    private boolean reset;
 
     public Game(int baseSide, int playerNumber, ThreadPlayer[] threads) {
         this.board = new Board(baseSide, playerNumber);
@@ -34,19 +30,22 @@ public class Game {
         setup();
 
         while (players.length > 1) {
+            boolean reset;
+            Coordinates[] chosenFields;
+            MessageMove messageMove;
             do {
-                clickedField = players[currPlayer].pieceSelect();
+                Coordinates clickedField = players[currPlayer].pieceSelect();
 
-                possibilities = Possibilities.getMoves(board, clickedField.i, clickedField.j);
+                Coordinates[] possibilities = Possibilities.getMoves(board, clickedField.i, clickedField.j);
                 players[currPlayer].sendPossibilities(possibilities);
 
                 messageMove = players[currPlayer].pieceMove();
-                reset = messageMove.isReset;
+                reset = messageMove.isReset();
+                chosenFields = messageMove.getChosenFields();
             } while (reset);
-            reset = true;
 
-            if (board.getFields()[messageMove.chosenFields[0].i][messageMove.chosenFields[0].j].getBase() != players[currPlayer].getEnemyColor() &&
-            board.getFields()[messageMove.chosenFields[1].i][messageMove.chosenFields[1].j].getBase() == players[currPlayer].getEnemyColor()) {
+            if (board.getFields()[chosenFields[0].i][chosenFields[0].j].getBase() != players[currPlayer].getEnemyColor() &&
+            board.getFields()[chosenFields[1].i][chosenFields[1].j].getBase() == players[currPlayer].getEnemyColor()) {
                 players[currPlayer].setActive(!players[currPlayer].checkIfWon());
                 //can send a message of winning
             }
@@ -54,7 +53,7 @@ public class Game {
             nextPlayer();
 
             for (int i = 0; i < players.length; i++) {
-                players[i].updateBoard(messageMove, currPlayer == i);
+                players[i].updateBoard(chosenFields, currPlayer == i);
             }
             board.updateFields(messageMove);
             board.updateBoard();
@@ -109,7 +108,7 @@ public class Game {
 
         for (int i = 0; i < playerNumber; i++) {
             players[i].getThread().sendBoard(board.getBaseSide(), board.getFields(), players[i].getColor());
-            players[i].updateBoard(new MessageMove(new Coordinates[]{new Coordinates(0, 0), new Coordinates(0, 0)}), currPlayer == i);
+            players[i].updateBoard(new Coordinates[]{new Coordinates(0, 0), new Coordinates(0, 0)}, currPlayer == i);
         }
     }
 

@@ -8,9 +8,9 @@ import java.util.Arrays;
 public class Board {
 
     private Field[][] fields = null;
-    private static int baseSide;
-    private static int playerNumber;
-    private static int end;
+    private final int baseSide;
+    private final int playerNumber;
+    private final int end;
 
     public Board(int baseSide, int playerNumber) {
         this.baseSide = baseSide;
@@ -49,9 +49,9 @@ public class Board {
 
 
     public void updateFields(MessageMove messageMove) {
-        Color color = fields[messageMove.chosenFields[0].i][messageMove.chosenFields[0].j].getPiece();
-        fields[messageMove.chosenFields[0].i][messageMove.chosenFields[0].j].setPiece(null);
-        fields[messageMove.chosenFields[1].i][messageMove.chosenFields[1].j].setPiece(color);
+        Color color = fields[messageMove.getChosenFields()[0].i][messageMove.getChosenFields()[0].j].getPiece();
+        fields[messageMove.getChosenFields()[0].i][messageMove.getChosenFields()[0].j].setPiece(null);
+        fields[messageMove.getChosenFields()[1].i][messageMove.getChosenFields()[1].j].setPiece(color);
     }
 
     private void createBoard() {

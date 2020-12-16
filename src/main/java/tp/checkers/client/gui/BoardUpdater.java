@@ -34,21 +34,17 @@ public class BoardUpdater extends SwingWorker<Void, Void>  {
     public void updateFields(MessageUpdate msg) {
         System.out.println("Updating board.");
 
-        if (msg.origin.i != msg.destination.i || msg.origin.j != msg.destination.j) {
-            Color colorBefore = gameService.getPieceColor(msg.origin.i, msg.origin.j);
-            System.out.println("Color of origin piece before the update:" + colorBefore);
+        if (msg.getOrigin().i != msg.getDestination().i || msg.getOrigin().j != msg.getDestination().j) {
+            Color color = gameService.getPieceColor(msg.getOrigin().i, msg.getOrigin().j);
 
-            gameService.setPieceColor(msg.destination.i, msg.destination.j, colorBefore);
-            gameService.setPieceColor(msg.origin.i, msg.origin.j, null);
-
-            Color colorAfter = gameService.getPieceColor(msg.destination.i, msg.destination.j);
-            System.out.println("Color of destination piece after the update:" + colorAfter);
+            gameService.setPieceColor(msg.getDestination().i, msg.getDestination().j, color);
+            gameService.setPieceColor(msg.getOrigin().i, msg.getOrigin().j, null);
 
             panel.repaint();
             System.out.println("Board repainted.");
         }
 
-        checkIfMyTurn(msg.currPlayer);
+        checkIfMyTurn(msg.isCurrPlayer());
     }
 
     private void checkIfMyTurn(boolean currPlayer) {
@@ -57,10 +53,10 @@ public class BoardUpdater extends SwingWorker<Void, Void>  {
         System.out.println("My turn now: " + gameService.getIsMyTurn());
 
         if (! gameService.getIsMyTurn()) {
-            window.setLabelMoveText("Not your move");
+            window.setLabelMoveText("Wait for your turn.");
             receiveUpdates();
         } else {
-            window.setLabelMoveText("Your move.");
+            window.setLabelMoveText("Your turn!");
         }
     }
 }
