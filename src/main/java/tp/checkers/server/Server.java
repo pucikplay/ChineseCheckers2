@@ -38,6 +38,8 @@ public class Server {
     public void createConnection() {
         int clientsNumber = 1;
         int baseSide = 4;
+        boolean canLeaveBase = false;
+        boolean canJump = true;
 
         try {
             Socket client = serverSocket.accept();
@@ -47,6 +49,8 @@ public class Server {
             MessageInit msg = host.getInitialData();
             clientsNumber = msg.getPlayersNumber();
             baseSide = msg.getBaseSide();
+            canLeaveBase = msg.getCanLeaveBase();
+            canJump = msg.getCanJump();
 
             players = new ThreadPlayer[clientsNumber];
             players[0] = host;
@@ -69,7 +73,7 @@ public class Server {
 
         //pass the server socket and the array of clients to the Server class
 
-        startGame(baseSide, clientsNumber, players);
+        startGame(baseSide, clientsNumber, players, canLeaveBase, canJump);
 
     }
 
@@ -79,10 +83,12 @@ public class Server {
      * @param baseSide length of a base
      * @param playerNumber
      * @param threads
+     * @param canLeaveBase
+     * @param canJump
      */
-    private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads) {
+    private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
 
-        Game game = new Game(baseSide, playerNumber, threads);
+        Game game = new Game(baseSide, playerNumber, threads, canLeaveBase, canJump);
 
         game.play();
 

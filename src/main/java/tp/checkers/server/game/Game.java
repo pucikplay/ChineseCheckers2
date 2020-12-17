@@ -2,6 +2,9 @@ package tp.checkers.server.game;
 
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
+import tp.checkers.server.game.possibilities.Possibilities;
+import tp.checkers.server.game.possibilities.PossibilitiesJump;
+import tp.checkers.server.game.possibilities.PossibilitiesSimple;
 
 import java.awt.*;
 
@@ -14,6 +17,11 @@ public class Game {
      * Game's board
      */
     private final Board board;
+
+    /**
+     * Class that searches for move possibilities.
+     */
+    private Possibilities possibilitiesGetter;
 
     /**
      * Array of players in the game
@@ -36,24 +44,29 @@ public class Game {
      * @param baseSide length of a side of a base
      * @param playerNumber number of players
      * @param threads array of threads to which the players will be assigned
+     * @param canLeaveBase information whether the player can leave enemy's base
+     * @param canJump information whether the player can jump over other pieces
      */
-    public Game(int baseSide, int playerNumber, ThreadPlayer[] threads) {
+    public Game(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
         this.board = new Board(baseSide, playerNumber);
         this.players = new Player[playerNumber];
         this.playerNumber = playerNumber;
         this.currPlayer = (int) (Math.random() * playerNumber);
 
+        this.possibilitiesGetter = new PossibilitiesSimple(canLeaveBase);
+        if (canJump) {
+            this.possibilitiesGetter = new PossibilitiesJump(possibilitiesGetter, canLeaveBase);
+        }
+
         for (int i = 0; i < playerNumber; i++) {
             players[i] = new Player(threads[i], baseSide * (baseSide + 1)/2);
         }
-
     }
 
     /**
      * Method executing the actions needed to play the game
      */
     public void play() {
-
         setup();
         Coordinates[] chosenFields = null;
 
@@ -75,7 +88,7 @@ public class Game {
                     break;
                 }
 
-                Coordinates[] possibilities = Possibilities.getMoves(board.getField(clickedField), players[currPlayer].getEnemyColor());
+                Coordinates[] possibilities = possibilitiesGetter.getMoves(board.getField(clickedField), players[currPlayer].getEnemyColor()).toArray(new Coordinates[0]);
                 players[currPlayer].sendPossibilities(possibilities);
 
                 messageMove = players[currPlayer].pieceMove();
@@ -95,6 +108,8 @@ public class Game {
                     //currently game ends if one player wins
                 }
             }
+
+            //To do: check if the player didn't leave the opponent's base.
 
             nextPlayer();
 

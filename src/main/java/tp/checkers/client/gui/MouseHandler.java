@@ -70,7 +70,7 @@ public class MouseHandler implements MouseListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (gameService.getIsMyTurn()) {
+        if (gameService.isMyTurn()) {
             double x = e.getX();
             double y = e.getY();
             int rectSide = windowSide / arraySide;

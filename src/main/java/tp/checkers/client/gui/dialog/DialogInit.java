@@ -23,6 +23,18 @@ public class DialogInit extends JDialog {
     private JComboBox<Integer> comboBoxSide = null;
 
     /**
+     * Check box with the information whether the player
+     * can leave the opponent's base after entering it.
+     */
+    private JCheckBox cbLeaveBase = null;
+
+    /**
+     * Check box with the information whether the player
+     * can jump over other pieces.
+     */
+    private JCheckBox cbJump = null;
+
+    /**
      * Number of players that is chosen by the host.
      */
     public int playersNumber;
@@ -31,6 +43,16 @@ public class DialogInit extends JDialog {
      * Number of pieces in one side of the base.
      */
     public int baseSide = 4;
+
+    /**
+     * Information whether the player can leave enemy's base.
+     */
+    public boolean canLeaveBase = false;
+
+    /**
+     * Information whether the player can jump over other pieces.
+     */
+    public boolean canJump = true;
 
     /**
      * Default constructor of the class.
@@ -42,6 +64,7 @@ public class DialogInit extends JDialog {
 
         initDialogBox();
         initLabels();
+        initCheckBoxes();
         initOptions();
         initButton();
 
@@ -52,7 +75,7 @@ public class DialogInit extends JDialog {
      * Method responsible for initialisation of the dialog box.
      */
     private void initDialogBox() {
-        this.setSize(400, 350);
+        this.setSize(400, 430);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setModal(true);
@@ -83,7 +106,22 @@ public class DialogInit extends JDialog {
         labelSide.setBounds(30, 180, 300, 20);
         labelSide.setFont(new Font(labelSide.getName(), Font.PLAIN, 14));
         this.add(labelSide);
+    }
 
+    /**
+     * Method responsible for initialisation of check boxes.
+     */
+    private void initCheckBoxes() {
+        cbLeaveBase = new JCheckBox("Player can leave the opponent's base");
+        cbLeaveBase.setBounds(30, 240, 300, 20);
+        cbLeaveBase.setFont(new Font(cbLeaveBase.getName(), Font.PLAIN, 14));
+        this.add(cbLeaveBase);
+
+        cbJump = new JCheckBox("Player can move by jumping over one piece");
+        cbJump.setBounds(30, 280, 300, 20);
+        cbJump.setFont(new Font(cbJump.getName(), Font.PLAIN, 14));
+        cbJump.setSelected(true);
+        this.add(cbJump);
     }
 
     /**
@@ -104,18 +142,20 @@ public class DialogInit extends JDialog {
 
     /**
      * Method responsible for initialisation of the "OK" button
-     * and setting the players number and base side as the ones
+     * and setting the chooseable parameters as the ones
      * chosen by the user.
      */
     private void initButton() {
         JButton button = new JButton("OK");
-        button.setBounds(150, 250, 100, 40);
+        button.setBounds(150, 330, 100, 40);
         this.add(button);
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 playersNumber = (int) comboBoxPlayers.getSelectedItem();
                 baseSide = (int) comboBoxSide.getSelectedItem();
+                canLeaveBase = cbLeaveBase.isSelected();
+                canJump = cbJump.isSelected();
                 dispose();
             }
         });

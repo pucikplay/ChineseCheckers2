@@ -44,10 +44,12 @@ public class MessagesTest
 
     @Test
     public void messageInitTest() {
-        MessageInit msg = new MessageInit(4, 2);
+        MessageInit msg = new MessageInit(4, 2, false, false);
 
         assertEquals(msg.getPlayersNumber(), 4);
         assertEquals(msg.getBaseSide(), 2);
+        assertFalse(msg.getCanLeaveBase());
+        assertFalse(msg.getCanJump());
     }
 
     @Test

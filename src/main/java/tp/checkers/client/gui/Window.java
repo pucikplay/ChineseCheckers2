@@ -131,7 +131,7 @@ public class Window extends JFrame {
     public MessageInit initGameData() {
         DialogInit dialog = new DialogInit(this);
         while (dialog.playersNumber == 0);
-        return new MessageInit(dialog.playersNumber, dialog.baseSide);
+        return new MessageInit(dialog.playersNumber, dialog.baseSide, dialog.canLeaveBase, dialog.canJump);
     }
 
     /**
