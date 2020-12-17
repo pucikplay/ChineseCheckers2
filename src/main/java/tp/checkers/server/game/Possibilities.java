@@ -3,8 +3,18 @@ package tp.checkers.server.game;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class consisting of methods used to calculate the fields to which a player can move
+ */
 public class Possibilities {
 
+    /**
+     * Method responsible for providing a list of fields available to move to
+     *
+     * @param field field in which the piece to move is located
+     * @param enemyColor color of a player's enemy's base
+     * @return list of available fields
+     */
     public static Coordinates[] getMoves(Field field, Color enemyColor) {
         ArrayList<Coordinates> possibilitiesList = new ArrayList<>();
 
@@ -14,6 +24,14 @@ public class Possibilities {
         return possibilitiesList.toArray(new Coordinates[0]);
     }
 
+    /**
+     * Method used to calculate to which fields can a piece move by a simple move
+     * (not jumping)
+     *
+     * @param field field in which the piece to move is located
+     * @param enemyColor color of a player's enemy's base
+     * @return list of available fields
+     */
     private static ArrayList<Coordinates> simpleMove(Field field, Color enemyColor) {
         ArrayList<Coordinates> list = new ArrayList<>();
 
@@ -28,6 +46,14 @@ public class Possibilities {
         return list;
     }
 
+    /**
+     * Method used to calculate to which fields ca a piece move by jumping over others
+     *
+     * @param field field in which the piece to move is located
+     * @param checked list of fields that were already checked; avoids recursive loops
+     * @param enemyColor color of a player's enemy's base
+     * @return list of available fields
+     */
     private static ArrayList<Coordinates> jumpMove(Field field, ArrayList<Coordinates> checked, Color enemyColor) {
         ArrayList<Coordinates> list = new ArrayList<>();
         boolean beenThere = false;

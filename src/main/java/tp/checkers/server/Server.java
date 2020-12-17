@@ -9,9 +9,19 @@ import java.net.Socket;
 
 public class Server {
 
+    /**
+     * Socket through which the thread communicates with the client
+     */
     private ServerSocket serverSocket = null;
+
+    /**
+     * Array of threads; each communicates with a single client
+     */
     ThreadPlayer[] players = null;
 
+    /**
+     * Constructor, establishes connection on socket
+     */
     public Server() {
         try {
             serverSocket = new ServerSocket(4444);
@@ -22,6 +32,9 @@ public class Server {
         }
     }
 
+    /**
+     * Method responsible for accepting connections from clients
+     */
     public void createConnection() {
         int clientsNumber = 1;
         int baseSide = 4;
@@ -30,9 +43,11 @@ public class Server {
             Socket client = serverSocket.accept();
             ThreadHost host = new ThreadHost(client);
             host.start();
+
             MessageInit msg = host.getInitialData();
             clientsNumber = msg.getPlayersNumber();
             baseSide = msg.getBaseSide();
+
             players = new ThreadPlayer[clientsNumber];
             players[0] = host;
         } catch (IOException e) {
@@ -58,6 +73,13 @@ public class Server {
 
     }
 
+    /**
+     * Method responsible for starting the game described by those parameters
+     *
+     * @param baseSide length of a base
+     * @param playerNumber
+     * @param threads
+     */
     private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads) {
 
         Game game = new Game(baseSide, playerNumber, threads);
@@ -66,6 +88,11 @@ public class Server {
 
     }
 
+    /**
+     * Main function, lunches server
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Server handshake = new Server();
         handshake.createConnection();

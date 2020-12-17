@@ -5,13 +5,38 @@ import tp.checkers.server.ThreadPlayer;
 
 import java.awt.*;
 
+/**
+ * Game class is used to store and get information about the current game
+ */
 public class Game {
 
+    /**
+     * Game's board
+     */
     private final Board board;
+
+    /**
+     * Array of players in the game
+     */
     private final Player[] players;
+
+    /**
+     * Number of players in the game
+     */
     private final int playerNumber;
+
+    /**
+     * Index of a current player
+     */
     private int currPlayer;
 
+    /**
+     * Constructor; Creates game with given parameters
+     *
+     * @param baseSide length of a side of a base
+     * @param playerNumber number of players
+     * @param threads array of threads to which the players will be assigned
+     */
     public Game(int baseSide, int playerNumber, ThreadPlayer[] threads) {
         this.board = new Board(baseSide, playerNumber);
         this.players = new Player[playerNumber];
@@ -24,7 +49,9 @@ public class Game {
 
     }
 
-
+    /**
+     * Method executing the actions needed to play the game
+     */
     public void play() {
 
         setup();
@@ -75,7 +102,7 @@ public class Game {
                 players[i].updateBoard(chosenFields, currPlayer == i);
             }
             board.updateFields(messageMove);
-            board.updateBoard();
+            board.updateNeighbors();
         }
 
         //game ended
@@ -85,6 +112,9 @@ public class Game {
 
     }
 
+    /**
+     * Method used to get the index of the next player
+     */
     private void nextPlayer() {
         currPlayer = (currPlayer + 1) % players.length;
         if(!players[currPlayer].isActive()) {
@@ -92,6 +122,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method used to initialise the game
+     * Sets player's base colors according to the number of players
+     */
     private void setup() {
         if (playerNumber == 2) {
             players[0].setColor(Color.GREEN);

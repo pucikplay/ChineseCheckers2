@@ -5,13 +5,38 @@ import tp.checkers.message.MessageMove;
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * Board class is used to store and get information about the hexed board
+ * from a game
+ */
 public class Board {
 
+    /**
+     * array of fields
+     */
     private Field[][] fields = null;
+
+    /**
+     * length of the side of the base
+     */
     private final int baseSide;
+
+    /**
+     * number of players
+     */
     private final int playerNumber;
+
+    /**
+     * length of a whole array of fields
+     */
     private final int end;
 
+    /**
+     * Default constructor
+     *
+     * @param baseSide determining the size of a board
+     * @param playerNumber number of players
+     */
     public Board(int baseSide, int playerNumber) {
         this.baseSide = baseSide;
         this.playerNumber = playerNumber;
@@ -19,22 +44,41 @@ public class Board {
 
         createBoard();
         placePlayers();
-        updateBoard();
+        updateNeighbors();
     }
 
+    /**
+     * Method used to get fields from a board
+     *
+     * @return array of fields
+     */
     public Field[][] getFields(){
         return this.fields;
     }
 
+    /**
+     * Method used to get a single field
+     *
+     * @param coordinates coordinates of a field
+     * @return field at given coordinates
+     */
     public Field getField(Coordinates coordinates) {
         return fields[coordinates.i][coordinates.j];
     }
 
+    /**
+     * Method used to get the length of a side of a base from a board
+     *
+     * @return length of a side of a base
+     */
     public int getBaseSide() {
         return baseSide;
     }
 
-    public void updateBoard() {
+    /**
+     * Method responsible for updating neighbors list of a field
+     */
+    public void updateNeighbors() {
         for (int i = 1; i < end; i++) {
             for (int j = 1; j < end; j++) {
                 if (fields[i][j] != null) {
@@ -51,13 +95,20 @@ public class Board {
         }
     }
 
-
+    /**
+     * Method responsible for updating the board based on received message
+     *
+     * @param messageMove message with information which fields to switch
+     */
     public void updateFields(MessageMove messageMove) {
         Color color = fields[messageMove.getChosenFields()[0].i][messageMove.getChosenFields()[0].j].getPiece();
         fields[messageMove.getChosenFields()[0].i][messageMove.getChosenFields()[0].j].setPiece(null);
         fields[messageMove.getChosenFields()[1].i][messageMove.getChosenFields()[1].j].setPiece(color);
     }
 
+    /**
+     * Method used to initialise a new board
+     */
     private void createBoard() {
         fields = new Field[end + 1][end + 1];
 
@@ -119,6 +170,10 @@ public class Board {
         }
     }
 
+    /**
+     * Method responsible for placing players' pieces on the board
+     * Player arrangement is dependent on the number of players
+     */
     private void placePlayers() {
         if (playerNumber == 2) {
             placePlayers(new Color[]{Color.GREEN, Color.RED});
@@ -134,6 +189,11 @@ public class Board {
         }
     }
 
+    /**
+     * Method responsible for placing players' pieces in bases
+     *
+     * @param colors list of colors of bases in which to place pieces
+     */
     private void placePlayers(Color[] colors) {
         for (int i = 1; i < end; i++) {
             for (int j = 1; j < end; j++) {
@@ -143,6 +203,5 @@ public class Board {
             }
         }
     }
-
 
 }
