@@ -97,6 +97,11 @@ public class Game {
 
             } while (reset);
 
+            //check if the player didn't leave the opponent's base
+            if (!pass && board.getField(chosenFields[0]).getBase() == players[currPlayer].getEnemyColor() &&
+                    board.getField(chosenFields[1]).getBase() != players[currPlayer].getEnemyColor()) {
+                players[currPlayer].pieceLeftBase();
+            }
             //check if piece moved into enemy base
             if (!pass && board.getField(chosenFields[0]).getBase() != players[currPlayer].getEnemyColor() &&
             board.getField(chosenFields[1]).getBase() == players[currPlayer].getEnemyColor()) {
@@ -108,8 +113,6 @@ public class Game {
                     //currently game ends if one player wins
                 }
             }
-
-            //To do: check if the player didn't leave the opponent's base.
 
             nextPlayer();
 

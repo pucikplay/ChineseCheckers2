@@ -164,6 +164,13 @@ public class Player {
     }
 
     /**
+     * Method used to increase leftToWin when piece leaves enemy's base
+     */
+    public void pieceLeftBase() {
+        leftToWin++;
+    }
+
+    /**
      * Method used to get the number of pieces remaining to be placed in enemy's base
      *
      * @return amount of pieces to be placed in enemy's base

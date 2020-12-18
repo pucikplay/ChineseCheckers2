@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.awt.*;
 
+import static org.junit.Assert.assertEquals;
+
 public class BoardTest {
 
     @Test
@@ -22,23 +24,26 @@ public class BoardTest {
                 else if(fields[i][j].getBase() == Color.GRAY) out += "W";
                 else out += "E";
             }
-            System.out.println(out);
-            out = "";
+            out += "\n";
         }
-
-        for(int i = 0; i < 4*4 + 3; i++) {
-            for(int j = 0; j < 4*4 + 3; j++) {
-                if(fields[i][j] == null) out += "O";
-                else if(fields[i][j].getPiece() == Color.GREEN.darker()) out += "G";
-                else if(fields[i][j].getPiece() == Color.BLUE.darker()) out += "B";
-                else if(fields[i][j].getPiece() == Color.YELLOW.darker()) out += "Y";
-                else if(fields[i][j].getPiece() == Color.RED.darker()) out += "R";
-                else if(fields[i][j].getPiece() == Color.ORANGE.darker()) out += "O";
-                else if(fields[i][j].getPiece() == Color.GRAY.darker()) out += "W";
-                else if(fields[i][j].getPiece() == null) out += "E";
-            }
-            System.out.println(out);
-            out = "";
-        }
+        assertEquals("OOOOOOOOOOOOOOOOOOO\n" +
+                "OOOOOOOOOOOOOROOOOO\n" +
+                "OOOOOOOOOOOORROOOOO\n" +
+                "OOOOOOOOOOORRROOOOO\n" +
+                "OOOOOOOOOORRRROOOOO\n" +
+                "OOOOOYYYYEEEEEMMMMO\n" +
+                "OOOOOYYYEEEEEEMMMOO\n" +
+                "OOOOOYYEEEEEEEMMOOO\n" +
+                "OOOOOYEEEEEEEEMOOOO\n" +
+                "OOOOOEEEEEEEEEOOOOO\n" +
+                "OOOOBEEEEEEEEWOOOOO\n" +
+                "OOOBBEEEEEEEWWOOOOO\n" +
+                "OOBBBEEEEEEWWWOOOOO\n" +
+                "OBBBBEEEEEWWWWOOOOO\n" +
+                "OOOOOGGGGOOOOOOOOOO\n" +
+                "OOOOOGGGOOOOOOOOOOO\n" +
+                "OOOOOGGOOOOOOOOOOOO\n" +
+                "OOOOOGOOOOOOOOOOOOO\n" +
+                "OOOOOOOOOOOOOOOOOOO\n", out);
     }
 }
