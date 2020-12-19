@@ -1,4 +1,4 @@
-package tp.checkers.server.game;
+package tp.checkers;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -80,7 +80,7 @@ public class Field implements Serializable {
 
     /**
      * Method used to get field's neighbors
-     * @return
+     * @return array of neighbors
      */
     public Field[] getNeighbors() {
         return neighbors;

@@ -3,12 +3,12 @@ package tp.checkers.connection;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import tp.checkers.Coordinates;
 import tp.checkers.message.MessageBoard;
 import tp.checkers.message.MessageInit;
 import tp.checkers.message.MessageMove;
 import tp.checkers.message.MessageUpdate;
-import tp.checkers.server.game.Coordinates;
-import tp.checkers.server.game.Field;
+import tp.checkers.Field;
 
 import java.awt.*;
 

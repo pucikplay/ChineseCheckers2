@@ -4,6 +4,7 @@ import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.client.gui.button.ButtonCommit;
 import tp.checkers.client.gui.button.ButtonReset;
+import tp.checkers.client.gui.dialog.DialogFinish;
 import tp.checkers.client.gui.dialog.DialogInit;
 import tp.checkers.message.MessageInit;
 
@@ -14,11 +15,6 @@ import java.awt.*;
  * Class of the client's window.
  */
 public class Window extends JFrame {
-    /**
-     * Reference to client connector.
-     */
-    private final ClientConnector client;
-
     /**
      * Reference to client's game service.
      */
@@ -51,12 +47,8 @@ public class Window extends JFrame {
 
     /**
      * Default constructor.
-     *
-     * @param client reference to client connector
      */
-    public Window(ClientConnector client) {
-        this.client = client;
-
+    public Window() {
         initUI();
     }
 
@@ -85,7 +77,7 @@ public class Window extends JFrame {
 
         initLabels();
 
-        this.panel = new Panel(client, gameService, windowSide, arraySide, color);
+        this.panel = new Panel(gameService, windowSide, arraySide, color);
         panel.add(labelColor);
         panel.add(labelTurn);
         this.add(panel);
@@ -128,10 +120,17 @@ public class Window extends JFrame {
      *
      * @return message with init data that will be sent to the server
      */
-    public MessageInit initGameData() {
+    public MessageInit runDialogInit() {
         DialogInit dialog = new DialogInit(this);
-        while (dialog.playersNumber == 0);
+        while (!dialog.isReady());
         return new MessageInit(dialog.playersNumber, dialog.baseSide, dialog.canLeaveBase, dialog.canJump);
+    }
+
+    /**
+     * Method responsible for calling the Finish dialog box.
+     */
+    public void runDialogFinish() {
+        DialogFinish dialogFinish = new DialogFinish(this);
     }
 
     /**

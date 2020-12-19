@@ -1,8 +1,7 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
-import tp.checkers.server.game.Coordinates;
+import tp.checkers.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,13 +28,12 @@ public class Panel extends JPanel {
     /**
      * Default constructor of the class.
      *
-     * @param client reference to the client connector
      * @param gameService reference to game service of the client
      * @param windowSide size of the window's side
      * @param arraySide length of the Fields array's side
      * @param color color of the player
      */
-    public Panel(ClientConnector client, GameService gameService, int windowSide, int arraySide, Color color) {
+    public Panel(GameService gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;
         this.windowSide = windowSide;
         this.arraySide = arraySide;
@@ -43,7 +41,7 @@ public class Panel extends JPanel {
         this.setBackground(new Color(194, 187, 169));
         this.setLayout(null);
 
-        MouseHandler handler = new MouseHandler(client, gameService, this, windowSide, arraySide, color);
+        MouseHandler handler = new MouseHandler(gameService, windowSide, arraySide, color);
         this.addMouseListener(handler);
     }
 

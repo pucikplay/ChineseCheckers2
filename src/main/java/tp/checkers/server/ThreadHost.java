@@ -7,19 +7,19 @@ import java.net.Socket;
 
 /**
  * ThreadHost is an variant of ThreadPlayer with implemented
- * communication necessary for initialising the game
+ * communication necessary for initialising the game.
  */
 public class ThreadHost extends ThreadPlayer {
 
     /**
-     * Constructor; sets the socket in extending class
+     * Constructor; sets the socket in extending class.
      *
      * @param clientSocket socket to be set
      */
     public ThreadHost(Socket clientSocket) { super(clientSocket); }
 
     /**
-     * Method activated when starting the thread
+     * Method activated when starting the thread.
      */
     @Override
     public void run() {
@@ -34,7 +34,7 @@ public class ThreadHost extends ThreadPlayer {
     }
 
     /**
-     * Method used to receive game initialising data
+     * Method used to receive game initialising data.
      *
      * @return MessageInit with game data
      */

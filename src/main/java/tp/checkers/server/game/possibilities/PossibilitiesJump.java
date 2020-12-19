@@ -1,7 +1,7 @@
 package tp.checkers.server.game.possibilities;
 
-import tp.checkers.server.game.Coordinates;
-import tp.checkers.server.game.Field;
+import tp.checkers.Coordinates;
+import tp.checkers.Field;
 
 import java.awt.*;
 import java.util.ArrayList;

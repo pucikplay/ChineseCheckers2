@@ -1,5 +1,7 @@
 package tp.checkers.server.game;
 
+import tp.checkers.Coordinates;
+import tp.checkers.Field;
 import tp.checkers.message.MessageMove;
 
 import java.awt.*;
@@ -7,32 +9,32 @@ import java.util.Arrays;
 
 /**
  * Board class is used to store and get information about the hexed board
- * from a game
+ * from a game.
  */
 public class Board {
 
     /**
-     * array of fields
+     * Array of fields.
      */
     private Field[][] fields = null;
 
     /**
-     * length of the side of the base
+     * Length of the side of the base.
      */
     private final int baseSide;
 
     /**
-     * number of players
+     * Number of players.
      */
     private final int playerNumber;
 
     /**
-     * length of a whole array of fields
+     * Length of a whole array of fields.
      */
     private final int end;
 
     /**
-     * Default constructor
+     * Default constructor.
      *
      * @param baseSide determining the size of a board
      * @param playerNumber number of players
@@ -48,7 +50,7 @@ public class Board {
     }
 
     /**
-     * Method used to get fields from a board
+     * Method used to get fields from a board.
      *
      * @return array of fields
      */
@@ -57,7 +59,7 @@ public class Board {
     }
 
     /**
-     * Method used to get a single field
+     * Method used to get a single field.
      *
      * @param coordinates coordinates of a field
      * @return field at given coordinates
@@ -67,7 +69,7 @@ public class Board {
     }
 
     /**
-     * Method used to get the length of a side of a base from a board
+     * Method used to get the length of a side of a base from a board.
      *
      * @return length of a side of a base
      */
@@ -76,7 +78,7 @@ public class Board {
     }
 
     /**
-     * Method responsible for updating neighbors list of a field
+     * Method responsible for updating neighbors list of a field.
      */
     public void updateNeighbors() {
         for (int i = 1; i < end; i++) {
@@ -96,7 +98,7 @@ public class Board {
     }
 
     /**
-     * Method responsible for updating the board based on received message
+     * Method responsible for updating the board based on received message.
      *
      * @param messageMove message with information which fields to switch
      */
@@ -107,7 +109,7 @@ public class Board {
     }
 
     /**
-     * Method used to initialise a new board
+     * Method used to initialise a new board.
      */
     private void createBoard() {
         fields = new Field[end + 1][end + 1];
@@ -119,7 +121,7 @@ public class Board {
         }
 
         for (int i = end - baseSide; i < end; i++) {
-            for (int j = baseSide + 1; j <= 2*baseSide; j++) {
+            for (int j = baseSide + 1; j <= 2 * baseSide; j++) {
                 if (i + j < baseSide + 1 + end){
                     fields[i][j] = new Field();
                     fields[j][i] = new Field();
@@ -130,7 +132,7 @@ public class Board {
             }
         }
 
-        for (int i = end - 2*baseSide; i < end - baseSide; i++) {
+        for (int i = end - 2 * baseSide; i < end - baseSide; i++) {
             for (int j = 1; j <= baseSide; j++) {
                 if (i + j >= end - baseSide){
                     fields[i][j] = new Field();
@@ -142,9 +144,9 @@ public class Board {
             }
         }
 
-        for (int i = baseSide + 1; i <= 2*baseSide; i++) {
-            for (int j = baseSide + 1; j <= 2*baseSide; j++) {
-                if (i + j < 3*baseSide + 2){
+        for (int i = baseSide + 1; i <= 2 * baseSide; i++) {
+            for (int j = baseSide + 1; j <= 2 * baseSide; j++) {
+                if (i + j < 3 * baseSide + 2){
                     fields[i][j] = new Field();
 
                     fields[i][j].setBase(Color.YELLOW);
@@ -152,9 +154,9 @@ public class Board {
             }
         }
 
-        for (int i = end - 2*baseSide; i < end - baseSide; i++) {
-            for (int j = end - 2*baseSide; j < end - baseSide; j++) {
-                if (i + j >= 2*end - 3*baseSide - 1){
+        for (int i = end - 2 * baseSide; i < end - baseSide; i++) {
+            for (int j = end - 2 * baseSide; j < end - baseSide; j++) {
+                if (i + j >= 2 * end - 3 * baseSide - 1){
                     fields[i][j] = new Field();
 
                     fields[i][j].setBase(Color.GRAY);
@@ -171,8 +173,8 @@ public class Board {
     }
 
     /**
-     * Method responsible for placing players' pieces on the board
-     * Player arrangement is dependent on the number of players
+     * Method responsible for placing players' pieces on the board.
+     * Player arrangement is dependent on the number of players.
      */
     private void placePlayers() {
         if (playerNumber == 2) {
@@ -190,7 +192,7 @@ public class Board {
     }
 
     /**
-     * Method responsible for placing players' pieces in bases
+     * Method responsible for placing players' pieces in bases.
      *
      * @param colors list of colors of bases in which to place pieces
      */
@@ -203,5 +205,4 @@ public class Board {
             }
         }
     }
-
 }

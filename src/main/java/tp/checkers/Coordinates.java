@@ -1,4 +1,4 @@
-package tp.checkers.server.game;
+package tp.checkers;
 
 import java.io.Serializable;
 
@@ -16,7 +16,6 @@ public class Coordinates implements Serializable {
      * X component
      */
     public int j;
-
     /**
      * Constructor;
      * Assigns provided values to X and Y components

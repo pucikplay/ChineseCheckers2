@@ -1,6 +1,6 @@
 package tp.checkers.message;
 
-import tp.checkers.server.game.Field;
+import tp.checkers.Field;
 
 import java.awt.*;
 import java.io.Serializable;

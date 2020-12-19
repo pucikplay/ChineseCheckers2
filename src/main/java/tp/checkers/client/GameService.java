@@ -1,11 +1,11 @@
 package tp.checkers.client;
 
+import tp.checkers.Coordinates;
 import tp.checkers.client.gui.BoardUpdater;
 import tp.checkers.client.gui.Panel;
 import tp.checkers.client.gui.Window;
 import tp.checkers.message.MessageMove;
-import tp.checkers.server.game.Coordinates;
-import tp.checkers.server.game.Field;
+import tp.checkers.Field;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,7 +88,7 @@ public class GameService {
      */
     public void startGame(Panel panel) {
         this.panel = panel;
-        SwingWorker<Void, Void> updater = new BoardUpdater(client, this, window, panel);
+        SwingWorker<Void, Void> updater = new BoardUpdater(this);
         updater.execute();
     }
 
@@ -128,7 +128,7 @@ public class GameService {
             client.sendMove(new MessageMove(chosenFields));
             clearActiveFields();
             myTurn = false;
-            SwingWorker<Void, Void> updater = new BoardUpdater(client, this, window, panel);
+            SwingWorker<Void, Void> updater = new BoardUpdater(this);
             updater.execute();
         }
     }
@@ -157,6 +157,28 @@ public class GameService {
 
         possibilities = null;
         panel.repaint();
+    }
+
+    /**
+     * Method responsible for calling the panel to repaint.
+     */
+    public void repaintPanel() {
+        panel.repaint();
+    }
+
+    /**
+     * Method responsible for calling update receiving in the client.
+     */
+    public void receiveUpdates(BoardUpdater updater) {
+        client.receiveUpdates(updater);
+    }
+
+    /**
+     * Method responsible for setting the Turn label in window.
+     * @param text text we want to set there
+     */
+    public void setLabelTurnText(String text) {
+        window.setLabelTurnText(text);
     }
 
     /**
@@ -190,10 +212,10 @@ public class GameService {
     /**
      * Setter of Possibilities array.
      *
-     * @param possibilities new array of move possibilities
+     * @param clickedField field clicked by the user
      */
-    public void setPossibilities(Coordinates[] possibilities) {
-        this.possibilities = possibilities;
+    public void setPossibilities(Coordinates clickedField) {
+        this.possibilities = client.receiveMovePossibilities(clickedField);
     }
 
     /**

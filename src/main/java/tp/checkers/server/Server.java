@@ -10,17 +10,17 @@ import java.net.Socket;
 public class Server {
 
     /**
-     * Socket through which the thread communicates with the client
+     * Socket through which the thread communicates with the client.
      */
     private ServerSocket serverSocket = null;
 
     /**
-     * Array of threads; each communicates with a single client
+     * Array of threads; each communicates with a single client.
      */
     ThreadPlayer[] players = null;
 
     /**
-     * Constructor, establishes connection on socket
+     * Constructor, establishes connection on socket.
      */
     public Server() {
         try {
@@ -33,7 +33,7 @@ public class Server {
     }
 
     /**
-     * Method responsible for accepting connections from clients
+     * Method responsible for accepting connections from clients.
      */
     public void createConnection() {
         int clientsNumber = 1;
@@ -78,13 +78,13 @@ public class Server {
     }
 
     /**
-     * Method responsible for starting the game described by those parameters
+     * Method responsible for starting the game described by those parameters.
      *
      * @param baseSide length of a base
-     * @param playerNumber
-     * @param threads
-     * @param canLeaveBase
-     * @param canJump
+     * @param playerNumber number of players in game
+     * @param threads array of client threads
+     * @param canLeaveBase setting whether player can leave opponent's base
+     * @param canJump setting whether player can jump over other pieces
      */
     private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
 
@@ -95,9 +95,9 @@ public class Server {
     }
 
     /**
-     * Main function, lunches server
+     * Main function, lunches server.
      *
-     * @param args
+     * @param args unused inline arguments
      */
     public static void main(String[] args) {
         Server handshake = new Server();

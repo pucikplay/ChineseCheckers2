@@ -1,5 +1,6 @@
 package tp.checkers.server.game;
 
+import tp.checkers.Coordinates;
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
 import tp.checkers.server.game.possibilities.Possibilities;
@@ -9,12 +10,12 @@ import tp.checkers.server.game.possibilities.PossibilitiesSimple;
 import java.awt.*;
 
 /**
- * Game class is used to store and get information about the current game
+ * Game class is used to store and get information about the current game.
  */
 public class Game {
 
     /**
-     * Game's board
+     * Game's board.
      */
     private final Board board;
 
@@ -24,22 +25,22 @@ public class Game {
     private Possibilities possibilitiesGetter;
 
     /**
-     * Array of players in the game
+     * Array of players in the game.
      */
     private final Player[] players;
 
     /**
-     * Number of players in the game
+     * Number of players in the game.
      */
     private final int playerNumber;
 
     /**
-     * Index of a current player
+     * Index of a current player.
      */
     private int currPlayer;
 
     /**
-     * Constructor; Creates game with given parameters
+     * Constructor; Creates game with given parameters.
      *
      * @param baseSide length of a side of a base
      * @param playerNumber number of players
@@ -64,7 +65,7 @@ public class Game {
     }
 
     /**
-     * Method executing the actions needed to play the game
+     * Method executing the actions needed to play the game.
      */
     public void play() {
         setup();
@@ -79,7 +80,7 @@ public class Game {
                 Coordinates clickedField = players[currPlayer].pieceSelect();
 
                 //player passed
-                if(clickedField.i == 0) {
+                if (clickedField.i == 0) {
                     pass = true;
                     players[currPlayer].sendPossibilities(Coordinates.newSimpleCoords(0));
                     players[currPlayer].pieceMove();

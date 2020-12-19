@@ -1,11 +1,10 @@
 package tp.checkers.client;
 
+import tp.checkers.Coordinates;
 import tp.checkers.client.gui.BoardUpdater;
 import tp.checkers.client.gui.Window;
-import tp.checkers.client.gui.dialog.DialogFinish;
 import tp.checkers.message.*;
-import tp.checkers.server.game.Field;
-import tp.checkers.server.game.Coordinates;
+import tp.checkers.Field;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -44,7 +43,7 @@ public class ClientConnector {
     public ClientConnector() {
         connect();
 
-        this.window = new Window(this);
+        this.window = new Window();
         addWindowListener();
         window.setVisible(true);
 
@@ -95,7 +94,7 @@ public class ClientConnector {
         try {
             boolean host = objectInputStream.readBoolean();
             if (host) {
-                MessageInit msgInit = window.initGameData();
+                MessageInit msgInit = window.runDialogInit();
                 objectOutputStream.writeObject(msgInit);
             }
         } catch (IOException e) {
@@ -173,7 +172,7 @@ public class ClientConnector {
             MessageUpdate msg = (MessageUpdate) objectInputStream.readObject();
 
             if (msg.isEndGame()) {
-                DialogFinish dialogFinish = new DialogFinish(window);
+                window.runDialogFinish();
                 close();
                 return;
             }

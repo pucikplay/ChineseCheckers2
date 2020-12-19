@@ -35,6 +35,11 @@ public class DialogInit extends JDialog {
     private JCheckBox cbJump = null;
 
     /**
+     * Information to window whether the player has clicked the button.
+     */
+    private boolean ready = false;
+
+    /**
      * Number of players that is chosen by the host.
      */
     public int playersNumber;
@@ -156,8 +161,18 @@ public class DialogInit extends JDialog {
                 baseSide = (int) comboBoxSide.getSelectedItem();
                 canLeaveBase = cbLeaveBase.isSelected();
                 canJump = cbJump.isSelected();
+                ready = true;
                 dispose();
             }
         });
+    }
+
+    /**
+     * Getter of ready boolean.
+     *
+     * @return information whether the player has clicked the button
+     */
+    public boolean isReady() {
+        return ready;
     }
 }

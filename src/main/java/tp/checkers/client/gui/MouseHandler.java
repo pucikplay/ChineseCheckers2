@@ -1,8 +1,8 @@
 package tp.checkers.client.gui;
 
+import tp.checkers.Coordinates;
 import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
-import tp.checkers.server.game.Coordinates;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -13,19 +13,9 @@ import java.awt.event.MouseListener;
  */
 public class MouseHandler implements MouseListener {
     /**
-     * Reference to the client connector.
-     */
-    private final ClientConnector client;
-
-    /**
      * Reference to the game service of the client.
      */
     private final GameService gameService;
-
-    /**
-     * Reference to the client's panel.
-     */
-    private final Panel panel;
 
     /**
      * Size of the window's side.
@@ -45,17 +35,13 @@ public class MouseHandler implements MouseListener {
     /**
      * Default constructor of the class.
      *
-     * @param client reference to the client connector
      * @param gameService reference to the game service of the client
-     * @param panel reference to the client's panel
      * @param windowSide size of the window's side
      * @param arraySide length of the Fields array's side
      * @param color color of the player
      */
-    public MouseHandler(ClientConnector client, GameService gameService, Panel panel, int windowSide, int arraySide, Color color) {
-        this.client = client;
+    public MouseHandler(GameService gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;
-        this.panel = panel;
         this.windowSide = windowSide;
         this.color = color;
         this.arraySide = arraySide;
@@ -107,7 +93,7 @@ public class MouseHandler implements MouseListener {
         if (gameService.getChosenField(0).i == 0 && gameService.getChosenField(0).j == 0) {
             if (gameService.getPieceColor(i, j) != null && gameService.getPieceColor(i, j).getRGB() == this.color.darker().getRGB()) {
                 gameService.setChosenField(0, i, j);
-                gameService.setPossibilities(client.receiveMovePossibilities(new Coordinates(i, j)));
+                gameService.setPossibilities(new Coordinates(i, j));
             }
         } else {
             for (Coordinates movePossibility : gameService.getPossibilities()) {
@@ -118,7 +104,7 @@ public class MouseHandler implements MouseListener {
             }
         }
 
-        panel.repaint();
+        gameService.repaintPanel();
         System.out.println("Clicked at element of array: fields[" + i + "][" + j + "]");
     }
 

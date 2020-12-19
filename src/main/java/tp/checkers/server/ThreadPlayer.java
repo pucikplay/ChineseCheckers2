@@ -1,8 +1,8 @@
 package tp.checkers.server;
 
+import tp.checkers.Coordinates;
 import tp.checkers.message.*;
-import tp.checkers.server.game.Field;
-import tp.checkers.server.game.Coordinates;
+import tp.checkers.Field;
 
 import java.awt.*;
 import java.io.*;
@@ -10,37 +10,37 @@ import java.net.Socket;
 
 /**
  * Thread class; each tread is assigned to one player and one client;
- * Responsible for handling the communication, receiving and sending messages to and from a client
+ * Responsible for handling the communication, receiving and sending messages to and from a client.
  */
 public class ThreadPlayer extends Thread {
 
     /**
-     * Server's socket
+     * Server's socket.
      */
     protected Socket socket;
 
     /**
-     * Input stream from socket
+     * Input stream from socket.
      */
     protected InputStream inputStream = null;
 
     /**
-     * Input stream through which we send messages/objects to client
+     * Input stream through which we send messages/objects to client.
      */
     protected ObjectInputStream objectInputStream = null;
 
     /**
-     * Output stream from socket
+     * Output stream from socket.
      */
     protected OutputStream outputStream = null;
 
     /**
-     * Output stream through which we receive messages/objects from client
+     * Output stream through which we receive messages/objects from client.
      */
     protected ObjectOutputStream objectOutputStream = null;
 
     /**
-     * Constructor; assigns socket and object streams
+     * Constructor; assigns socket and object streams.
      *
      * @param clientSocket socket of a client
      */
@@ -58,7 +58,7 @@ public class ThreadPlayer extends Thread {
     }
 
     /**
-     * Method activated when starting the thread
+     * Method activated when starting the thread.
      */
     public void run() {
         System.out.println("SERVER: player got connected");
@@ -69,19 +69,10 @@ public class ThreadPlayer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-/*
-        try {
-            MessageMove msg = (MessageMove) objectInputStream.readObject();
-            // System.out.println(msg.x + " " + msg.y);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
- */
-
     }
 
     /**
-     * Method used to send game's board when the game starts
+     * Method used to send game's board when the game starts.
      *
      * @param baseSide length of a side of a base
      * @param fields board's fields
@@ -93,25 +84,27 @@ public class ThreadPlayer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Method used to get the coordinates of a selected field form client
+     * Method used to get the coordinates of a selected field form client.
      *
      * @return coordinates of the selected field
      */
     public Coordinates pieceSelect() {
+        Coordinates msg = null;
+
         try {
-            return (Coordinates) objectInputStream.readObject();
+            msg = (Coordinates) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return msg;
     }
 
     /**
-     * Method used to send the array of coordinates of fields to which player is able to move
+     * Method used to send the array of coordinates of fields to which player is able to move.
      *
      * @param possibilities array of coordinates of field
      */
@@ -124,21 +117,24 @@ public class ThreadPlayer extends Thread {
     }
 
     /**
-     * Method used to get the message containing info about the move
+     * Method used to get the message containing info about the move.
      *
      * @return MessageMove received from client
      */
     public MessageMove pieceMove() {
+        MessageMove msg = null;
+
         try {
-            return (MessageMove) objectInputStream.readObject();
+            msg = (MessageMove) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return msg;
     }
 
     /**
-     * Method used to send the update for the board to client
+     * Method used to send the update for the board to client.
      *
      * @param chosenFields coordinates of fields to be updated
      * @param yourMove boolean value if it is client's turn
@@ -152,7 +148,8 @@ public class ThreadPlayer extends Thread {
     }
 
     /**
-     * Method used to send the update for the board to client when the game ends
+     * Method used to send the update for the board to client when the game ends.
+     *
      * @param chosenFields coordinated of fields to be updated
      * @param endGame boolean value if game ended
      * @param youWon boolean value if client won

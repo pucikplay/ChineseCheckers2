@@ -1,9 +1,12 @@
 package tp.checkers.server.game;
 
 import org.junit.Test;
+import tp.checkers.Field;
 import tp.checkers.server.game.possibilities.Possibilities;
 import tp.checkers.server.game.possibilities.PossibilitiesJump;
 import tp.checkers.server.game.possibilities.PossibilitiesSimple;
+
+import tp.checkers.Coordinates;
 
 import java.awt.*;
 import java.util.ArrayList;

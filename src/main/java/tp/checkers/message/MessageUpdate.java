@@ -1,6 +1,6 @@
 package tp.checkers.message;
 
-import tp.checkers.server.game.Coordinates;
+import tp.checkers.Coordinates;
 
 import java.io.Serializable;
 

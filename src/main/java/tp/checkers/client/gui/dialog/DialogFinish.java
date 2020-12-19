@@ -20,6 +20,8 @@ public class DialogFinish extends JDialog {
         super(window, "Choose the parameters of the game");
 
         initDialogBox();
+        initLabels();
+        initButton();
 
         this.setVisible(true);
     }

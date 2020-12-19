@@ -1,6 +1,5 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.message.MessageUpdate;
 
@@ -13,38 +12,17 @@ import java.awt.*;
  */
 public class BoardUpdater extends SwingWorker<Void, Void> {
     /**
-     * The reference to the client connector.
-     */
-    private final ClientConnector client;
-
-    /**
      * The reference to the game service of the client.
      */
     private final GameService gameService;
 
     /**
-     * The reference to the client's window.
-     */
-    private final Window window;
-
-    /**
-     * The reference to the client's panel.
-     */
-    private final Panel panel;
-
-    /**
      * Default constructor of the class.
      *
-     * @param client reference to the client connector
      * @param gameService reference to the game service of the client
-     * @param window reference to the client's window
-     * @param panel reference to the client's panel
      */
-    public BoardUpdater(ClientConnector client, GameService gameService, Window window, Panel panel) {
-        this.client = client;
+    public BoardUpdater(GameService gameService) {
         this.gameService = gameService;
-        this.window = window;
-        this.panel = panel;
     }
 
     /**
@@ -60,10 +38,10 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
     }
 
     /**
-     * Method responsible for receiving the updates from the client.
+     * Method responsible for calling the update receiving.
      */
     private void receiveUpdates() {
-        client.receiveUpdates(this);
+        gameService.receiveUpdates(this);
     }
 
     /**
@@ -81,7 +59,7 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
             gameService.setPieceColor(msg.getDestination().i, msg.getDestination().j, color);
             gameService.setPieceColor(msg.getOrigin().i, msg.getOrigin().j, null);
 
-            panel.repaint();
+            gameService.repaintPanel();
             System.out.println("Board repainted.");
         }
 
@@ -99,11 +77,11 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
         System.out.println();
         System.out.println("My turn now: " + gameService.isMyTurn());
 
-        if (! gameService.isMyTurn()) {
-            window.setLabelTurnText("Wait for your turn.");
+        if (! currPlayer) {
+            gameService.setLabelTurnText("Wait for your turn.");
             receiveUpdates();
         } else {
-            window.setLabelTurnText("Your turn!");
+            gameService.setLabelTurnText("Your turn!");
         }
     }
 }
