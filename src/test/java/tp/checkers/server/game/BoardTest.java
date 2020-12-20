@@ -1,7 +1,9 @@
 package tp.checkers.server.game;
 
 import org.junit.Test;
+import tp.checkers.Coordinates;
 import tp.checkers.Field;
+import tp.checkers.message.MessageMove;
 
 import java.awt.*;
 
@@ -12,6 +14,9 @@ public class BoardTest {
     @Test
     public void BoardSetupTest() {
         Board board = new Board(4, 2);
+        Board board3 = new Board(3, 3);
+        Board board4 = new Board(4, 4);
+        Board board6 = new Board(5, 6);
         Field[][] fields = board.getFields();
         StringBuilder out = new StringBuilder();
         for(int i = 0; i < 4*4 + 3; i++) {
@@ -46,5 +51,9 @@ public class BoardTest {
                 "OOOOOGGOOOOOOOOOOOO\n" +
                 "OOOOOGOOOOOOOOOOOOO\n" +
                 "OOOOOOOOOOOOOOOOOOO\n", out.toString());
+
+        assertEquals(board.getBaseSide(), 4);
+        assertEquals(board.getField(new Coordinates(6,6)), board.getFields()[6][6]);
+        board.updateFields(new MessageMove(Coordinates.newSimpleCoords(9)));
     }
 }
