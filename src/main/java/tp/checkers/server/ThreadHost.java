@@ -29,7 +29,7 @@ public class ThreadHost extends ThreadPlayer {
             objectOutputStream.writeBoolean(true);
             objectOutputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
     }
 

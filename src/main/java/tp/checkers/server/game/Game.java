@@ -78,8 +78,11 @@ public class Game {
 
             do {
                 Coordinates clickedField = players[currPlayer].pieceSelect();
+                if (clickedField == null) {
+                    return;
+                }
 
-                //player passed
+                    //player passed
                 if (clickedField.i == 0) {
                     pass = true;
                     players[currPlayer].sendPossibilities(Coordinates.newSimpleCoords(0));

@@ -91,6 +91,7 @@ public class MouseHandler implements MouseListener {
      */
     private void markActive(int i, int j) {
         if (gameService.getChosenField(0).i == 0 && gameService.getChosenField(0).j == 0) {
+            System.out.println(gameService.getPieceColor(i, j).getRGB() + " " + gameService.getPieceColor(i, j).getRGB() + " " + this.color.darker().getRGB());
             if (gameService.getPieceColor(i, j) != null && gameService.getPieceColor(i, j).getRGB() == this.color.darker().getRGB()) {
                 gameService.setChosenField(0, i, j);
                 gameService.setPossibilities(new Coordinates(i, j));

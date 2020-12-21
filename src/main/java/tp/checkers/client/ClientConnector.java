@@ -67,6 +67,7 @@ public class ClientConnector {
         } catch (IOException e) {
             System.out.println("Error: can't connect to the server.");
             System.out.println("Make sure the server is working and it's not full.");
+            close();
         }
     }
 
@@ -78,8 +79,7 @@ public class ClientConnector {
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-                //objectOutputStream.writeObject(new MessageUpdate());
-                System.out.println("I'm closing. I should inform the server about it.");
+                System.out.println("I'm closing.");
                 close();
             }
         });
@@ -98,7 +98,7 @@ public class ClientConnector {
                 objectOutputStream.writeObject(msgInit);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
 
         initBoard();
@@ -119,7 +119,7 @@ public class ClientConnector {
             fields = msg.getFields();
             color = msg.getColor();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            close();
         }
 
         GameService gameService = new GameService(this, window, fields, color, baseSide);
@@ -138,8 +138,8 @@ public class ClientConnector {
         try {
             objectOutputStream.writeObject(clickedField);
             movePossibilities = (Coordinates[]) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException ioException) {
-            ioException.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            close();
         }
 
         return movePossibilities;
@@ -154,8 +154,8 @@ public class ClientConnector {
         try {
             objectOutputStream.reset();
             objectOutputStream.writeObject(msg);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+        } catch (IOException e) {
+            close();
         }
     }
 
@@ -172,14 +172,14 @@ public class ClientConnector {
             MessageUpdate msg = (MessageUpdate) objectInputStream.readObject();
 
             if (msg.isEndGame()) {
-                window.runDialogFinish();
+                window.runDialogFinish(msg.isYouWon());
                 close();
                 return;
             }
 
             updater.updateFields(msg);
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -191,8 +191,8 @@ public class ClientConnector {
             objectInputStream.close();
             objectOutputStream.close();
             socket.close();
-        } catch (IOException e) {
-            System.out.println("Could not close.");
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Could not close correctly.");
             System.exit(-1);
         }
     }

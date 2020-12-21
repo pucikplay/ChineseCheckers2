@@ -67,7 +67,7 @@ public class ThreadPlayer extends Thread {
             objectOutputStream.writeBoolean(false);
             objectOutputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -82,7 +82,7 @@ public class ThreadPlayer extends Thread {
         try {
             objectOutputStream.writeObject(new MessageBoard(baseSide, fields, color));
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -97,7 +97,7 @@ public class ThreadPlayer extends Thread {
         try {
             msg = (Coordinates) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            close();
         }
 
         return msg;
@@ -112,7 +112,7 @@ public class ThreadPlayer extends Thread {
         try {
             objectOutputStream.writeObject(possibilities);
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -127,7 +127,7 @@ public class ThreadPlayer extends Thread {
         try {
             msg = (MessageMove) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            close();
         }
 
         return msg;
@@ -143,7 +143,7 @@ public class ThreadPlayer extends Thread {
         try {
             objectOutputStream.writeObject(new MessageUpdate(chosenFields[0], chosenFields[1], yourMove));
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -158,7 +158,18 @@ public class ThreadPlayer extends Thread {
         try {
             objectOutputStream.writeObject(new MessageUpdate(chosenFields[0], chosenFields[1], endGame, youWon));
         } catch (IOException e) {
-            e.printStackTrace();
+            close();
+        }
+    }
+
+    protected void close() {
+        try {
+            socket.close();
+            objectOutputStream.close();
+            objectInputStream.close();
+        } catch (IOException e) {
+            System.out.println("Could not close.");
+            System.exit(-1);
         }
     }
 }

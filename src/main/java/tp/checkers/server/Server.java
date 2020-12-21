@@ -91,7 +91,6 @@ public class Server {
         Game game = new Game(baseSide, playerNumber, threads, canLeaveBase, canJump);
 
         game.play();
-
     }
 
     /**

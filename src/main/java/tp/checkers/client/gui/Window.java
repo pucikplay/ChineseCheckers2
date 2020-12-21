@@ -1,6 +1,5 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
 import tp.checkers.client.gui.button.ButtonCommit;
 import tp.checkers.client.gui.button.ButtonReset;
@@ -129,8 +128,8 @@ public class Window extends JFrame {
     /**
      * Method responsible for calling the Finish dialog box.
      */
-    public void runDialogFinish() {
-        DialogFinish dialogFinish = new DialogFinish(this);
+    public void runDialogFinish(boolean youWon) {
+        DialogFinish dialogFinish = new DialogFinish(this, youWon);
     }
 
     /**
