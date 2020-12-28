@@ -1,6 +1,7 @@
 package tp.checkers.server.game;
 
 import org.junit.Test;
+import org.mockito.Mock;
 import tp.checkers.Coordinates;
 import tp.checkers.server.ThreadPlayer;
 
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
 
+    @Mock
     ThreadPlayer threadPlayer;
 
     @Test
@@ -25,9 +27,8 @@ public class PlayerTest {
         assertEquals(player.getThread(), threadPlayer);
         //player.updateBoard(Coordinates.newSimpleCoords(1), true);
 
-        player.setColor(Color.BLUE);
+        player.setColor(0, new Color[]{Color.BLUE, Color.GREEN});
         assertEquals(player.getColor(), Color.BLUE);
-        player.setEnemyColor(Color.GREEN);
         assertEquals(player.getEnemyColor(), Color.GREEN);
 
         assertTrue(player.isActive());

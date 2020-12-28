@@ -1,11 +1,14 @@
 package tp.checkers.server.game;
 
 import org.junit.Test;
+import org.mockito.Mock;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
 import tp.checkers.message.MessageMove;
+import tp.checkers.server.ThreadPlayer;
 
 import java.awt.*;
+import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
@@ -55,5 +58,6 @@ public class BoardTest {
         assertEquals(board.getBaseSide(), 4);
         assertEquals(board.getField(new Coordinates(6,6)), board.getFields()[6][6]);
         board.updateFields(new MessageMove(Coordinates.newSimpleCoords(9)));
+
     }
 }

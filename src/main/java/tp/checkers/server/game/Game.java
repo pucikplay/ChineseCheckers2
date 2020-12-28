@@ -149,43 +149,19 @@ public class Game {
      * Sets player's base colors according to the number of players
      */
     private void setup() {
-        if (playerNumber == 2) {
-            players[0].setColor(Color.GREEN);
-            players[0].setEnemyColor(Color.RED);
-            players[1].setColor(Color.RED);
-            players[1].setEnemyColor(Color.GREEN);
+
+        Color[] colors = new Color[]{Color.GREEN, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.GRAY};
+
+        if (playerNumber == 4) {
+            players[0].setColor(0, colors);
+            players[1].setColor(1, colors);
+            players[2].setColor(3, colors);
+            players[3].setColor(4, colors);
         }
-        else if (playerNumber == 3) {
-            players[0].setColor(Color.GREEN);
-            players[0].setEnemyColor(Color.RED);
-            players[1].setColor(Color.YELLOW);
-            players[1].setEnemyColor(Color.GRAY);
-            players[2].setColor(Color.MAGENTA);
-            players[2].setEnemyColor(Color.BLUE);
-        }
-        else if (playerNumber == 4) {
-            players[0].setColor(Color.GREEN);
-            players[0].setEnemyColor(Color.RED);
-            players[1].setColor(Color.BLUE);
-            players[1].setEnemyColor(Color.MAGENTA);
-            players[2].setColor(Color.RED);
-            players[2].setEnemyColor(Color.GREEN);
-            players[3].setColor(Color.MAGENTA);
-            players[3].setEnemyColor(Color.BLUE);
-        }
-        else if (playerNumber == 6) {
-            players[0].setColor(Color.GREEN);
-            players[0].setEnemyColor(Color.RED);
-            players[1].setColor(Color.BLUE);
-            players[1].setEnemyColor(Color.MAGENTA);
-            players[2].setColor(Color.YELLOW);
-            players[2].setEnemyColor(Color.GRAY);
-            players[3].setColor(Color.RED);
-            players[3].setEnemyColor(Color.GREEN);
-            players[4].setColor(Color.MAGENTA);
-            players[4].setEnemyColor(Color.BLUE);
-            players[5].setColor(Color.GRAY);
-            players[5].setEnemyColor(Color.YELLOW);
+        else {
+            for (int i = 0; i < playerNumber; i++) {
+                players[i].setColor(i*6/playerNumber, colors);
+            }
         }
 
         for (int i = 0; i < playerNumber; i++) {

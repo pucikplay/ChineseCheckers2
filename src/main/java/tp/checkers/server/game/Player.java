@@ -61,12 +61,14 @@ public class Player {
     }
 
     /**
-     * Method used to set player's color.
+     * Method used to set player's colors.
      *
-     * @param color color to be assigned
+     * @param index index of a color to be assigned
+     * @param colors array of colors to choose from
      */
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColor(int index, Color[] colors) {
+        this.color = colors[index];
+        this.enemyColor = colors[(index+colors.length/2)%colors.length];
     }
 
     /**
@@ -76,15 +78,6 @@ public class Player {
      */
     public Color getColor() {
         return color;
-    }
-
-    /**
-     * Method used to set player's enemy's color.
-     *
-     * @param enemyColor color to be assigned
-     */
-    public void setEnemyColor(Color enemyColor) {
-        this.enemyColor = enemyColor;
     }
 
     /**
