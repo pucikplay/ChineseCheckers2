@@ -10,15 +10,8 @@ public class ConnectionTest {
 
     @Test
     public void noServerTest() throws Exception {
-        int status = SystemLambda.catchSystemExit(() -> {
-            Client.main(null);
-        });
+        int status = SystemLambda.catchSystemExit(() -> Client.main(null));
 
         assertEquals(status, -1);
-    }
-
-    @Test
-    public void idkTest() {
-        //ClientConnector client = new ClientConnector();
     }
 }

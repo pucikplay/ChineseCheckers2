@@ -26,22 +26,16 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
     }
 
     /**
-     * Method responsible for initialisation of background work.
+     * Method responsible for initialisation of background work
+     * and calling the update receiving.
      *
      * @return null
      */
     @Override
     protected Void doInBackground() {
         System.out.println("SwingWorker has started working.");
-        receiveUpdates();
+        updateFields(gameService.receiveUpdates());
         return null;
-    }
-
-    /**
-     * Method responsible for calling the update receiving.
-     */
-    private void receiveUpdates() {
-        gameService.receiveUpdates(this);
     }
 
     /**
@@ -79,7 +73,7 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
 
         if (! currPlayer) {
             gameService.setLabelTurnText("Wait for your turn.");
-            receiveUpdates();
+            updateFields(gameService.receiveUpdates());
         } else {
             gameService.setLabelTurnText("Your turn!");
         }

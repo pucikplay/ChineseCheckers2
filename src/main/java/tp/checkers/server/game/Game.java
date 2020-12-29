@@ -160,7 +160,7 @@ public class Game {
         }
         else {
             for (int i = 0; i < playerNumber; i++) {
-                players[i].setColor(i*6/playerNumber, colors);
+                players[i].setColor(i * 6 / playerNumber, colors);
             }
         }
 

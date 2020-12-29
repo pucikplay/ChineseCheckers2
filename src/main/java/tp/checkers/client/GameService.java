@@ -6,6 +6,7 @@ import tp.checkers.client.gui.Panel;
 import tp.checkers.client.gui.Window;
 import tp.checkers.message.MessageMove;
 import tp.checkers.Field;
+import tp.checkers.message.MessageUpdate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -169,8 +170,8 @@ public class GameService {
     /**
      * Method responsible for calling update receiving in the client.
      */
-    public void receiveUpdates(BoardUpdater updater) {
-        client.receiveUpdates(updater);
+    public MessageUpdate receiveUpdates() {
+        return client.receiveUpdates();
     }
 
     /**

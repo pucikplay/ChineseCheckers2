@@ -163,24 +163,23 @@ public class ClientConnector {
      * Method responsible for receiving update data from server
      * and calling the board updater to change the fields.
      * If the message contains data about end of the game, it calls closing method.
-     *
-     * @param updater board updater of the client
      */
-    public void receiveUpdates(BoardUpdater updater) {
+    public MessageUpdate receiveUpdates() {
+        MessageUpdate msg = null;
+
         try {
             System.out.println("Receiving board updates from server.");
-            MessageUpdate msg = (MessageUpdate) objectInputStream.readObject();
+            msg = (MessageUpdate) objectInputStream.readObject();
 
             if (msg.isEndGame()) {
                 window.runDialogFinish(msg.isYouWon());
                 close();
-                return;
             }
-
-            updater.updateFields(msg);
         } catch (IOException | ClassNotFoundException e) {
             close();
         }
+
+        return msg;
     }
 
     /**
