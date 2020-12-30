@@ -1,7 +1,6 @@
 package tp.checkers.client;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.gui.BoardUpdater;
 import tp.checkers.client.gui.Window;
 import tp.checkers.message.*;
 import tp.checkers.Field;

@@ -32,6 +32,7 @@ public class ButtonReset extends JButton {
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Commit button has been clicked");
                 gameService.reset();
             }
         });

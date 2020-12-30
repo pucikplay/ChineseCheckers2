@@ -4,11 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import tp.checkers.Coordinates;
-import tp.checkers.Field;
-import tp.checkers.client.ClientConnector;
 import tp.checkers.client.GameService;
-import tp.checkers.server.game.Board;
 
 import javax.swing.*;
 

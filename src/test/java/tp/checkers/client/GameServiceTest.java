@@ -6,13 +6,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
-import tp.checkers.client.ClientConnector;
-import tp.checkers.client.GameService;
+import tp.checkers.client.gui.Panel;
 import tp.checkers.client.gui.Window;
 import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.game.Board;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -23,7 +22,7 @@ public class GameServiceTest {
     ClientConnector client;
 
     @Mock
-    tp.checkers.client.gui.Panel panel;
+    Panel panel;
 
     @Test
     public void gameServiceTest() throws InterruptedException {
