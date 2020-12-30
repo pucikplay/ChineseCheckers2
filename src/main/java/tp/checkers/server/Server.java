@@ -40,7 +40,6 @@ public class Server {
         int baseSide = 4;
         boolean canLeaveBase = false;
         boolean canJump = true;
-
         try {
             Socket client = serverSocket.accept();
             ThreadHost host = new ThreadHost(client);
@@ -93,6 +92,7 @@ public class Server {
         game.play();
     }
 
+
     /**
      * Main function, lunches server.
      *
@@ -102,4 +102,9 @@ public class Server {
         Server handshake = new Server();
         handshake.createConnection();
     }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
 }

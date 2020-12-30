@@ -16,7 +16,9 @@ public class ThreadHost extends ThreadPlayer {
      *
      * @param clientSocket socket to be set
      */
-    public ThreadHost(Socket clientSocket) { super(clientSocket); }
+    public ThreadHost(Socket clientSocket) {
+        super(clientSocket);
+    }
 
     /**
      * Method activated when starting the thread.

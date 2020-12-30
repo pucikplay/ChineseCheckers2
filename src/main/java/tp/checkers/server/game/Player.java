@@ -1,6 +1,7 @@
 package tp.checkers.server.game;
 
 import tp.checkers.Coordinates;
+import tp.checkers.Field;
 import tp.checkers.message.MessageMove;
 import tp.checkers.server.ThreadPlayer;
 
@@ -180,5 +181,9 @@ public class Player {
      */
     public void setActive(boolean state) {
         this.active = state;
+    }
+
+    public void sendBoard(int baseSide, Field[][] fields, Color color) {
+        thread.sendBoard(baseSide, fields, color);
     }
 }

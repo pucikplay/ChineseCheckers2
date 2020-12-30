@@ -27,7 +27,7 @@ public class Game {
     /**
      * Array of players in the game.
      */
-    private final Player[] players;
+    private Player[] players;
 
     /**
      * Number of players in the game.
@@ -137,7 +137,7 @@ public class Game {
     /**
      * Method used to get the index of the next player
      */
-    private void nextPlayer() {
+    public void nextPlayer() {
         currPlayer = (currPlayer + 1) % players.length;
         if(!players[currPlayer].isActive()) {
             nextPlayer();
@@ -165,9 +165,15 @@ public class Game {
         }
 
         for (int i = 0; i < playerNumber; i++) {
-            players[i].getThread().sendBoard(board.getBaseSide(), board.getFields(), players[i].getColor());
+            players[i].sendBoard(board.getBaseSide(), board.getFields(), players[i].getColor());
             players[i].updateBoard(Coordinates.newSimpleCoords(0), currPlayer == i);
         }
+    }
+
+    //
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
     }
 
 }
