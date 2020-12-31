@@ -18,12 +18,23 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameServiceTest {
+    /**
+     * Mocked client connector.
+     */
     @Mock
     ClientConnector client;
 
+    /**
+     * Mocked panel.
+     */
     @Mock
     Panel panel;
 
+    /**
+     * Method responsible for testing the game service's behavior.
+     *
+     * @throws InterruptedException exception thrown after sleep is interrupted
+     */
     @Test
     public void gameServiceTest() throws InterruptedException {
         MessageUpdate msg = new MessageUpdate(new Coordinates(8, 8), new Coordinates(9, 9), true);

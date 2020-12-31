@@ -14,11 +14,23 @@ import java.awt.event.InputEvent;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * Class that tests if a click is executed without problems.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ClickTest {
+    /**
+     * Mocked client's game service.
+     */
     @Mock
     GameService gameService;
 
+    /**
+     * Method responsible for testing whether a click on panel
+     * is executed without problems, null pointer exceptions, etc.
+     *
+     * @throws AWTException exception thrown while problems with robot
+     */
     @Test
     public void clickTest() throws AWTException {
         Field field = new Field();

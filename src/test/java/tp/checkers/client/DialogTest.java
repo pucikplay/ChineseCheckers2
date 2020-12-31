@@ -11,8 +11,14 @@ import javax.swing.*;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class that tests dialog boxes.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DialogTest {
+    /**
+     * Method responsible for testing Finish dialog box.
+     */
     @Test
     public void DialogFinishTest() {
         Window window = new Window();
@@ -22,6 +28,9 @@ public class DialogTest {
         assertTrue(dialogFinish.isModal());
     }
 
+    /**
+     * Method responsible for testing Init dialog box.
+     */
     @Test
     public void DialogInitTest() {
         Window window = new Window();

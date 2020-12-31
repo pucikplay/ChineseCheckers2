@@ -11,16 +11,34 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class that tests connection issues.
+ */
 public class ConnectionTest {
-
+    /**
+     * Stream to which we redirect system output.
+     */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    /**
+     * Original system output stream.
+     */
     private final PrintStream originalOut = System.out;
 
+    /**
+     * Method responsible for setting the output stream.
+     */
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
 
+    /**
+     * Method responsible for testing a situation when the client
+     * is launched and there's no working server.
+     *
+     * @throws Exception exception during catching system exit
+     */
     @Test
     public void noServerTest() throws Exception {
         int status = SystemLambda.catchSystemExit(() -> Client.main(null));
@@ -32,6 +50,9 @@ public class ConnectionTest {
         assertEquals(status, -1);
     }
 
+    /**
+     * Method responsible for restoring the default output stream.
+     */
     @After
     public void restoreStreams() {
         System.setOut(originalOut);

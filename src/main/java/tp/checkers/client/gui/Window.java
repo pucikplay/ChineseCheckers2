@@ -71,6 +71,8 @@ public class Window extends JFrame {
      * @param arraySide length of one side of Fields array
      */
     public void initBoard(GameService gameService, Color color, int arraySide) {
+        System.out.println("Initialisation of the board and panel");
+
         this.gameService = gameService;
         this.color = color;
 
