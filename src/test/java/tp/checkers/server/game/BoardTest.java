@@ -5,15 +5,19 @@ import org.mockito.Mock;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
 import tp.checkers.message.MessageMove;
-import tp.checkers.server.ThreadPlayer;
 
 import java.awt.*;
-import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for the board
+ */
 public class BoardTest {
 
+    /**
+     * Testing the board creation
+     */
     @Test
     public void BoardSetupTest() {
         Board board = new Board(4, 2);

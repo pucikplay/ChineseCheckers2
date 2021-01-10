@@ -4,8 +4,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for Coordinates class
+ */
 public class CoordinatesTest {
 
+    /**
+     * Testing methods from Coordinates
+     */
     @Test
     public void CoordinatesTest() {
         Coordinates[] coordinates = Coordinates.newSimpleCoords(3);

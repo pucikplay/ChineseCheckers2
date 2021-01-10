@@ -14,12 +14,21 @@ import java.awt.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Player test
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTest {
 
+    /**
+     * Mock of a threadPlayer to be put in Player
+     */
     @Mock
     ThreadPlayer threadPlayer;
 
+    /**
+     * Testing all the methods from Player using mocked threadPlayer
+     */
     @Test
     public void PlayerTest() {
         Player player = new Player(threadPlayer, 10);
@@ -31,7 +40,6 @@ public class PlayerTest {
         assertEquals(player.getLeftToWin(), 10);
 
         assertEquals(player.getThread(), threadPlayer);
-        //player.updateBoard(Coordinates.newSimpleCoords(1), true);
 
         player.setColor(0, new Color[]{Color.BLUE, Color.GREEN});
         assertEquals(player.getColor(), Color.BLUE);

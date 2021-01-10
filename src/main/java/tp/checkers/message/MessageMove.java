@@ -30,7 +30,7 @@ public class MessageMove implements Serializable {
     }
 
     /**
-     * Constructor of the class used for comitting the move.
+     * Constructor of the class used for committing the move.
      *
      * @param chosenFields fields chosen by the player
      */

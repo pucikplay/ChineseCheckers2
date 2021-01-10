@@ -14,8 +14,14 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for possibilities class
+ */
 public class PossibilitiesTest {
 
+    /**
+     * Testing different options of possibilities calculation
+     */
     @Test
     public void movePossibilitiesTest() {
         Board board = new Board(4,2);

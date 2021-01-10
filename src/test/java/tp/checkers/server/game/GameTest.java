@@ -15,14 +15,23 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for Game class
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
 
+    /**
+     * Mocks of players for a game
+     */
     @Mock
     Player player1, player2;
 
+    /**
+     * Testing game with mocked players
+     */
     @Test
-    public void GameTestMethod() throws IOException {
+    public void GameTestMethod() {
 
         Game game = new Game(3, 2, new ThreadPlayer[]{null, null}, false, true);
         game.setPlayers(new Player[]{player1, player2});

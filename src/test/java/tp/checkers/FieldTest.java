@@ -6,8 +6,14 @@ import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for Field class
+ */
 public class FieldTest {
 
+    /**
+     * Testing all the Field's methods
+     */
     @Test
     public void FieldTest() {
 

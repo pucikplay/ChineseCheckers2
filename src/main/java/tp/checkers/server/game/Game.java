@@ -170,8 +170,11 @@ public class Game {
         }
     }
 
-    //
-
+    /**
+     * Method responsible for setting player table
+     *
+     * @param players players to be set
+     */
     public void setPlayers(Player[] players) {
         this.players = players;
     }
