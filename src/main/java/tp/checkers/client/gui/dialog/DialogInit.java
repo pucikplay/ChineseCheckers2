@@ -42,22 +42,22 @@ public class DialogInit extends JDialog {
     /**
      * Number of players that is chosen by the host.
      */
-    public int playersNumber;
+    private int playersNumber;
 
     /**
      * Number of pieces in one side of the base.
      */
-    public int baseSide = 4;
+    private int baseSide = 4;
 
     /**
      * Information whether the player can leave enemy's base.
      */
-    public boolean canLeaveBase = false;
+    private boolean canLeaveBase = false;
 
     /**
      * Information whether the player can jump over other pieces.
      */
-    public boolean canJump = true;
+    private boolean canJump = true;
 
     /**
      * Default constructor of the class.
@@ -174,5 +174,41 @@ public class DialogInit extends JDialog {
      */
     public boolean isReady() {
         return ready;
+    }
+
+    /**
+     * Getter of base side.
+     *
+     * @return base side
+     */
+    public int getBaseSide() {
+        return baseSide;
+    }
+
+    /**
+     * Getter of players number.
+     *
+     * @return number of players
+     */
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    /**
+     * Getter of information whether jumping is allowed.
+     *
+     * @return data about jumping
+     */
+    public boolean getCanJump() {
+        return canJump;
+    }
+
+    /**
+     * Getter of information whether leaving of enemy's base is allowed.
+     *
+     * @return data about leaving enemy's base
+     */
+    public boolean getCanLeaveBase() {
+        return canLeaveBase;
     }
 }

@@ -124,14 +124,14 @@ public class Window extends JFrame {
     public MessageInit runDialogInit() {
         DialogInit dialog = new DialogInit(this);
         while (!dialog.isReady());
-        return new MessageInit(dialog.playersNumber, dialog.baseSide, dialog.canLeaveBase, dialog.canJump);
+        return new MessageInit(dialog.getPlayersNumber(), dialog.getBaseSide(), dialog.getCanLeaveBase(), dialog.getCanJump());
     }
 
     /**
      * Method responsible for calling the Finish dialog box.
      */
     public void runDialogFinish(boolean youWon) {
-        DialogFinish dialogFinish = new DialogFinish(this, youWon);
+        DialogFinish dialogFinish = new DialogFinish(this, youWon, color);
     }
 
     /**

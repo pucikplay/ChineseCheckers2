@@ -16,12 +16,13 @@ public class DialogFinish extends JDialog {
      *
      * @param window reference to the window of the client
      * @param youWon information whether the player won
+     * @param color color of the player
      */
-    public DialogFinish(Window window, boolean youWon) {
+    public DialogFinish(Window window, boolean youWon, Color color) {
         super(window, "Choose the parameters of the game");
 
         initDialogBox();
-        initLabels(youWon);
+        initLabels(youWon, color);
         initButton();
 
         this.setVisible(true);
@@ -44,8 +45,9 @@ public class DialogFinish extends JDialog {
      * displaying the information about the end of the game.
      *
      * @param youWon information whether the player won
+     * @param color color of the player
      */
-    private void initLabels(boolean youWon) {
+    private void initLabels(boolean youWon, Color color) {
         JLabel labelEndGame = new JLabel("End of the game!");
         labelEndGame.setBounds(130, 30, 200, 20);
         labelEndGame.setFont(new Font(labelEndGame.getName(), Font.BOLD, 14));
@@ -61,6 +63,8 @@ public class DialogFinish extends JDialog {
         } else {
             labelYourScore.setText("You lost.");
         }
+
+        labelYourScore.setForeground(color);
     }
 
     /**

@@ -9,6 +9,8 @@ import tp.checkers.client.gui.dialog.DialogInit;
 
 import javax.swing.*;
 
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,7 +25,7 @@ public class DialogTest {
     public void DialogFinishTest() {
         Window window = new Window();
 
-        DialogFinish dialogFinish = new DialogFinish(window, true);
+        DialogFinish dialogFinish = new DialogFinish(window, true, Color.GRAY);
         assertEquals(dialogFinish.getDefaultCloseOperation(), JDialog.DISPOSE_ON_CLOSE);
         assertTrue(dialogFinish.isModal());
     }
@@ -39,9 +41,9 @@ public class DialogTest {
         assertEquals(dialogInit.getDefaultCloseOperation(), JDialog.DISPOSE_ON_CLOSE);
         assertTrue(dialogInit.isModal());
         while (!dialogInit.isReady());
-        assertEquals(dialogInit.playersNumber, 2);
-        assertEquals(dialogInit.baseSide, 4);
-        assertTrue(dialogInit.canJump);
-        assertFalse(dialogInit.canLeaveBase);
+        assertEquals(dialogInit.getPlayersNumber(), 2);
+        assertEquals(dialogInit.getBaseSide(), 4);
+        assertTrue(dialogInit.getCanJump());
+        assertFalse(dialogInit.getCanLeaveBase());
     }
 }
