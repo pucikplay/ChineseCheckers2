@@ -2,12 +2,14 @@ package tp.checkers.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "games", schema = "chinesecheckers", catalog = "")
 public class EntityGames {
     private int gameId;
-    private Date startDate;
+    private Timestamp startDate;
     private Integer numberOfPlayers;
     private Integer sizeOfBase;
 
@@ -23,11 +25,11 @@ public class EntityGames {
 
     @Basic
     @Column(name = "start_date")
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 

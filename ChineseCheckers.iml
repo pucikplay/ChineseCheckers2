@@ -10,9 +10,10 @@
       <configuration>
         <datasource-map>
           <unit-entry name="hibernate.cfg.xml" value="5669fff7-e250-4a3b-9c8d-32ec3a4ef187" />
+          <unit-entry name="hibernateSessionFactory" />
         </datasource-map>
         <naming-strategy-map />
-        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/test/java/hibernate.cfg.xml" />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/target/hibernate.cfg.xml" />
       </configuration>
     </facet>
   </component>
