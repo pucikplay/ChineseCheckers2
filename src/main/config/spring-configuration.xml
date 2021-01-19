@@ -29,7 +29,7 @@
 		</property>
 	</bean>
 	
-	<bean id="test" class="tp.checkers.springtest.SpringTest">
+	<bean id="test" class="tp.checkers.server.springtest.SpringTest">
 		<property name="sessionFactory" ref="hibernateSessionFactory"/>
 	</bean>
 		

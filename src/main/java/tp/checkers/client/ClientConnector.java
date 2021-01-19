@@ -2,6 +2,7 @@ package tp.checkers.client;
 
 import tp.checkers.Coordinates;
 import tp.checkers.client.gui.Window;
+import tp.checkers.entities.EntityGames;
 import tp.checkers.message.*;
 import tp.checkers.Field;
 
@@ -93,14 +94,21 @@ public class ClientConnector {
         try {
             boolean host = objectInputStream.readBoolean();
             if (host) {
-                MessageInit msgInit = window.runDialogInit();
-                objectOutputStream.writeObject(msgInit);
+                boolean play = window.runDialogGameMode();
+                //objectOutputStream.writeBoolean(play);
+                if (play) {
+                    MessageInit msgInit = window.runDialogInit();
+                    objectOutputStream.writeObject(msgInit);
+                    initBoard();
+                } else {
+                    //EntityGames[] games = (EntityGames[]) objectInputStream.readObject();
+                    //int savedGame = window.runDialogSaved(games);
+                    //objectOutputStream.writeInt(savedGame);
+                }
             }
-        } catch (IOException e) {
+        } catch (IOException /*| ClassNotFoundException*/ e) {
             close();
         }
-
-        initBoard();
     }
 
     /**

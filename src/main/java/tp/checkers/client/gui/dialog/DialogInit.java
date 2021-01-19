@@ -65,7 +65,7 @@ public class DialogInit extends JDialog {
      * @param window reference to the client's window
      */
     public DialogInit(Window window) {
-        super(window, "Choose the parameters of the game");
+        super(window, "Choose the parameters of the new game");
 
         initDialogBox();
         initLabels();

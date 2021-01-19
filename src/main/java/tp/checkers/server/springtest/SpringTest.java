@@ -1,4 +1,4 @@
-package tp.checkers.springtest;
+package tp.checkers.server.springtest;
 
 import org.hibernate.Query;
 import org.hibernate.Session;

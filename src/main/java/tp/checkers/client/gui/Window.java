@@ -4,7 +4,10 @@ import tp.checkers.client.GameService;
 import tp.checkers.client.gui.button.ButtonCommit;
 import tp.checkers.client.gui.button.ButtonReset;
 import tp.checkers.client.gui.dialog.DialogFinish;
+import tp.checkers.client.gui.dialog.DialogGameMode;
 import tp.checkers.client.gui.dialog.DialogInit;
+import tp.checkers.client.gui.dialog.DialogSaved;
+import tp.checkers.entities.EntityGames;
 import tp.checkers.message.MessageInit;
 
 import javax.swing.*;
@@ -115,6 +118,12 @@ public class Window extends JFrame {
         labelTurn.setFont(new Font(labelColor.getName(), Font.BOLD, 22));
     }
 
+    public boolean runDialogGameMode() {
+        DialogGameMode dialog = new DialogGameMode(this);
+        while (!dialog.isReady());
+        return dialog.isPlay();
+    }
+
     /**
      * Method responsible for calling the Init dialog box by the host
      * and getting the data of the game from them.
@@ -125,6 +134,12 @@ public class Window extends JFrame {
         DialogInit dialog = new DialogInit(this);
         while (!dialog.isReady());
         return new MessageInit(dialog.getPlayersNumber(), dialog.getBaseSide(), dialog.getCanLeaveBase(), dialog.getCanJump());
+    }
+
+    public int runDialogSaved(EntityGames[] games) {
+        DialogSaved dialog = new DialogSaved(this, games);
+        while (!dialog.isReady());
+        return dialog.getGame();
     }
 
     /**

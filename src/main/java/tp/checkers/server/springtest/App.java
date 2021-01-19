@@ -1,4 +1,4 @@
-package tp.checkers.springtest;
+package tp.checkers.server.springtest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
