@@ -28,6 +28,10 @@
 			</props>
 		</property>
 	</bean>
+
+	<bean id="connector" class="tp.checkers.server.springtest.DatabaseConnector">
+		<property name="sessionFactory" ref="hibernateSessionFactory"/>
+	</bean>
 	
 	<bean id="test" class="tp.checkers.server.springtest.SpringTest">
 		<property name="sessionFactory" ref="hibernateSessionFactory"/>

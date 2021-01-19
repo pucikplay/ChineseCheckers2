@@ -1,7 +1,12 @@
 package tp.checkers.server;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import tp.checkers.entities.EntityGames;
 import tp.checkers.message.MessageInit;
 import tp.checkers.server.game.Game;
+import tp.checkers.server.springtest.DatabaseConnector;
+import tp.checkers.server.springtest.SpringTest;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,6 +26,14 @@ public class Server {
      * Array of threads; each communicates with a single client.
      */
     ThreadPlayer[] players = null;
+
+    boolean play;
+
+    int gameNo;
+
+    ObjectOutputStream objectOutputStream = null;
+
+    ObjectInputStream objectInputStream = null;
 
     /**
      * Constructor, establishes connection on socket.
@@ -48,34 +61,58 @@ public class Server {
             ThreadHost host = new ThreadHost(client);
             host.start();
 
-            MessageInit msg = host.getInitialData();
-            clientsNumber = msg.getPlayersNumber();
-            baseSide = msg.getBaseSide();
-            canLeaveBase = msg.getCanLeaveBase();
-            canJump = msg.getCanJump();
+            try {
+                InputStream inputStream = client.getInputStream();
+                objectInputStream = new ObjectInputStream(inputStream);
+                OutputStream outputStream = client.getOutputStream();
+                objectOutputStream = new ObjectOutputStream(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            players = new ThreadPlayer[clientsNumber];
-            players[0] = host;
+            //objectOutputStream.writeBoolean(true);
+
+            play = objectInputStream.readBoolean();
+
+            if (play) {
+                MessageInit msg = host.getInitialData();
+                clientsNumber = msg.getPlayersNumber();
+                baseSide = msg.getBaseSide();
+                canLeaveBase = msg.getCanLeaveBase();
+                canJump = msg.getCanJump();
+
+                players = new ThreadPlayer[clientsNumber];
+                players[0] = host;
+            }
+            else {
+                ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
+                DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
+                EntityGames[] games = connector.getGames();
+                objectOutputStream.writeObject(games);
+                gameNo = objectInputStream.readInt();
+            }
         } catch (IOException e) {
             System.out.println("Accept failed: 4444");
             System.exit(-1);
         }
 
-        for (int i = 1; i < clientsNumber; i++) {
-            try {
-                Socket client = serverSocket.accept();
-                ThreadPlayer player = new ThreadPlayer(client);
-                player.start();
-                players[i] = player;
-            } catch (IOException e) {
-                System.out.println("Accept failed: 4444");
-                System.exit(-1);
+        if (play) {
+            for (int i = 1; i < clientsNumber; i++) {
+                try {
+                    Socket client = serverSocket.accept();
+                    ThreadPlayer player = new ThreadPlayer(client);
+                    player.start();
+                    players[i] = player;
+                } catch (IOException e) {
+                    System.out.println("Accept failed: 4444");
+                    System.exit(-1);
+                }
             }
+
+            //pass the server socket and the array of clients to the Server class
+
+            startGame(baseSide, clientsNumber, players, canLeaveBase, canJump);
         }
-
-        //pass the server socket and the array of clients to the Server class
-
-        startGame(baseSide, clientsNumber, players, canLeaveBase, canJump);
 
     }
 
