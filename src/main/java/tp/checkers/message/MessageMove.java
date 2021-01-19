@@ -41,7 +41,7 @@ public class MessageMove implements Serializable {
     /**
      * Getter of the reset parameter.
      *
-     * @return reset
+     * @return reset boolean
      */
     public boolean isReset() {
         return reset;

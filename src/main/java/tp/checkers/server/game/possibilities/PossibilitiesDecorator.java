@@ -24,7 +24,7 @@ public abstract class PossibilitiesDecorator implements Possibilities {
     /**
      * Default constructor of the class.
      *
-     * @param wrappee the decorated object of Possibilities
+     * @param wrappee      the decorated object of Possibilities
      * @param canLeaveBase setting whether the piece can leave the enemy's base after entering it
      */
     public PossibilitiesDecorator(Possibilities wrappee, boolean canLeaveBase) {
@@ -50,8 +50,8 @@ public abstract class PossibilitiesDecorator implements Possibilities {
     /**
      * Method used to calculate to which fields can a piece move by a given move.
      *
-     * @param field field in which the piece to move is located
-     * @param checked list of fields that were already checked; avoids recursive loops
+     * @param field      field in which the piece to move is located
+     * @param checked    list of fields that were already checked; avoids recursive loops
      * @param enemyColor color of a player's enemy's base
      * @return list of available fields by a given move
      */

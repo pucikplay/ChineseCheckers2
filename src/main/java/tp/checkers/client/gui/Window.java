@@ -67,8 +67,8 @@ public class Window extends JFrame {
      * creating a panel and passing the data to game service.
      *
      * @param gameService reference to client's game service
-     * @param color color of the player
-     * @param arraySide length of one side of Fields array
+     * @param color       color of the player
+     * @param arraySide   length of one side of Fields array
      */
     public void initBoard(GameService gameService, Color color, int arraySide) {
         System.out.println("Initialisation of the board and panel");
@@ -129,6 +129,8 @@ public class Window extends JFrame {
 
     /**
      * Method responsible for calling the Finish dialog box.
+     *
+     * @param youWon the you won
      */
     public void runDialogFinish(boolean youWon) {
         DialogFinish dialogFinish = new DialogFinish(this, youWon, color);

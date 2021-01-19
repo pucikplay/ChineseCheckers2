@@ -31,9 +31,9 @@ public class MessageInit implements Serializable {
      * Default constructor of the class.
      *
      * @param playersNumber number of players participating in the game
-     * @param baseSide base side
-     * @param canLeaveBase information whether the player can leave enemy's base
-     * @param canJump information whether the player can jump over other pieces
+     * @param baseSide      base side
+     * @param canLeaveBase  information whether the player can leave enemy's base
+     * @param canJump       information whether the player can jump over other pieces
      */
     public MessageInit(int playersNumber, int baseSide, boolean canLeaveBase, boolean canJump) {
         this.playersNumber = playersNumber;

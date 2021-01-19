@@ -25,7 +25,10 @@ public class GameTest {
      * Mocks of players for a game
      */
     @Mock
-    Player player1, player2;
+    Player player1, /**
+     * The Player 2.
+     */
+    player2;
 
     /**
      * Testing game with mocked players

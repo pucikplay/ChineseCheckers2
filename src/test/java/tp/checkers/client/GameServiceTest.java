@@ -16,6 +16,9 @@ import java.awt.Color;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type Game service test.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class GameServiceTest {
     /**

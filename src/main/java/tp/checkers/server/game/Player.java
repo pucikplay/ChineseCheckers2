@@ -38,12 +38,11 @@ public class Player {
     private int leftToWin;
 
 
-
     /**
      * Constructor; Assigns a given thread to the player,
      * sets state to active and sets the number of pieces left to win.
      *
-     * @param thread thread to be assigned
+     * @param thread    thread to be assigned
      * @param leftToWin number of pieces to be put in enemy's base in order to win
      */
     public Player(ThreadPlayer thread, int leftToWin) {
@@ -64,7 +63,7 @@ public class Player {
     /**
      * Method used to set player's colors.
      *
-     * @param index index of a color to be assigned
+     * @param index  index of a color to be assigned
      * @param colors array of colors to choose from
      */
     public void setColor(int index, Color[] colors) {
@@ -75,7 +74,7 @@ public class Player {
     /**
      * Method used to get player's color.
      *
-     * @return player's color
+     * @return player 's color
      */
     public Color getColor() {
         return color;
@@ -84,7 +83,7 @@ public class Player {
     /**
      * Method used to get player's enemy's color.
      *
-     * @return player's enemy's color
+     * @return player 's enemy's color
      */
     public Color getEnemyColor() {
         return enemyColor;
@@ -130,7 +129,7 @@ public class Player {
      * Method used to send update messages through a thread.
      *
      * @param chosenFields array of coordinates of fields to be swapped
-     * @param yourMove boolean value if it is player's turn now
+     * @param yourMove     boolean value if it is player's turn now
      */
     public void updateBoard(Coordinates[] chosenFields, boolean yourMove) {
         thread.updateBoard(chosenFields, yourMove);
@@ -140,8 +139,8 @@ public class Player {
      * Method used to send update messages about ended game through a thread.
      *
      * @param chosenFields array of coordinates of fields to be swapped
-     * @param endGame boolean value if the game has ended
-     * @param youWon boolean value if player won
+     * @param endGame      boolean value if the game has ended
+     * @param youWon       boolean value if player won
      */
     public void updateBoard(Coordinates[] chosenFields, boolean endGame, boolean youWon) {
         thread.updateBoard(chosenFields, endGame, youWon);
@@ -183,6 +182,13 @@ public class Player {
         this.active = state;
     }
 
+    /**
+     * Send board.
+     *
+     * @param baseSide the base side
+     * @param fields   the fields
+     * @param color    the color
+     */
     public void sendBoard(int baseSide, Field[][] fields, Color color) {
         thread.sendBoard(baseSide, fields, color);
     }

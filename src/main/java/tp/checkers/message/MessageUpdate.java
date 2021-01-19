@@ -37,9 +37,9 @@ public class MessageUpdate implements Serializable {
     /**
      * Constructor of the class used during the game.
      *
-     * @param origin coordinates of the original field
+     * @param origin      coordinates of the original field
      * @param destination coordinates of the destination field
-     * @param currPlayer information whether it's this player's turn
+     * @param currPlayer  information whether it's this player's turn
      */
     public MessageUpdate(Coordinates origin, Coordinates destination, boolean currPlayer) {
         this.origin = origin;
@@ -50,10 +50,10 @@ public class MessageUpdate implements Serializable {
     /**
      * Constructor of the class after the game has ended.
      *
-     * @param origin coordinates of the original field
+     * @param origin      coordinates of the original field
      * @param destination coordinates of the destination field
-     * @param endGame information whether it's the end of the game
-     * @param youWon information whether the user won the game
+     * @param endGame     information whether it's the end of the game
+     * @param youWon      information whether the user won the game
      */
     public MessageUpdate(Coordinates origin, Coordinates destination, boolean endGame, boolean youWon) {
         this.origin = origin;

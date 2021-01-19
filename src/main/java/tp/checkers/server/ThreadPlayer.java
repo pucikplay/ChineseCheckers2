@@ -75,8 +75,8 @@ public class ThreadPlayer extends Thread {
      * Method used to send game's board when the game starts.
      *
      * @param baseSide length of a side of a base
-     * @param fields board's fields
-     * @param color color of a player
+     * @param fields   board's fields
+     * @param color    color of a player
      */
     public void sendBoard(int baseSide, Field[][] fields, Color color) {
         try {
@@ -137,7 +137,7 @@ public class ThreadPlayer extends Thread {
      * Method used to send the update for the board to client.
      *
      * @param chosenFields coordinates of fields to be updated
-     * @param yourMove boolean value if it is client's turn
+     * @param yourMove     boolean value if it is client's turn
      */
     public void updateBoard(Coordinates[] chosenFields, boolean yourMove) {
         try {
@@ -151,8 +151,8 @@ public class ThreadPlayer extends Thread {
      * Method used to send the update for the board to client when the game ends.
      *
      * @param chosenFields coordinated of fields to be updated
-     * @param endGame boolean value if game ended
-     * @param youWon boolean value if client won
+     * @param endGame      boolean value if game ended
+     * @param youWon       boolean value if client won
      */
     public void updateBoard(Coordinates[] chosenFields, boolean endGame, boolean youWon) {
         try {
@@ -162,6 +162,9 @@ public class ThreadPlayer extends Thread {
         }
     }
 
+    /**
+     * Close.
+     */
     protected void close() {
         try {
             socket.close();

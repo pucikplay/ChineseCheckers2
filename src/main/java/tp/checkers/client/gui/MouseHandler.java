@@ -36,9 +36,9 @@ public class MouseHandler implements MouseListener {
      * Default constructor of the class.
      *
      * @param gameService reference to the game service of the client
-     * @param windowSide size of the window's side
-     * @param arraySide length of the Fields array's side
-     * @param color color of the player
+     * @param windowSide  size of the window's side
+     * @param arraySide   length of the Fields array's side
+     * @param color       color of the player
      */
     public MouseHandler(GameService gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;

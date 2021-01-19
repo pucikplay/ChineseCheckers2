@@ -29,8 +29,8 @@ public class MessageBoard implements Serializable {
      * Default constructor of the class.
      *
      * @param baseSide number of pieces in one side of the base
-     * @param fields array of fields of the game
-     * @param color color of the player
+     * @param fields   array of fields of the game
+     * @param color    color of the player
      */
     public MessageBoard(int baseSide, Field[][] fields, Color color) {
         this.baseSide = baseSide;
@@ -59,7 +59,7 @@ public class MessageBoard implements Serializable {
     /**
      * Getter of player's color.
      *
-     * @return player's color
+     * @return player 's color
      */
     public Color getColor() {
         return color;

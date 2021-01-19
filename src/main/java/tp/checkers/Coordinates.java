@@ -16,6 +16,7 @@ public class Coordinates implements Serializable {
      * X component
      */
     public int j;
+
     /**
      * Constructor;
      * Assigns provided values to X and Y components

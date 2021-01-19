@@ -6,6 +6,7 @@ package tp.checkers.client;
 public class Client {
     /**
      * Main method of the client, calls the client connector.
+     *
      * @param args unused inline arguments.
      */
     public static void main(String[] args) {

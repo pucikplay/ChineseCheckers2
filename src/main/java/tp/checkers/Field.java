@@ -64,6 +64,7 @@ public class Field implements Serializable {
 
     /**
      * Method used to get the color of a piece that is sitting on the field
+     *
      * @return color of a piece
      */
     public Color getPiece() {
@@ -72,6 +73,7 @@ public class Field implements Serializable {
 
     /**
      * Method used to set the neighboring fields
+     *
      * @param neighbors array of fields that neighbor the field
      */
     public void setNeighbors(Field[] neighbors) {
@@ -80,6 +82,7 @@ public class Field implements Serializable {
 
     /**
      * Method used to get field's neighbors
+     *
      * @return array of neighbors
      */
     public Field[] getNeighbors() {
@@ -106,7 +109,7 @@ public class Field implements Serializable {
      * Method used to get a neighbor's neighbor under a index i
      *
      * @param i index of a neighbor and the neighbor's neighbor
-     * @return neighbor's neighbor
+     * @return neighbor 's neighbor
      */
     public Field getSecondNeighbor(int i) {
         return neighbors[i].getNeighbor(i);
@@ -116,7 +119,7 @@ public class Field implements Serializable {
      * Method used to get the neighbor's neighbor piece color
      *
      * @param i index of a neighbor and the neighbor's neighbor
-     * @return neighbor's neighbor piece color
+     * @return neighbor 's neighbor piece color
      */
     public Color getSecondNeighborsPiece(int i) { return getSecondNeighbor(i).getPiece(); }
 
@@ -124,7 +127,7 @@ public class Field implements Serializable {
      * Method used to get the neighbor's neighbor base color
      *
      * @param i index of a neighbor and the neighbor's neighbor
-     * @return neighbor's neighbor base color
+     * @return neighbor 's neighbor base color
      */
     public Color getSecondNeighborsBase(int i) { return getSecondNeighbor(i).getBase(); }
 

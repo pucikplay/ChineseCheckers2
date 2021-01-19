@@ -65,10 +65,10 @@ public class GameService {
     /**
      * Default constructor of the class.
      *
-     * @param client reference to the client connector
-     * @param window reference to client's window
-     * @param fields array of fields of the game
-     * @param color color of the player
+     * @param client   reference to the client connector
+     * @param window   reference to client's window
+     * @param fields   array of fields of the game
+     * @param color    color of the player
      * @param baseSide number of pieces in one side of the base
      */
     public GameService(ClientConnector client, Window window, Field[][] fields, Color color, int baseSide) {
@@ -169,6 +169,8 @@ public class GameService {
 
     /**
      * Method responsible for calling update receiving in the client.
+     *
+     * @return the message update
      */
     public MessageUpdate receiveUpdates() {
         return client.receiveUpdates();
@@ -176,6 +178,7 @@ public class GameService {
 
     /**
      * Method responsible for setting the Turn label in window.
+     *
      * @param text text we want to set there
      */
     public void setLabelTurnText(String text) {
@@ -185,7 +188,7 @@ public class GameService {
     /**
      * Getter of myTurn.
      *
-     * @return myTurn
+     * @return myTurn boolean
      */
     public boolean isMyTurn() {
         return myTurn;
@@ -233,7 +236,7 @@ public class GameService {
      *
      * @param i i-coordinate in Fields array
      * @param j j-coordinate in Fields array
-     * @return field
+     * @return field field
      */
     public Field getField(int i, int j) {
         return fields[i][j];
@@ -253,8 +256,8 @@ public class GameService {
     /**
      * Setter of a given field's piece color.
      *
-     * @param i i-coordinate in Fields array
-     * @param j j-coordinate in Fields array
+     * @param i     i-coordinate in Fields array
+     * @param j     j-coordinate in Fields array
      * @param color new color of field's piece
      */
     public void setPieceColor(int i, int j, Color color) {

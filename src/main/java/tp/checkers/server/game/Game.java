@@ -42,11 +42,11 @@ public class Game {
     /**
      * Constructor; Creates game with given parameters.
      *
-     * @param baseSide length of a side of a base
+     * @param baseSide     length of a side of a base
      * @param playerNumber number of players
-     * @param threads array of threads to which the players will be assigned
+     * @param threads      array of threads to which the players will be assigned
      * @param canLeaveBase information whether the player can leave enemy's base
-     * @param canJump information whether the player can jump over other pieces
+     * @param canJump      information whether the player can jump over other pieces
      */
     public Game(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
         this.board = new Board(baseSide, playerNumber);

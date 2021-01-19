@@ -36,7 +36,7 @@ public class Board {
     /**
      * Default constructor.
      *
-     * @param baseSide determining the size of a board
+     * @param baseSide     determining the size of a board
      * @param playerNumber number of players
      */
     public Board(int baseSide, int playerNumber) {

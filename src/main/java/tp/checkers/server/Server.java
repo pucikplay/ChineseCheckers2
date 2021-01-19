@@ -7,6 +7,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * The type Server.
+ */
 public class Server {
 
     /**
@@ -103,6 +106,11 @@ public class Server {
         handshake.createConnection();
     }
 
+    /**
+     * Sets server socket.
+     *
+     * @param serverSocket the server socket
+     */
     public void setServerSocket(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }

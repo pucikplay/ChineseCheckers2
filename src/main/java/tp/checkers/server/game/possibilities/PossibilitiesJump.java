@@ -14,7 +14,7 @@ public class PossibilitiesJump extends PossibilitiesDecorator {
     /**
      * Default constructor of the class.
      *
-     * @param wrappee the decorated object of Possibilities
+     * @param wrappee      the decorated object of Possibilities
      * @param canLeaveBase setting whether the piece can leave the enemy's base after entering it
      */
     public PossibilitiesJump(Possibilities wrappee, boolean canLeaveBase) {

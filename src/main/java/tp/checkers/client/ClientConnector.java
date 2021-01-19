@@ -162,6 +162,8 @@ public class ClientConnector {
      * Method responsible for receiving update data from server
      * and calling the board updater to change the fields.
      * If the message contains data about end of the game, it calls closing method.
+     *
+     * @return the message update
      */
     public MessageUpdate receiveUpdates() {
         MessageUpdate msg = null;
