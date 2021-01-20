@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Table(name = "moves", schema = "chinesecheckers", catalog = "")
 public class EntityMoves implements Serializable {
     private int moveId;
+    private EntityGames gameId;
     private Integer iOrigin;
     private Integer jOrigin;
     private Integer iDestination;
@@ -20,6 +21,16 @@ public class EntityMoves implements Serializable {
 
     public void setMoveId(int moveId) {
         this.moveId = moveId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    public EntityGames getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(EntityGames gameId) {
+        this.gameId = gameId;
     }
 
     @Basic

@@ -1,11 +1,15 @@
 package tp.checkers.server.game;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import tp.checkers.Coordinates;
 import tp.checkers.message.MessageMove;
+import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.ThreadPlayer;
 import tp.checkers.server.game.possibilities.Possibilities;
 import tp.checkers.server.game.possibilities.PossibilitiesJump;
 import tp.checkers.server.game.possibilities.PossibilitiesSimple;
+import tp.checkers.server.springtest.DatabaseConnector;
 
 import java.awt.*;
 
@@ -123,6 +127,9 @@ public class Game {
             for (int i = 0; i < players.length; i++) {
                 players[i].updateBoard(chosenFields, currPlayer == i);
             }
+            ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
+            DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
+            connector.storeMove(new MessageUpdate(chosenFields[0], chosenFields[1], false));
             board.updateFields(messageMove);
             board.updateNeighbors();
         }

@@ -16,6 +16,8 @@ import tp.checkers.server.springtest.SpringTest;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The type Server.
@@ -82,6 +84,9 @@ public class Server {
                 baseSide = msg.getBaseSide();
                 canLeaveBase = msg.getCanLeaveBase();
                 canJump = msg.getCanJump();
+
+                long date = new Date().getTime();
+                connector.storeGame(baseSide, clientsNumber, new Timestamp(date));
 
                 players = new ThreadPlayer[clientsNumber];
                 players[0] = host;
