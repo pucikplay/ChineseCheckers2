@@ -4,6 +4,7 @@ import tp.checkers.client.gui.Window;
 import tp.checkers.entities.EntityGames;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,8 +15,8 @@ public class DialogSaved extends JDialog {
     public DialogSaved(Window window, EntityGames[] games) {
         super(window, "Choose the saved game to display");
 
-        initDialogBox();
-        initButtons();
+        initDialogBox(games.length);
+        initGameList(games);
 
         this.setVisible(true);
     }
@@ -23,27 +24,35 @@ public class DialogSaved extends JDialog {
     /**
      * Method responsible for initialisation of the dialog box.
      */
-    private void initDialogBox() {
+    private void initDialogBox(int length) {
         this.setSize(800, 800);
         this.setLocationRelativeTo(null);
-        this.setLayout(null);
+        this.setLayout(new GridLayout(length, 1));
         this.setModal(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-    private void initButtons() {
-        JButton button = new JButton("OK");
-        button.setBounds(340, 685, 100, 40);
-        this.add(button);
+    private void initGameList(EntityGames[] games) {
+        JButton[] buttons = new JButton[games.length];
 
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ready = true;
-                dispose();
-            }
-        });
+        for (int i = 0; i < games.length; i++) {
+            EntityGames entGame = games[i];
+            String text = entGame.getGameId() + "    date of start:" + entGame.getStartDate().toString()
+                    + "    number of players: " + entGame.getNumberOfPlayers() + "      size of base side: "
+                    + entGame.getSizeOfBase();
+            buttons[i] = new JButton(text);
+            this.add(buttons[i]);
+
+            buttons[i].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game = entGame.getGameId();
+                    ready = true;
+                    dispose();
+                }
+            });
+        }
     }
-
     public boolean isReady() {
         return ready;
     }

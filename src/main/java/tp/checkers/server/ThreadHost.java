@@ -3,6 +3,8 @@ package tp.checkers.server;
 import tp.checkers.message.MessageInit;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
@@ -50,5 +52,13 @@ public class ThreadHost extends ThreadPlayer {
         }
 
         return msg;
+    }
+
+    public ObjectInputStream getInputStream() {
+        return objectInputStream;
+    }
+
+    public ObjectOutputStream getOutputStream() {
+        return objectOutputStream;
     }
 }

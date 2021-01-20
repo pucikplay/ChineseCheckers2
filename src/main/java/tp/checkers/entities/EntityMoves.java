@@ -1,10 +1,11 @@
 package tp.checkers.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "moves", schema = "chinesecheckers", catalog = "")
-public class EntityMoves {
+public class EntityMoves implements Serializable {
     private int moveId;
     private Integer iOrigin;
     private Integer jOrigin;

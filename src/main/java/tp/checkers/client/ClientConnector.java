@@ -91,31 +91,37 @@ public class ClientConnector {
      * and sends that data to server.
      */
     private void initGame() {
+        boolean play = true;
+
         try {
             boolean host = objectInputStream.readBoolean();
             if (host) {
-                boolean play = window.runDialogGameMode();
-                //objectOutputStream.writeBoolean(play);
+                play = window.runDialogGameMode();
+                objectOutputStream.writeBoolean(play);
+                objectOutputStream.flush();
+
                 if (play) {
                     MessageInit msgInit = window.runDialogInit();
                     objectOutputStream.writeObject(msgInit);
-                    initBoard();
                 } else {
-                    //EntityGames[] games = (EntityGames[]) objectInputStream.readObject();
-                    //int savedGame = window.runDialogSaved(games);
-                    //objectOutputStream.writeInt(savedGame);
+                    EntityGames[] games = (EntityGames[]) objectInputStream.readObject();
+                    System.out.println("Got it!");
+                    int savedGame = window.runDialogSaved(games);
+                    objectOutputStream.writeInt(savedGame);
+                    objectOutputStream.flush();
                 }
             }
-        } catch (IOException /*| ClassNotFoundException*/ e) {
+        } catch (IOException | ClassNotFoundException e) {
             close();
         }
+        initBoard(play);
     }
 
     /**
      * Method responsible for receiving game data from server
      * and creating a game service.
      */
-    private void initBoard() {
+    private void initBoard(boolean play) {
         int baseSide = 4;
         Color color = null;
         Field[][] fields = null;
@@ -129,7 +135,9 @@ public class ClientConnector {
             close();
         }
 
-        GameService gameService = new GameService(this, window, fields, color, baseSide);
+        if (play) {
+            GameService gameService = new GameService(this, window, fields, color, baseSide);
+        }
     }
 
     /**

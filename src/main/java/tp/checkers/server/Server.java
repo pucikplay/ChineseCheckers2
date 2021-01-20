@@ -31,10 +31,6 @@ public class Server {
 
     int gameNo;
 
-    ObjectOutputStream objectOutputStream = null;
-
-    ObjectInputStream objectInputStream = null;
-
     /**
      * Constructor, establishes connection on socket.
      */
@@ -61,16 +57,8 @@ public class Server {
             ThreadHost host = new ThreadHost(client);
             host.start();
 
-            try {
-                InputStream inputStream = client.getInputStream();
-                objectInputStream = new ObjectInputStream(inputStream);
-                OutputStream outputStream = client.getOutputStream();
-                objectOutputStream = new ObjectOutputStream(outputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //objectOutputStream.writeBoolean(true);
+            ObjectOutputStream objectOutputStream = host.getOutputStream();
+            ObjectInputStream objectInputStream = host.getInputStream();
 
             play = objectInputStream.readBoolean();
 
@@ -83,15 +71,20 @@ public class Server {
 
                 players = new ThreadPlayer[clientsNumber];
                 players[0] = host;
-            }
-            else {
+            } else {
                 ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
                 DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
+                System.out.println("0");
                 EntityGames[] games = connector.getGames();
+                System.out.println(games[0].getStartDate());
+                System.out.println("1");
                 objectOutputStream.writeObject(games);
+                System.out.println("2");
                 gameNo = objectInputStream.readInt();
+                System.out.println("3");
             }
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Accept failed: 4444");
             System.exit(-1);
         }

@@ -1,13 +1,14 @@
 package tp.checkers.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "games", schema = "chinesecheckers", catalog = "")
-public class EntityGames {
+public class EntityGames implements Serializable {
     private int gameId;
     private Timestamp startDate;
     private Integer numberOfPlayers;
