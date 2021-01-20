@@ -1,103 +1,67 @@
 package tp.checkers.client;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.gui.BoardUpdater;
-import tp.checkers.client.gui.Panel;
-import tp.checkers.client.gui.Window;
-import tp.checkers.message.MessageMove;
 import tp.checkers.Field;
+import tp.checkers.client.gui.Panel;
+import tp.checkers.client.gui.WindowPlayed;
 import tp.checkers.message.MessageUpdate;
 
-import javax.swing.*;
 import java.awt.*;
 
-/**
- * Class handling the game in the side of client.
- */
-public class GameService {
+public abstract class GameService {
     /**
      * Reference to the client connector.
      */
-    private final ClientConnector client;
-
+    protected final ClientConnector client;
     /**
      * Reference to client's window.
      */
-    private final Window window;
-
-    /**
-     * Reference to panel.
-     */
-    private Panel panel;
-
+    protected final Window window;
     /**
      * Array of fields of the game.
      */
-    private final Field[][] fields;
-
+    protected final Field[][] fields;
     /**
      * Length of the Fields array's side.
      */
-    private final int arraySide;
-
+    protected final int arraySide;
+    /**
+     * Array with coordinates of fields chosen by the user
+     * - original field and destination field.
+     */
+    protected final Coordinates[] chosenFields = {new Coordinates(0,0), new Coordinates(0,0)};
+    /**
+     * Reference to panel.
+     */
+    protected Panel panel;
+    /**
+     * Array with coordinates of possible fields
+     * where the player can move from chosen field.
+     */
+    protected Coordinates[] possibilities;
+    /**
+     * Information whether it's the player's turn now.
+     */
+    protected boolean myTurn = false;
     /**
      * Array with counted number of active fields on each level.
      */
     private int[] count;
 
-    /**
-     * Array with coordinates of fields chosen by the user
-     * - original field and destination field.
-     */
-    private final Coordinates[] chosenFields = {new Coordinates(0,0), new Coordinates(0,0)};
-
-    /**
-     * Array with coordinates of possible fields
-     * where the player can move from chosen field.
-     */
-    private Coordinates[] possibilities;
-
-    /**
-     * Information whether it's the player's turn now.
-     */
-    private boolean myTurn = false;
-
-    /**
-     * Default constructor of the class.
-     *
-     * @param client   reference to the client connector
-     * @param window   reference to client's window
-     * @param fields   array of fields of the game
-     * @param color    color of the player
-     * @param baseSide number of pieces in one side of the base
-     */
-    public GameService(ClientConnector client, Window window, Field[][] fields, Color color, int baseSide) {
+    public GameService(ClientConnector client, Window window, Field[][] fields, int baseSide) {
         this.client = client;
         this.window = window;
         this.fields = fields;
         this.arraySide = baseSide * 4 + 3;
-
-        countBoard();
-        window.initBoard(this, color, arraySide);
     }
 
-    /**
-     * Method responsible for starting the game, creating new
-     * background board updater and calling it.
-     *
-     * @param panel reference to panel
-     */
-    public void startGame(Panel panel) {
-        this.panel = panel;
-        SwingWorker<Void, Void> updater = new BoardUpdater(this);
-        updater.execute();
-    }
+    public abstract void startGame(Panel panel);
 
     /**
      * Initial method responsible for counting
      * how many active boards is there on each level.
      */
-    private void countBoard() {
+    protected void countBoard() {
         count = new int[arraySide];
 
         for (int i = 1; i < arraySide; i++) {
@@ -107,57 +71,6 @@ public class GameService {
                 }
             }
         }
-    }
-
-    /**
-     * Method responsible for handling the Commit button,
-     * passing the message with move to client connector
-     * and calling the background board updater.
-     */
-    public void commit() {
-        if (myTurn) {
-            if (chosenFields[0].i == 0 && chosenFields[0].j == 0) {
-                client.receiveMovePossibilities(new Coordinates(0, 0));
-            }
-
-            if (chosenFields[1].i == 0 && chosenFields[1].j == 0) {
-                chosenFields[1].i = chosenFields[0].i;
-                chosenFields[1].j = chosenFields[0].j;
-            }
-
-            System.out.println("Sending commit message to server.");
-            client.sendMove(new MessageMove(chosenFields));
-            clearActiveFields();
-            myTurn = false;
-            SwingWorker<Void, Void> updater = new BoardUpdater(this);
-            updater.execute();
-        }
-    }
-
-    /**
-     * Method responsible for handling the Reset button
-     * and passing the reset message to client connector.
-     */
-    public void reset() {
-        if (myTurn && chosenFields[0].i != 0 && chosenFields[0].j != 0) {
-            System.out.println("Sending reset message to server.");
-            client.sendMove(new MessageMove(true));
-            clearActiveFields();
-        }
-    }
-
-    /**
-     * Method responsible for clearing the active fields
-     * and possibilities arrays, then calling panel's repaint.
-     */
-    private void clearActiveFields() {
-        for (Coordinates c : chosenFields) {
-            c.i = 0;
-            c.j = 0;
-        }
-
-        possibilities = null;
-        panel.repaint();
     }
 
     /**
@@ -177,33 +90,6 @@ public class GameService {
     }
 
     /**
-     * Method responsible for setting the Turn label in window.
-     *
-     * @param text text we want to set there
-     */
-    public void setLabelTurnText(String text) {
-        window.setLabelTurnText(text);
-    }
-
-    /**
-     * Getter of myTurn.
-     *
-     * @return myTurn boolean
-     */
-    public boolean isMyTurn() {
-        return myTurn;
-    }
-
-    /**
-     * Setter of myTurn.
-     *
-     * @param newMyTurn new myTurn
-     */
-    public void setMyTurn(boolean newMyTurn) {
-        this.myTurn = newMyTurn;
-    }
-
-    /**
      * Getter of number of active fields on given level.
      *
      * @param i the level
@@ -211,24 +97,6 @@ public class GameService {
      */
     public int getFieldsNumber(int i) {
         return count[i];
-    }
-
-    /**
-     * Setter of Possibilities array.
-     *
-     * @param clickedField field clicked by the user
-     */
-    public void setPossibilities(Coordinates clickedField) {
-        this.possibilities = client.receiveMovePossibilities(clickedField);
-    }
-
-    /**
-     * Getter of Possibilities array.
-     *
-     * @return array of move possibilities
-     */
-    public Coordinates[] getPossibilities() {
-        return possibilities;
     }
 
     /**
@@ -275,25 +143,7 @@ public class GameService {
         return getField(i, j).getBase();
     }
 
-    /**
-     * Getter of first or second chosen field.
-     *
-     * @param k number 0 or 1
-     * @return chosen field
-     */
-    public Coordinates getChosenField(int k) {
-        return chosenFields[k];
-    }
+    public abstract Coordinates getChosenField(int i);
 
-    /**
-     * Setter of first or second chosen field.
-     *
-     * @param k number 0 or 1
-     * @param i i-coordinate of the field
-     * @param j j-coordinate of the field
-     */
-    public void setChosenField(int k, int i, int j) {
-        chosenFields[k].i = i;
-        chosenFields[k].j = j;
-    }
+    public abstract Coordinates[] getPossibilities();
 }

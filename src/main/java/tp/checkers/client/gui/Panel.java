@@ -1,7 +1,8 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.GameService;
 import tp.checkers.Coordinates;
+import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,8 +42,10 @@ public class Panel extends JPanel {
         this.setBackground(new Color(194, 187, 169));
         this.setLayout(null);
 
-        MouseHandler handler = new MouseHandler(gameService, windowSide, arraySide, color);
-        this.addMouseListener(handler);
+        if (gameService instanceof GameServicePlayed) {
+            MouseHandler handler = new MouseHandler((GameServicePlayed) gameService, windowSide, arraySide, color);
+            this.addMouseListener(handler);
+        }
     }
 
     /**

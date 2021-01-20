@@ -1,6 +1,6 @@
 package tp.checkers.client.gui;
 
-import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 import tp.checkers.message.MessageUpdate;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ public class BoardUpdater extends SwingWorker<Void, Void> {
     /**
      * The reference to the game service of the client.
      */
-    private final GameService gameService;
+    private final GameServicePlayed gameService;
 
     /**
      * Default constructor of the class.
      *
      * @param gameService reference to the game service of the client
      */
-    public BoardUpdater(GameService gameService) {
+    public BoardUpdater(GameServicePlayed gameService) {
         this.gameService = gameService;
     }
 

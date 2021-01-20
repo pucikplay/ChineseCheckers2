@@ -10,8 +10,9 @@ public class DialogGameMode extends JDialog {
     private boolean ready = false;
     private boolean play = false;
 
-    public DialogGameMode(Window window) {
-        super(window, "Choose the mode of the game");
+    public DialogGameMode() {
+        super();
+        setTitle("Choose the mode of the game");
 
         initDialogBox();
         initButtons();

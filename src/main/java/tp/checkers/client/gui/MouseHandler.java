@@ -1,8 +1,7 @@
 package tp.checkers.client.gui;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.ClientConnector;
-import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,7 +14,7 @@ public class MouseHandler implements MouseListener {
     /**
      * Reference to the game service of the client.
      */
-    private final GameService gameService;
+    private final GameServicePlayed gameService;
 
     /**
      * Size of the window's side.
@@ -40,7 +39,7 @@ public class MouseHandler implements MouseListener {
      * @param arraySide   length of the Fields array's side
      * @param color       color of the player
      */
-    public MouseHandler(GameService gameService, int windowSide, int arraySide, Color color) {
+    public MouseHandler(GameServicePlayed gameService, int windowSide, int arraySide, Color color) {
         this.gameService = gameService;
         this.windowSide = windowSide;
         this.color = color;
@@ -91,7 +90,6 @@ public class MouseHandler implements MouseListener {
      */
     private void markActive(int i, int j) {
         if (gameService.getChosenField(0).i == 0 && gameService.getChosenField(0).j == 0) {
-            System.out.println(gameService.getPieceColor(i, j).getRGB() + " " + gameService.getPieceColor(i, j).getRGB() + " " + this.color.darker().getRGB());
             if (gameService.getPieceColor(i, j) != null && gameService.getPieceColor(i, j).getRGB() == this.color.darker().getRGB()) {
                 gameService.setChosenField(0, i, j);
                 gameService.setPossibilities(new Coordinates(i, j));

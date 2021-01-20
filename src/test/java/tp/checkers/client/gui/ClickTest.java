@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
-import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -23,7 +23,7 @@ public class ClickTest {
      * Mocked client's game service.
      */
     @Mock
-    GameService gameService;
+    GameServicePlayed gameService;
 
     /**
      * Method responsible for testing whether a click on panel
@@ -47,7 +47,7 @@ public class ClickTest {
         when(gameService.getChosenField(anyInt())).thenReturn(new Coordinates(0, 0));
         when(gameService.getPossibilities()).thenReturn(null);
 
-        Window window = new Window();
+        Window window = new WindowPlayed();
         window.initBoard(gameService, Color.RED, 19);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

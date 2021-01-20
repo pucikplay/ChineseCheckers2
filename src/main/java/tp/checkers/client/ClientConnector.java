@@ -1,7 +1,8 @@
 package tp.checkers.client;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.gui.Window;
+import tp.checkers.client.gui.WindowPlayed;
+import tp.checkers.client.gui.WindowSaved;
 import tp.checkers.entities.EntityGames;
 import tp.checkers.message.*;
 import tp.checkers.Field;
@@ -20,7 +21,7 @@ public class ClientConnector {
     /**
      * Reference to client's window.
      */
-    private final Window window;
+    private tp.checkers.client.gui.Window window;
 
     /**
      * Client's socket.
@@ -42,11 +43,6 @@ public class ClientConnector {
      */
     public ClientConnector() {
         connect();
-
-        this.window = new Window();
-        addWindowListener();
-        window.setVisible(true);
-
         initGame();
     }
 
@@ -69,20 +65,6 @@ public class ClientConnector {
             System.out.println("Make sure the server is working and it's not full.");
             close();
         }
-    }
-
-    /**
-     * Method responsible for adding a window listener
-     * to handle clicking the window's "X" button.
-     */
-    private void addWindowListener() {
-        window.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                System.out.println("I'm closing.");
-                close();
-            }
-        });
     }
 
     /**
@@ -122,6 +104,15 @@ public class ClientConnector {
      * and creating a game service.
      */
     private void initBoard(boolean play) {
+        if (play) {
+            this.window = new WindowPlayed();
+        } else {
+            this.window = new WindowSaved();
+        }
+
+        addWindowListener();
+        window.setVisible(true);
+
         int baseSide = 4;
         Color color = null;
         Field[][] fields = null;
@@ -136,8 +127,24 @@ public class ClientConnector {
         }
 
         if (play) {
-            GameService gameService = new GameService(this, window, fields, color, baseSide);
+            GameService gameService = new GameServicePlayed(this, window, fields, color, baseSide);
+        } else {
+            GameService gameService = new GameServiceSaved(this, window, fields, baseSide);
         }
+    }
+
+    /**
+     * Method responsible for adding a window listener
+     * to handle clicking the window's "X" button.
+     */
+    private void addWindowListener() {
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                System.out.println("I'm closing.");
+                close();
+            }
+        });
     }
 
     /**

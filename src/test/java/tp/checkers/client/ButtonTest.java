@@ -23,7 +23,7 @@ public class ButtonTest {
      * Mocked client's game service.
      */
     @Mock
-    GameService gameService;
+    GameServicePlayed gameService;
 
     /**
      * Stream to which we redirect system output.

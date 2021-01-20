@@ -12,8 +12,9 @@ public class DialogSaved extends JDialog {
     private boolean ready = false;
     private int game = 0;
 
-    public DialogSaved(Window window, EntityGames[] games) {
-        super(window, "Choose the saved game to display");
+    public DialogSaved(EntityGames[] games) {
+        super();
+        this.setTitle("Choose the saved game to display");
 
         initDialogBox(games.length);
         initGameList(games);

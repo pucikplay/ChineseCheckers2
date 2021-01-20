@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 
 import javax.swing.*;
 
@@ -25,7 +25,7 @@ public class WindowTest {
      * Mocked client's game service.
      */
     @Mock
-    GameService gameService;
+    GameServicePlayed gameService;
 
     /**
      * Stream to which we redirect system output.
@@ -51,7 +51,7 @@ public class WindowTest {
      */
     @Test
     public void windowParametersTest() {
-        Window window = new Window();
+        Window window = new WindowPlayed();
         assertEquals(window.getTitle(), "Chinese checkers client");
         assertFalse(window.isResizable());
         assertEquals(window.getDefaultCloseOperation(), JFrame.EXIT_ON_CLOSE);
@@ -63,7 +63,7 @@ public class WindowTest {
      */
     @Test(expected = NullPointerException.class)
     public void noLabelInitialisedTest() {
-        Window window = new Window();
+        WindowPlayed window = new WindowPlayed();
         window.setLabelTurnText("Test text");
     }
 
@@ -73,7 +73,7 @@ public class WindowTest {
      */
     @Test
     public void initBoardTest() {
-        Window window = new Window();
+        Window window = new WindowPlayed();
         window.initBoard(gameService, Color.GREEN, 19);
         assertEquals("Initialisation of the board and panel", outContent.toString().trim());
     }

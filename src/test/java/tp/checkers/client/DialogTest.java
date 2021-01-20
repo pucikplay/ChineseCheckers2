@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.client.gui.Window;
+import tp.checkers.client.gui.WindowPlayed;
 import tp.checkers.client.gui.dialog.DialogFinish;
 import tp.checkers.client.gui.dialog.DialogInit;
 
@@ -23,7 +24,7 @@ public class DialogTest {
      */
     @Test
     public void DialogFinishTest() {
-        Window window = new Window();
+        Window window = new WindowPlayed();
 
         DialogFinish dialogFinish = new DialogFinish(window, true, Color.GRAY);
         assertEquals(dialogFinish.getDefaultCloseOperation(), JDialog.DISPOSE_ON_CLOSE);
@@ -35,9 +36,9 @@ public class DialogTest {
      */
     @Test
     public void DialogInitTest() {
-        Window window = new Window();
+        Window window = new WindowPlayed();
 
-        DialogInit dialogInit = new DialogInit(window);
+        DialogInit dialogInit = new DialogInit();
         assertEquals(dialogInit.getDefaultCloseOperation(), JDialog.DISPOSE_ON_CLOSE);
         assertTrue(dialogInit.isModal());
         while (!dialogInit.isReady());

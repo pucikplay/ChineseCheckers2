@@ -61,11 +61,10 @@ public class DialogInit extends JDialog {
 
     /**
      * Default constructor of the class.
-     *
-     * @param window reference to the client's window
      */
-    public DialogInit(Window window) {
-        super(window, "Choose the parameters of the new game");
+    public DialogInit() {
+        super();
+        this.setTitle("Choose the parameters of the new game");
 
         initDialogBox();
         initLabels();

@@ -1,6 +1,6 @@
 package tp.checkers.client.gui.button;
 
-import tp.checkers.client.GameService;
+import tp.checkers.client.GameServicePlayed;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ public class ButtonReset extends JButton {
      *
      * @param gameService reference to game service object of the client
      */
-    public ButtonReset(final GameService gameService) {
+    public ButtonReset(final GameServicePlayed gameService) {
         initButton(gameService);
     }
 
@@ -25,7 +25,7 @@ public class ButtonReset extends JButton {
      *
      * @param gameService reference to game service object of the client
      */
-    private void initButton(final GameService gameService) {
+    private void initButton(final GameServicePlayed gameService) {
         this.setText("Reset your move");
         this.setBounds(815, 850, 150, 60);
 

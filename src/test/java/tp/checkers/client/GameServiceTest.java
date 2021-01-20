@@ -7,7 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
 import tp.checkers.client.gui.Panel;
-import tp.checkers.client.gui.Window;
+import tp.checkers.client.gui.WindowPlayed;
 import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.game.Board;
 
@@ -46,7 +46,7 @@ public class GameServiceTest {
         Board board = new Board(4, 2);
         Field[][] fields = board.getFields();
 
-        GameService gameService = new GameService(client, new Window(), fields, Color.GREEN, 4);
+        GameServicePlayed gameService = new GameServicePlayed(client, new WindowPlayed(), fields, Color.GREEN, 4);
         assertFalse(gameService.isMyTurn());
 
         gameService.startGame(panel);
