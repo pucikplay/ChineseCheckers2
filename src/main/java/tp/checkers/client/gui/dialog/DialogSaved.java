@@ -26,33 +26,38 @@ public class DialogSaved extends JDialog {
      * Method responsible for initialisation of the dialog box.
      */
     private void initDialogBox(int length) {
-        this.setSize(800, 800);
+        this.setSize(800, 600);
         this.setLocationRelativeTo(null);
-        this.setLayout(new GridLayout(length, 1));
+        this.setLayout(new BorderLayout());
         this.setModal(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
     private void initGameList(EntityGames[] games) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0,1));
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
         JButton[] buttons = new JButton[games.length];
 
         for (int i = 0; i < games.length; i++) {
             EntityGames entGame = games[i];
-            String text = entGame.getGameId() + "    date of start:" + entGame.getStartDate().toString()
-                    + "    number of players: " + entGame.getNumberOfPlayers() + "      size of base side: "
-                    + entGame.getSizeOfBase();
+            String text = "GAME ID:   " + entGame.getGameId() + "    |    "
+                    + "DATE OF START:   " + entGame.getStartDate().toString() + "    |    "
+                    + "NUMBER OF PLAYERS:   " + entGame.getNumberOfPlayers() + "    |    "
+                    + "SIZE OF BASE SIDE:   " + entGame.getSizeOfBase();
             buttons[i] = new JButton(text);
-            this.add(buttons[i]);
+            panel.add(buttons[i]);
 
-            buttons[i].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    game = entGame.getGameId();
-                    ready = true;
-                    dispose();
-                }
+            buttons[i].addActionListener(e -> {
+                game = entGame.getGameId();
+                ready = true;
+                dispose();
             });
         }
+
+        this.add(scrollPane);
     }
     public boolean isReady() {
         return ready;
