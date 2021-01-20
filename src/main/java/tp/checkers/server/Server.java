@@ -2,8 +2,13 @@ package tp.checkers.server;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import tp.checkers.Coordinates;
 import tp.checkers.entities.EntityGames;
+import tp.checkers.entities.EntityMoves;
 import tp.checkers.message.MessageInit;
+import tp.checkers.message.MessageMove;
+import tp.checkers.message.MessageUpdate;
+import tp.checkers.server.game.Board;
 import tp.checkers.server.game.Game;
 import tp.checkers.server.springtest.DatabaseConnector;
 import tp.checkers.server.springtest.SpringTest;
@@ -31,6 +36,15 @@ public class Server {
 
     int gameNo;
 
+    ObjectOutputStream objectOutputStream = null;
+
+    ObjectInputStream objectInputStream = null;
+
+    ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
+    DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
+
+    ThreadHost host;
+
     /**
      * Constructor, establishes connection on socket.
      */
@@ -54,11 +68,11 @@ public class Server {
         boolean canJump = true;
         try {
             Socket client = serverSocket.accept();
-            ThreadHost host = new ThreadHost(client);
+            host = new ThreadHost(client);
             host.start();
 
-            ObjectOutputStream objectOutputStream = host.getOutputStream();
-            ObjectInputStream objectInputStream = host.getInputStream();
+            objectOutputStream = host.getOutputStream();
+            objectInputStream = host.getInputStream();
 
             play = objectInputStream.readBoolean();
 
@@ -72,16 +86,13 @@ public class Server {
                 players = new ThreadPlayer[clientsNumber];
                 players[0] = host;
             } else {
-                ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
-                DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
-                System.out.println("0");
+
                 EntityGames[] games = connector.getGames();
                 System.out.println(games[0].getStartDate());
-                System.out.println("1");
                 objectOutputStream.writeObject(games);
-                System.out.println("2");
                 gameNo = objectInputStream.readInt();
-                System.out.println("3");
+
+                spectate(gameNo);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,6 +117,23 @@ public class Server {
 
             startGame(baseSide, clientsNumber, players, canLeaveBase, canJump);
         }
+
+    }
+
+    private void spectate(int gameNo) throws IOException {
+
+        EntityGames game = connector.getGame(gameNo);
+
+        Board board = new Board(game.getSizeOfBase(), game.getNumberOfPlayers());
+        host.sendBoard(board.getBaseSide(), board.getFields(), null);
+
+        EntityMoves[] moves = connector.getMoves(gameNo);
+
+        for (int i = 0; i < moves.length; i++) {
+            objectOutputStream.writeObject(new MessageUpdate(new Coordinates(moves[i].getiOrigin(), moves[i].getjOrigin()), new Coordinates(moves[i].getiDestination(), moves[i].getjDestination()), false));
+        }
+
+        objectOutputStream.writeObject(new MessageUpdate(null, null, true, false));
 
     }
 
