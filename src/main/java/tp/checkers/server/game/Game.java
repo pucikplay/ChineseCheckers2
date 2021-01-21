@@ -43,6 +43,8 @@ public class Game {
      */
     private int currPlayer;
 
+    private DatabaseConnector connector;
+
     /**
      * Constructor; Creates game with given parameters.
      *
@@ -51,12 +53,14 @@ public class Game {
      * @param threads      array of threads to which the players will be assigned
      * @param canLeaveBase information whether the player can leave enemy's base
      * @param canJump      information whether the player can jump over other pieces
+     * @param connector    database connector class
      */
-    public Game(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
+    public Game(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump, DatabaseConnector connector) {
         this.board = new Board(baseSide, playerNumber);
         this.players = new Player[playerNumber];
         this.playerNumber = playerNumber;
         this.currPlayer = (int) (Math.random() * playerNumber);
+        this.connector = connector;
 
         this.possibilitiesGetter = new PossibilitiesSimple(canLeaveBase);
         if (canJump) {
@@ -127,8 +131,7 @@ public class Game {
             for (int i = 0; i < players.length; i++) {
                 players[i].updateBoard(chosenFields, currPlayer == i);
             }
-            ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-configuration.xml");
-            DatabaseConnector connector = (DatabaseConnector) appContext.getBean("connector");
+
             connector.storeMove(new MessageUpdate(chosenFields[0], chosenFields[1], false));
             board.updateFields(messageMove);
             board.updateNeighbors();

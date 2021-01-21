@@ -29,6 +29,9 @@ public class ButtonNext extends JButton {
         this.setText("Next move");
         this.setBounds(695, 850, 200, 60);
 
-        this.addActionListener(e -> gameService.receiveUpdates());
+        this.addActionListener(e -> {
+            gameService.sendRequest();
+            gameService.receiveUpdates();
+        });
     }
 }

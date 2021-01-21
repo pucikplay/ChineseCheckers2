@@ -143,6 +143,10 @@ public abstract class GameService {
         return getField(i, j).getBase();
     }
 
+    public void sendRequest() {
+        client.sendRequest();
+    }
+
     public abstract Coordinates getChosenField(int i);
 
     public abstract Coordinates[] getPossibilities();

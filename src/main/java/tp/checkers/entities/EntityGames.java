@@ -15,6 +15,7 @@ public class EntityGames implements Serializable {
     private Integer sizeOfBase;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
     public int getGameId() {
         return gameId;

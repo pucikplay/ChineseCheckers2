@@ -17,7 +17,7 @@ public class DatabaseConnector {
 
     private SessionFactory sessionFactory;
 
-    private int gameId = 1;
+    private int gameId;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -111,8 +111,8 @@ public class DatabaseConnector {
         newGame.setSizeOfBase(baseSide);
         newGame.setStartDate(timestamp);
 
-        gameId = (Integer) session.save(newGame);
-        System.out.println(gameId);
+        session.persist(newGame);
+        gameId = newGame.getGameId();
 
         session.getTransaction().commit();
         session.close();

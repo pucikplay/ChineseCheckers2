@@ -207,6 +207,18 @@ public class ClientConnector {
     }
 
     /**
+     * Method used to request updates from the server when spectating.
+     */
+    public void sendRequest() {
+        try {
+            objectOutputStream.writeBoolean(true);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Method responsible for closing connection.
      */
     private void close() {

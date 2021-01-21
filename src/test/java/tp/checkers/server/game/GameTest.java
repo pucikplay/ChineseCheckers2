@@ -36,7 +36,7 @@ public class GameTest {
     @Test
     public void GameTestMethod() {
 
-        Game game = new Game(3, 2, new ThreadPlayer[]{null, null}, false, true);
+        Game game = new Game(3, 2, new ThreadPlayer[]{null, null}, false, true, null);
         game.setPlayers(new Player[]{player1, player2});
 
 

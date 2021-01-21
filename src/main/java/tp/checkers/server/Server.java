@@ -120,11 +120,17 @@ public class Server {
 
             //pass the server socket and the array of clients to the Server class
 
-            startGame(baseSide, clientsNumber, players, canLeaveBase, canJump);
+            startGame(baseSide, clientsNumber, players, canLeaveBase, canJump, connector);
         }
 
     }
 
+    /**
+     * Method used when spectating
+     *
+     * @param gameNo Id of game to spectate
+     * @throws IOException
+     */
     private void spectate(int gameNo) throws IOException {
 
         EntityGames game = connector.getGame(gameNo);
@@ -135,9 +141,10 @@ public class Server {
         EntityMoves[] moves = connector.getMoves(gameNo);
 
         for (int i = 0; i < moves.length; i++) {
+            objectInputStream.readBoolean();
             objectOutputStream.writeObject(new MessageUpdate(new Coordinates(moves[i].getiOrigin(), moves[i].getjOrigin()), new Coordinates(moves[i].getiDestination(), moves[i].getjDestination()), false));
         }
-
+        objectInputStream.readBoolean();
         objectOutputStream.writeObject(new MessageUpdate(null, null, true, false));
 
     }
@@ -150,10 +157,11 @@ public class Server {
      * @param threads array of client threads
      * @param canLeaveBase setting whether player can leave opponent's base
      * @param canJump setting whether player can jump over other pieces
+     * @param connector
      */
-    private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump) {
+    private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump, DatabaseConnector connector) {
 
-        Game game = new Game(baseSide, playerNumber, threads, canLeaveBase, canJump);
+        Game game = new Game(baseSide, playerNumber, threads, canLeaveBase, canJump, connector);
 
         game.play();
     }
