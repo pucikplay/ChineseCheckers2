@@ -1,18 +1,14 @@
-package tp.checkers.client.gui.dialog;
+package tp.checkers.client.dialog;
 
-import tp.checkers.client.gui.Window;
 import tp.checkers.entities.EntityGames;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class DialogSaved extends JDialog {
-    private boolean ready = false;
+public class DialogInitSaved extends JDialog {
     private int game = 0;
 
-    public DialogSaved(EntityGames[] games) {
+    public DialogInitSaved(EntityGames[] games) {
         super();
         this.setTitle("Choose the saved game to display");
 
@@ -39,28 +35,21 @@ public class DialogSaved extends JDialog {
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        JButton[] buttons = new JButton[games.length];
+        for (EntityGames entity : games) {
+            String text = "GAME ID:   " + entity.getGameId() + "    |    "
+                    + "DATE OF START:   " + entity.getStartDate().toString() + "    |    "
+                    + "NUMBER OF PLAYERS:   " + entity.getNumberOfPlayers() + "    |    "
+                    + "SIZE OF BASE SIDE:   " + entity.getSizeOfBase();
+            JButton button = new JButton(text);
+            panel.add(button);
 
-        for (int i = 0; i < games.length; i++) {
-            EntityGames entGame = games[i];
-            String text = "GAME ID:   " + entGame.getGameId() + "    |    "
-                    + "DATE OF START:   " + entGame.getStartDate().toString() + "    |    "
-                    + "NUMBER OF PLAYERS:   " + entGame.getNumberOfPlayers() + "    |    "
-                    + "SIZE OF BASE SIDE:   " + entGame.getSizeOfBase();
-            buttons[i] = new JButton(text);
-            panel.add(buttons[i]);
-
-            buttons[i].addActionListener(e -> {
-                game = entGame.getGameId();
-                ready = true;
+            button.addActionListener(e -> {
+                game = entity.getGameId();
                 dispose();
             });
         }
 
         this.add(scrollPane);
-    }
-    public boolean isReady() {
-        return ready;
     }
 
     public int getGame() {

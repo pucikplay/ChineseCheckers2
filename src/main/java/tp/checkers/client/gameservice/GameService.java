@@ -1,9 +1,9 @@
-package tp.checkers.client;
+package tp.checkers.client.gameservice;
 
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
-import tp.checkers.client.gui.Panel;
-import tp.checkers.client.gui.WindowPlayed;
+import tp.checkers.client.Client;
+import tp.checkers.client.Panel;
 import tp.checkers.message.MessageUpdate;
 
 import java.awt.*;
@@ -12,7 +12,7 @@ public abstract class GameService {
     /**
      * Reference to the client connector.
      */
-    protected final ClientConnector client;
+    protected final Client client;
     /**
      * Reference to client's window.
      */
@@ -48,7 +48,7 @@ public abstract class GameService {
      */
     private int[] count;
 
-    public GameService(ClientConnector client, Window window, Field[][] fields, int baseSide) {
+    public GameService(Client client, Window window, Field[][] fields, int baseSide) {
         this.client = client;
         this.window = window;
         this.fields = fields;
@@ -78,15 +78,6 @@ public abstract class GameService {
      */
     public void repaintPanel() {
         panel.repaint();
-    }
-
-    /**
-     * Method responsible for calling update receiving in the client.
-     *
-     * @return the message update
-     */
-    public MessageUpdate receiveUpdates() {
-        return client.receiveUpdates();
     }
 
     /**
@@ -141,10 +132,6 @@ public abstract class GameService {
      */
     public Color getBaseColor(int i, int j) {
         return getField(i, j).getBase();
-    }
-
-    public void sendRequest() {
-        client.sendRequest();
     }
 
     public abstract Coordinates getChosenField(int i);

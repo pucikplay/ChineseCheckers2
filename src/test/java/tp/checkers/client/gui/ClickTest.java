@@ -6,7 +6,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
-import tp.checkers.client.GameServicePlayed;
+import tp.checkers.client.gameservice.GameServicePlayed;
+import tp.checkers.client.window.Window;
+import tp.checkers.client.window.WindowPlayed;
 
 import java.awt.*;
 import java.awt.event.InputEvent;

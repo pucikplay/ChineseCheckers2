@@ -6,8 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import tp.checkers.client.gui.button.ButtonCommit;
-import tp.checkers.client.gui.button.ButtonReset;
+import tp.checkers.client.button.ButtonCommit;
+import tp.checkers.client.button.ButtonReset;
+import tp.checkers.client.gameservice.GameServicePlayed;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

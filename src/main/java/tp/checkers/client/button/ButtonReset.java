@@ -1,6 +1,6 @@
-package tp.checkers.client.gui.button;
+package tp.checkers.client.button;
 
-import tp.checkers.client.GameServicePlayed;
+import tp.checkers.client.gameservice.GameServicePlayed;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

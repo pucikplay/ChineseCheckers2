@@ -1,10 +1,10 @@
-package tp.checkers.client.gui;
+package tp.checkers.client.window;
 
-import tp.checkers.client.GameService;
-import tp.checkers.client.gui.dialog.DialogFinish;
-import tp.checkers.client.gui.dialog.DialogGameMode;
-import tp.checkers.client.gui.dialog.DialogInit;
-import tp.checkers.client.gui.dialog.DialogSaved;
+import tp.checkers.client.dialog.DialogGameMode;
+import tp.checkers.client.dialog.DialogInitPlayed;
+import tp.checkers.client.dialog.DialogInitSaved;
+import tp.checkers.client.Panel;
+import tp.checkers.client.gameservice.GameService;
 import tp.checkers.entities.EntityGames;
 import tp.checkers.message.MessageInit;
 
@@ -39,14 +39,14 @@ public abstract class Window extends JFrame {
      * @return message with init data that will be sent to the server
      */
     public static MessageInit runDialogInit() {
-        DialogInit dialog = new DialogInit();
+        DialogInitPlayed dialog = new DialogInitPlayed();
         while (!dialog.isReady());
         return new MessageInit(dialog.getPlayersNumber(), dialog.getBaseSide(), dialog.getCanLeaveBase(), dialog.getCanJump());
     }
 
     public static int runDialogSaved(EntityGames[] games) {
-        DialogSaved dialog = new DialogSaved(games);
-        while (!dialog.isReady());
+        DialogInitSaved dialog = new DialogInitSaved(games);
+        while (dialog.getGame() == 0);
         return dialog.getGame();
     }
 
@@ -66,13 +66,4 @@ public abstract class Window extends JFrame {
     protected abstract void initButtons();
 
     protected abstract void initLabels();
-
-    /**
-     * Method responsible for calling the Finish dialog box.
-     *
-     * @param youWon the you won
-     */
-    public void runDialogFinish(boolean youWon) {
-        DialogFinish dialogFinish = new DialogFinish(this, youWon, color);
-    }
 }

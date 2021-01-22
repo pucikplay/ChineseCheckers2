@@ -6,12 +6,9 @@ import tp.checkers.Coordinates;
 import tp.checkers.entities.EntityGames;
 import tp.checkers.entities.EntityMoves;
 import tp.checkers.message.MessageInit;
-import tp.checkers.message.MessageMove;
 import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.game.Board;
 import tp.checkers.server.game.Game;
-import tp.checkers.server.springtest.DatabaseConnector;
-import tp.checkers.server.springtest.SpringTest;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -129,7 +126,6 @@ public class Server {
      * Method used when spectating
      *
      * @param gameNo Id of game to spectate
-     * @throws IOException
      */
     private void spectate(int gameNo) throws IOException {
 
@@ -140,13 +136,19 @@ public class Server {
 
         EntityMoves[] moves = connector.getMoves(gameNo);
 
-        for (int i = 0; i < moves.length; i++) {
-            objectInputStream.readBoolean();
-            objectOutputStream.writeObject(new MessageUpdate(new Coordinates(moves[i].getiOrigin(), moves[i].getjOrigin()), new Coordinates(moves[i].getiDestination(), moves[i].getjDestination()), false));
-        }
-        objectInputStream.readBoolean();
-        objectOutputStream.writeObject(new MessageUpdate(null, null, true, false));
+        try {
+            for (EntityMoves move : moves) {
+                objectInputStream.readBoolean();
+                objectOutputStream.writeObject(new MessageUpdate(new Coordinates(move.getiOrigin(), move.getjOrigin()), new Coordinates(move.getiDestination(), move.getjDestination()), false));
+            }
 
+            objectInputStream.readBoolean();
+            objectOutputStream.writeObject(new MessageUpdate(null, null, true, false));
+        } catch (IOException ex) {
+            objectInputStream.close();
+            objectOutputStream.close();
+            serverSocket.close();
+        }
     }
 
     /**
@@ -157,7 +159,7 @@ public class Server {
      * @param threads array of client threads
      * @param canLeaveBase setting whether player can leave opponent's base
      * @param canJump setting whether player can jump over other pieces
-     * @param connector
+     * @param connector database connector
      */
     private void startGame(int baseSide, int playerNumber, ThreadPlayer[] threads, boolean canLeaveBase, boolean canJump, DatabaseConnector connector) {
 
@@ -168,7 +170,7 @@ public class Server {
 
 
     /**
-     * Main function, lunches server.
+     * Main function, launches server.
      *
      * @param args unused inline arguments
      */

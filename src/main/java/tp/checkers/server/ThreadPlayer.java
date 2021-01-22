@@ -1,11 +1,8 @@
 package tp.checkers.server;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import tp.checkers.Coordinates;
 import tp.checkers.message.*;
 import tp.checkers.Field;
-import tp.checkers.server.springtest.DatabaseConnector;
 
 import java.awt.*;
 import java.io.*;

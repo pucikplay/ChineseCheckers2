@@ -1,9 +1,10 @@
-package tp.checkers.client.gui;
+package tp.checkers.client.window;
 
-import tp.checkers.client.GameService;
-import tp.checkers.client.GameServicePlayed;
-import tp.checkers.client.gui.button.ButtonCommit;
-import tp.checkers.client.gui.button.ButtonReset;
+import tp.checkers.client.Panel;
+import tp.checkers.client.button.ButtonCommit;
+import tp.checkers.client.button.ButtonReset;
+import tp.checkers.client.gameservice.GameService;
+import tp.checkers.client.gameservice.GameServicePlayed;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +17,6 @@ public class WindowPlayed extends Window {
      * Reference to client's game service.
      */
     private GameService gameService;
-
-    /**
-     * Label showing the player's color.
-     */
-    private JLabel labelColor;
 
     /**
      * Label showing if it's the player's turn.
@@ -48,16 +44,12 @@ public class WindowPlayed extends Window {
 
         this.gameService = gameService;
         this.color = color;
+        this.panel = new Panel(gameService, windowSide, arraySide, color);
 
         initLabels();
-
-        this.panel = new Panel(gameService, windowSide, arraySide, color);
-        panel.add(labelColor);
-        panel.add(labelTurn);
-        this.add(panel);
-
         initButtons();
 
+        this.add(panel);
         this.setVisible(true);
 
         gameService.startGame(panel);
@@ -80,14 +72,17 @@ public class WindowPlayed extends Window {
      */
     @Override
     protected void initLabels() {
-        labelColor = new JLabel("This is your color.");
+        JLabel labelColor = new JLabel("This is your color.");
         labelColor.setBounds(70, 20, 300, 40);
         labelColor.setFont(new Font(labelColor.getName(), Font.BOLD, 22));
         labelColor.setForeground(color.darker());
 
         labelTurn = new JLabel("Wait for your turn.");
         labelTurn.setBounds(70, 70, 300, 40);
-        labelTurn.setFont(new Font(labelColor.getName(), Font.BOLD, 22));
+        labelTurn.setFont(new Font(labelTurn.getName(), Font.BOLD, 22));
+
+        panel.add(labelColor);
+        panel.add(labelTurn);
     }
 
     /**

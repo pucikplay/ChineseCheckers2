@@ -1,12 +1,14 @@
-package tp.checkers.client;
+package tp.checkers.client.gameservice;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.gui.BoardUpdater;
-import tp.checkers.client.gui.Panel;
-import tp.checkers.client.gui.Window;
-import tp.checkers.client.gui.WindowPlayed;
+import tp.checkers.client.Client;
+import tp.checkers.client.BoardUpdater;
+import tp.checkers.client.Panel;
+import tp.checkers.client.window.Window;
+import tp.checkers.client.window.WindowPlayed;
 import tp.checkers.message.MessageMove;
 import tp.checkers.Field;
+import tp.checkers.message.MessageUpdate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +27,7 @@ public class GameServicePlayed extends GameService {
      * @param color    color of the player
      * @param baseSide number of pieces in one side of the base
      */
-    public GameServicePlayed(ClientConnector client, Window window, Field[][] fields, Color color, int baseSide) {
+    public GameServicePlayed(Client client, Window window, Field[][] fields, Color color, int baseSide) {
         super(client, window, fields, baseSide);
 
         countBoard();
@@ -94,6 +96,15 @@ public class GameServicePlayed extends GameService {
 
         possibilities = null;
         panel.repaint();
+    }
+
+    /**
+     * Method responsible for calling update receiving in the client.
+     *
+     * @return the message update
+     */
+    public MessageUpdate receiveUpdates() {
+        return client.receiveUpdates();
     }
 
     /**

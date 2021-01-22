@@ -1,7 +1,7 @@
-package tp.checkers.client.gui;
+package tp.checkers.client;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.GameServicePlayed;
+import tp.checkers.client.gameservice.GameServicePlayed;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

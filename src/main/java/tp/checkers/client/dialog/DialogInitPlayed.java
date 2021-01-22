@@ -1,6 +1,4 @@
-package tp.checkers.client.gui.dialog;
-
-import tp.checkers.client.gui.Window;
+package tp.checkers.client.dialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +9,7 @@ import java.awt.event.ActionListener;
  * Class of dialog box displayed by the host of the game,
  * responsible for setting the game's parameters.
  */
-public class DialogInit extends JDialog {
+public class DialogInitPlayed extends JDialog {
     /**
      * Combo box with the possible numbers of players.
      */
@@ -62,7 +60,7 @@ public class DialogInit extends JDialog {
     /**
      * Default constructor of the class.
      */
-    public DialogInit() {
+    public DialogInitPlayed() {
         super();
         this.setTitle("Choose the parameters of the new game");
 

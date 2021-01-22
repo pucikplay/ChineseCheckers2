@@ -6,8 +6,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tp.checkers.Coordinates;
 import tp.checkers.Field;
-import tp.checkers.client.gui.Panel;
-import tp.checkers.client.gui.WindowPlayed;
+import tp.checkers.client.gameservice.GameServicePlayed;
+import tp.checkers.client.window.WindowPlayed;
 import tp.checkers.message.MessageUpdate;
 import tp.checkers.server.game.Board;
 
@@ -25,7 +25,7 @@ public class GameServiceTest {
      * Mocked client connector.
      */
     @Mock
-    ClientConnector client;
+    Client client;
 
     /**
      * Mocked panel.

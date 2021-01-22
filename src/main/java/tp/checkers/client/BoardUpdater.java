@@ -1,6 +1,6 @@
-package tp.checkers.client.gui;
+package tp.checkers.client;
 
-import tp.checkers.client.GameServicePlayed;
+import tp.checkers.client.gameservice.GameServicePlayed;
 import tp.checkers.message.MessageUpdate;
 
 import javax.swing.*;

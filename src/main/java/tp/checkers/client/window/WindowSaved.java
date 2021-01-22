@@ -1,11 +1,9 @@
-package tp.checkers.client.gui;
+package tp.checkers.client.window;
 
-import tp.checkers.client.GameService;
-import tp.checkers.client.GameServicePlayed;
-import tp.checkers.client.GameServiceSaved;
-import tp.checkers.client.gui.button.ButtonCommit;
-import tp.checkers.client.gui.button.ButtonNext;
-import tp.checkers.client.gui.button.ButtonReset;
+import tp.checkers.client.Panel;
+import tp.checkers.client.button.ButtonNext;
+import tp.checkers.client.gameservice.GameService;
+import tp.checkers.client.gameservice.GameServiceSaved;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +51,7 @@ public class WindowSaved extends Window {
      */
     @Override
     protected void initButtons() {
-        ButtonNext buttonNext = new ButtonNext(gameService);
+        ButtonNext buttonNext = new ButtonNext((GameServiceSaved) gameService);
         panel.add(buttonNext);
     }
 
@@ -62,6 +60,8 @@ public class WindowSaved extends Window {
      */
     @Override
     protected void initLabels() {
-
+        JLabel label = new JLabel("Displaying a saved game");
+        label.setBounds(70, 70, 300, 40);
+        label.setFont(new Font(label.getName(), Font.BOLD, 22));
     }
 }

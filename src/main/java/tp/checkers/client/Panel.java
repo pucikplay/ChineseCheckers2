@@ -1,8 +1,8 @@
-package tp.checkers.client.gui;
+package tp.checkers.client;
 
 import tp.checkers.Coordinates;
-import tp.checkers.client.GameService;
-import tp.checkers.client.GameServicePlayed;
+import tp.checkers.client.gameservice.GameService;
+import tp.checkers.client.gameservice.GameServicePlayed;
 
 import javax.swing.*;
 import java.awt.*;

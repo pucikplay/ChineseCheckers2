@@ -1,7 +1,5 @@
 package tp.checkers.server.game;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import tp.checkers.Coordinates;
 import tp.checkers.message.MessageMove;
 import tp.checkers.message.MessageUpdate;
@@ -9,7 +7,7 @@ import tp.checkers.server.ThreadPlayer;
 import tp.checkers.server.game.possibilities.Possibilities;
 import tp.checkers.server.game.possibilities.PossibilitiesJump;
 import tp.checkers.server.game.possibilities.PossibilitiesSimple;
-import tp.checkers.server.springtest.DatabaseConnector;
+import tp.checkers.server.DatabaseConnector;
 
 import java.awt.*;
 
@@ -43,7 +41,7 @@ public class Game {
      */
     private int currPlayer;
 
-    private DatabaseConnector connector;
+    private final DatabaseConnector connector;
 
     /**
      * Constructor; Creates game with given parameters.
@@ -119,7 +117,7 @@ public class Game {
             board.getField(chosenFields[1]).getBase() == players[currPlayer].getEnemyColor()) {
 
                 //check if all the pieces are in enemy base
-                if(players[currPlayer].checkIfWon()){
+                if (players[currPlayer].checkIfWon()) {
                     players[currPlayer].setActive(false);
                     break;
                     //currently game ends if one player wins
@@ -128,14 +126,17 @@ public class Game {
 
             nextPlayer();
 
+            connector.storeMove(new MessageUpdate(chosenFields[0], chosenFields[1], false));
+
             for (int i = 0; i < players.length; i++) {
                 players[i].updateBoard(chosenFields, currPlayer == i);
             }
 
-            connector.storeMove(new MessageUpdate(chosenFields[0], chosenFields[1], false));
             board.updateFields(messageMove);
             board.updateNeighbors();
         }
+
+        connector.storeMove(new MessageUpdate(chosenFields[0], chosenFields[1], false));
 
         //game ended
         for (int i = 0; i < players.length; i++) {

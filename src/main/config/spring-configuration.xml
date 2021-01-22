@@ -29,12 +29,8 @@
 		</property>
 	</bean>
 
-	<bean id="connector" class="tp.checkers.server.springtest.DatabaseConnector">
+	<bean id="connector" class="tp.checkers.server.DatabaseConnector">
 		<property name="sessionFactory" ref="hibernateSessionFactory"/>
 	</bean>
-	
-	<bean id="test" class="tp.checkers.server.springtest.SpringTest">
-		<property name="sessionFactory" ref="hibernateSessionFactory"/>
-	</bean>
-		
+
 </beans>

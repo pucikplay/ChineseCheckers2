@@ -1,13 +1,11 @@
-package tp.checkers.client.gui.button;
+package tp.checkers.client.button;
 
-import tp.checkers.client.GameService;
+import tp.checkers.client.gameservice.GameServiceSaved;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
- * Class of the commit button of client's GUI.
+ * Class of the button of client's GUI that requests for the next saved move.
  */
 public class ButtonNext extends JButton {
     /**
@@ -15,7 +13,7 @@ public class ButtonNext extends JButton {
      *
      * @param gameService reference to game service object of the client
      */
-    public ButtonNext(final GameService gameService) {
+    public ButtonNext(final GameServiceSaved gameService) {
         initButton(gameService);
     }
 
@@ -25,13 +23,10 @@ public class ButtonNext extends JButton {
      *
      * @param gameService reference to game service object of the client
      */
-    private void initButton(final GameService gameService) {
+    private void initButton(final GameServiceSaved gameService) {
         this.setText("Next move");
         this.setBounds(695, 850, 200, 60);
 
-        this.addActionListener(e -> {
-            gameService.sendRequest();
-            gameService.receiveUpdates();
-        });
+        this.addActionListener(e -> gameService.nextSavedMove());
     }
 }
